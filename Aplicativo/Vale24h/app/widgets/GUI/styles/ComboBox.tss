@@ -1,0 +1,49 @@
+"#boxControles": {
+	width: Titanium.UI.FILL,
+	height: Alloy.Globals.CustomComponentHeight,
+	backgroundColor: "white"
+}
+
+"#linhaDesc": {
+	backgroundColor: "black", 
+	bottom: "0",
+	left: 0,
+	right: 90
+}
+
+"#selectedDesc[platform=ios]": {
+	left: 0,
+	right: 90,
+	color: "#292929",
+	height: 20,
+	font:{fontSize: Alloy.Globals.CustomTextSize},
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	wordWrap: false,
+	ellipsize: true
+}
+"#selectedDesc[platform=android]": {
+	left: 0,
+	right: 90,
+	color: "#292929",
+	height: Titanium.UI.FILL,
+	font:{fontSize: Alloy.Globals.CustomTextSize},
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	wordWrap: false,
+	ellipsize: true
+}
+"#btList": {
+	width: Alloy.Globals.CustomComponentHeight,
+	height: Alloy.Globals.CustomComponentHeight,
+	right: 45,
+	backgroundImage: "/images/lupa.png",
+	backgroundSelectedColor: "#E6E6E6",
+	borderRadius: 4
+}
+"#btAdd": {
+	width: Alloy.Globals.CustomComponentHeight,
+	height: Alloy.Globals.CustomComponentHeight,
+	right: 0,
+	backgroundImage: "/images/add.png",
+	backgroundSelectedColor: "#E6E6E6",
+	borderRadius: 4
+}

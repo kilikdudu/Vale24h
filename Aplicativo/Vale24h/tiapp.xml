@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+    <id>br.com.CarlosEduardo.Vale24h</id>
+    <name>Vale24h</name>
+    <version>1.0</version>
+    <publisher>CarlosEduardo</publisher>
+    <url>http://</url>
+    <description/>
+    <copyright>2015 by CarlosEduardo</copyright>
+    <icon>appicon.png</icon>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
+    <analytics>true</analytics>
+    <guid>852c4c3f-ab80-4773-9555-4b99667eb16e</guid>
+    <property name="ti.ui.defaultunit" type="string">dp</property>
+    <ios>
+        <plist>
+            <dict>
+                <key>UISupportedInterfaceOrientations~iphone</key>
+                <array>
+                    <string>UIInterfaceOrientationPortrait</string>
+                </array>
+                <key>UISupportedInterfaceOrientations~ipad</key>
+                <array>
+                    <string>UIInterfaceOrientationPortrait</string>
+                    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+                    <string>UIInterfaceOrientationLandscapeLeft</string>
+                    <string>UIInterfaceOrientationLandscapeRight</string>
+                </array>
+                <key>UIRequiresPersistentWiFi</key>
+                <false/>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+                <key>UIStatusBarHidden</key>
+                <false/>
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleDefault</string>
+                <key>CFBundleURLTypes</key>
+                <array>
+                    <dict>
+                        <key>CFBundleURLName</key>
+                        <string>br.com.CarlosEduardo.Ticket24h</string>
+                        <key>CFBundleURLSchemes</key>
+                        <array>
+                            <string>fb827347750687453</string>
+                        </array>
+                    </dict>
+                </array>
+                <key>FacebookAppID</key>
+                <string>827347750687453</string>
+                <key>FacebookDisplayName</key>
+                <string>Vale24h</string>
+            </dict>
+        </plist>
+    </ios>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <manifest android:versionCode="1" android:versionName="1.0.0"
+            package="br.com.CarlosEduardo.Vale24h" xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <application android:theme="@style/Theme.NoActionBar">
+                <activity android:label="@string/app_name"
+                    android:name="com.facebook.LoginActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                <meta-data
+                    android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDjV_FEyNhBZ3cOduCrF226S-muFKtOVHk"/>
+                <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+            </application>
+        </manifest>
+    </android>
+    <mobileweb>
+        <precache/>
+        <splash>
+            <enabled>true</enabled>
+            <inline-css-images>true</inline-css-images>
+        </splash>
+        <theme>default</theme>
+    </mobileweb>
+    <modules>
+        <module platform="commonjs">ti.cloud</module>
+        <module platform="android" version="0.5">com.rkam.swiperefreshlayout</module>
+        <module platform="android">facebook</module>
+        <module platform="android">ti.cloudpush</module>
+        <module platform="android">ti.map</module>
+    </modules>
+    <deployment-targets>
+        <target device="iphone">false</target>
+        <target device="ipad">false</target>
+        <target device="android">true</target>
+        <target device="mobileweb">true</target>
+    </deployment-targets>
+    <sdk-version>4.0.0.GA</sdk-version>
+    <plugins>
+        <plugin version="1.0">ti.alloy</plugin>
+    </plugins>
+    <property name="appc-app-id" type="string">5560e8750a9d846a4192575b</property>
+    <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-oauth-secret-development" type="string">Qt2IJ3e5bsJzvCFDAS733vdP0ksYhSqs</property>
+    <property name="acs-oauth-key-development" type="string">BXjx336Ujz4SkDpbdzJODdZkhFjp5Pec</property>
+    <property name="acs-api-key-development" type="string">j6wb76fbhztbRbr2wN99J1upH6pX7aIS</property>
+    <property name="acs-username-development" type="string">appc_app_user_dev</property>
+    <property name="acs-password-development" type="string">KITGKlCuUPEVwdK49Z</property>
+    <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-oauth-secret-production" type="string">Lg3DwCLJGidXnjRmolUbgWmhM1IuR4Kc</property>
+    <property name="acs-oauth-key-production" type="string">V7XYwWk9IOgbWOV2uOR6sOAUSJDNFPfP</property>
+    <property name="acs-api-key-production" type="string">87XljKn4NJWklRSKROd3Ao0KwKtjMjQl</property>
+    <property name="acs-username-production" type="string">appc_app_user</property>
+    <property name="acs-password-production" type="string">mxzxcULhxUZa4PNsw1</property>
+    <property name="appc-org-id" type="string">100021603</property>
+    <property name="appc-creator-user-id" type="string">df0c6e2f-0e9a-4599-82fe-eb2a70a99c1a</property>
+</ti:app>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f1e58b91696e4634b57be9a7c60f7cd0" Name="Diagram1">
+        <EntityTypeShape EntityType="vale24hModel.categoria" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="vale24hModel.cliente" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vale24hModel.endereco" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="vale24hModel.imagem" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vale24hModel.promocao" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="vale24hModel.promocaorequerida" Width="1.5" PointX="7.5" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="vale24hModel.telefone" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="vale24hModel.usuario" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <AssociationConnector Association="vale24hModel.FK_Categoria_UsuarioAlt" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Categoria_UsuarioCad" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Cliente_UsuarioAlt" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Cliente_UsuarioCad" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Endereco_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Promocao_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Telefone_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Endereco_UsuarioAlt" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Endereco_UsuarioCad" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Promocao_Imagem" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_PromocaoRequerida_Promocao" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Telefone_UsuarioAlt" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.FK_Telefone_UsuarioCad" ManuallyRouted="false" />
+        <AssociationConnector Association="vale24hModel.promocaocategoria" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="vale24hModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="categoria">
+    <Key>
+      <PropertyRef Name="codigo_cat" />
+    </Key>
+    <Property Name="codigo_cat" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descricao_cat" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="ativo_cat" Type="bool" Nullable="false" />
+    <Property Name="datacad_cat" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dataalt_cat" Type="datetime" Precision="0" />
+    <Property Name="usercad_cat" Type="bigint" Nullable="false" />
+    <Property Name="useralt_cat" Type="bigint" />
+  </EntityType>
+  <EntityType Name="cliente">
+    <Key>
+      <PropertyRef Name="codigo_cli" />
+    </Key>
+    <Property Name="codigo_cli" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nome_cli" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="documento_cli" Type="varchar" MaxLength="14" Nullable="false" />
+    <Property Name="tipoDocumento_cli" Type="tinyint" Nullable="false" />
+    <Property Name="nomeFantasia_cli" Type="varchar" MaxLength="100" />
+    <Property Name="contato_cli" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="useralt_cli" Type="bigint" />
+    <Property Name="usercad_cli" Type="bigint" Nullable="false" />
+    <Property Name="datacad_cli" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dataalt_cli" Type="datetime" Precision="0" />
+    <Property Name="cloudId_cli" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="imagem_cli" Type="varchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="endereco">
+    <Key>
+      <PropertyRef Name="codigo_end" />
+    </Key>
+    <Property Name="codigo_end" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="codigoCli_end" Type="bigint" Nullable="false" />
+    <Property Name="ativo_end" Type="bool" Nullable="false" />
+    <Property Name="cep_end" Type="varchar" MaxLength="8" Nullable="false" />
+    <Property Name="logradouro_end" Type="varchar" MaxLength="40" />
+    <Property Name="numero_end" Type="varchar" MaxLength="10" />
+    <Property Name="referencia_end" Type="varchar" MaxLength="30" />
+    <Property Name="datacad_end" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" />
+    <Property Name="usercad_end" Type="bigint" Nullable="false" />
+    <Property Name="useralt_end" Type="bigint" />
+    <Property Name="dataalt_end" Type="datetime" Precision="0" />
+    <Property Name="latitude_end" Type="varchar" MaxLength="20" />
+    <Property Name="longitude_end" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="imagem">
+    <Key>
+      <PropertyRef Name="codigo_img" />
+    </Key>
+    <Property Name="codigo_img" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="urlRelativa_img" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="promocao">
+    <Key>
+      <PropertyRef Name="codigo_pro" />
+    </Key>
+    <Property Name="codigo_pro" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="titulo_pro" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="descricao_pro" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="imagem_pro" Type="bigint" />
+    <Property Name="inicio_pro" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fim_pro" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="totalTickets_pro" Type="int" Nullable="false" />
+    <Property Name="ticketsAlocados_pro" Type="int" Nullable="false" />
+    <Property Name="limitada_pro" Type="bool" Nullable="false" />
+    <Property Name="cliente_pro" Type="bigint" Nullable="false" />
+    <Property Name="latitude_pro" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="longitude_pro" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="promocaocategoria">
+    <Key>
+      <PropertyRef Name="categoria_procat" />
+      <PropertyRef Name="promocao_procat" />
+    </Key>
+    <Property Name="categoria_procat" Type="bigint" Nullable="false" />
+    <Property Name="promocao_procat" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="promocaorequerida">
+    <Key>
+      <PropertyRef Name="codigo_proreq" />
+    </Key>
+    <Property Name="codigo_proreq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="promocao_proreq" Type="bigint" Nullable="false" />
+    <Property Name="validade_proreq" Type="datetime" Precision="0" />
+    <Property Name="datacad_proreq" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userCloudId_proreq" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="codVoucher_proreq" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="ativa_proreq" Type="bool" Nullable="false" />
+  </EntityType>
+  <EntityType Name="telefone">
+    <Key>
+      <PropertyRef Name="codigo_tel" />
+    </Key>
+    <Property Name="codigo_tel" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="codigoCli_tel" Type="bigint" Nullable="false" />
+    <Property Name="ddd_tel" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="fone_tel" Type="varchar" MaxLength="18" Nullable="false" />
+    <Property Name="tipofone_tel" Type="tinyint" Nullable="false" />
+    <Property Name="contato_tel" Type="varchar" MaxLength="45" />
+    <Property Name="datacad_tel" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dataalt_tel" Type="datetime" Precision="0" />
+    <Property Name="usercad_tel" Type="bigint" Nullable="false" />
+    <Property Name="useralt_tel" Type="bigint" />
+  </EntityType>
+  <EntityType Name="usuario">
+    <Key>
+      <PropertyRef Name="codigo_usr" />
+    </Key>
+    <Property Name="codigo_usr" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login_usr" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="pw_usr" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="nome_usr" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="codigoTel_usr" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <Association Name="FK_Categoria_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="categoria" Type="Self.categoria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="categoria">
+        <PropertyRef Name="useralt_cat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Categoria_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="categoria" Type="Self.categoria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="categoria">
+        <PropertyRef Name="usercad_cat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cliente_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="cliente">
+        <PropertyRef Name="useralt_cli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cliente_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="cliente">
+        <PropertyRef Name="usercad_cli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Endereco_Cliente">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="endereco" Type="Self.endereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="codigo_cli" />
+      </Principal>
+      <Dependent Role="endereco">
+        <PropertyRef Name="codigoCli_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Endereco_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="endereco" Type="Self.endereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="endereco">
+        <PropertyRef Name="useralt_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Endereco_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="endereco" Type="Self.endereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="endereco">
+        <PropertyRef Name="usercad_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Promocao_Cliente">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="promocao" Type="Self.promocao" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="codigo_cli" />
+      </Principal>
+      <Dependent Role="promocao">
+        <PropertyRef Name="cliente_pro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Promocao_Imagem">
+    <End Role="imagem" Type="Self.imagem" Multiplicity="0..1" />
+    <End Role="promocao" Type="Self.promocao" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="imagem">
+        <PropertyRef Name="codigo_img" />
+      </Principal>
+      <Dependent Role="promocao">
+        <PropertyRef Name="imagem_pro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PromocaoCategoria_Categoria">
+    <End Role="categoria" Type="Self.categoria" Multiplicity="1" />
+    <End Role="promocaocategoria" Type="Self.promocaocategoria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categoria">
+        <PropertyRef Name="codigo_cat" />
+      </Principal>
+      <Dependent Role="promocaocategoria">
+        <PropertyRef Name="categoria_procat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PromocaoCategoria_Promocao">
+    <End Role="promocao" Type="Self.promocao" Multiplicity="1" />
+    <End Role="promocaocategoria" Type="Self.promocaocategoria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="promocao">
+        <PropertyRef Name="codigo_pro" />
+      </Principal>
+      <Dependent Role="promocaocategoria">
+        <PropertyRef Name="promocao_procat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PromocaoRequerida_Promocao">
+    <End Role="promocao" Type="Self.promocao" Multiplicity="1" />
+    <End Role="promocaorequerida" Type="Self.promocaorequerida" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="promocao">
+        <PropertyRef Name="codigo_pro" />
+      </Principal>
+      <Dependent Role="promocaorequerida">
+        <PropertyRef Name="promocao_proreq" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_Cliente">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="telefone" Type="Self.telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="codigo_cli" />
+      </Principal>
+      <Dependent Role="telefone">
+        <PropertyRef Name="codigoCli_tel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="telefone" Type="Self.telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="telefone">
+        <PropertyRef Name="useralt_tel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="telefone" Type="Self.telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="telefone">
+        <PropertyRef Name="usercad_tel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="vale24hModelStoreContainer">
+    <EntitySet Name="categoria" EntityType="Self.categoria" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="cliente" EntityType="Self.cliente" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="endereco" EntityType="Self.endereco" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="imagem" EntityType="Self.imagem" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="promocao" EntityType="Self.promocao" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="promocaocategoria" EntityType="Self.promocaocategoria" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="promocaorequerida" EntityType="Self.promocaorequerida" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="telefone" EntityType="Self.telefone" Schema="vale24h" store:Type="Tables" />
+    <EntitySet Name="usuario" EntityType="Self.usuario" Schema="vale24h" store:Type="Tables" />
+    <AssociationSet Name="FK_Categoria_UsuarioAlt" Association="Self.FK_Categoria_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="categoria" EntitySet="categoria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Categoria_UsuarioCad" Association="Self.FK_Categoria_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="categoria" EntitySet="categoria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cliente_UsuarioAlt" Association="Self.FK_Cliente_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="cliente" EntitySet="cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cliente_UsuarioCad" Association="Self.FK_Cliente_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="cliente" EntitySet="cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Endereco_Cliente" Association="Self.FK_Endereco_Cliente">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="endereco" EntitySet="endereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Endereco_UsuarioAlt" Association="Self.FK_Endereco_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="endereco" EntitySet="endereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Endereco_UsuarioCad" Association="Self.FK_Endereco_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="endereco" EntitySet="endereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Promocao_Cliente" Association="Self.FK_Promocao_Cliente">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="promocao" EntitySet="promocao" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Promocao_Imagem" Association="Self.FK_Promocao_Imagem">
+      <End Role="imagem" EntitySet="imagem" />
+      <End Role="promocao" EntitySet="promocao" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PromocaoCategoria_Categoria" Association="Self.FK_PromocaoCategoria_Categoria">
+      <End Role="categoria" EntitySet="categoria" />
+      <End Role="promocaocategoria" EntitySet="promocaocategoria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PromocaoCategoria_Promocao" Association="Self.FK_PromocaoCategoria_Promocao">
+      <End Role="promocao" EntitySet="promocao" />
+      <End Role="promocaocategoria" EntitySet="promocaocategoria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PromocaoRequerida_Promocao" Association="Self.FK_PromocaoRequerida_Promocao">
+      <End Role="promocao" EntitySet="promocao" />
+      <End Role="promocaorequerida" EntitySet="promocaorequerida" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_Cliente" Association="Self.FK_Telefone_Cliente">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="telefone" EntitySet="telefone" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_UsuarioAlt" Association="Self.FK_Telefone_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="telefone" EntitySet="telefone" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_UsuarioCad" Association="Self.FK_Telefone_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="telefone" EntitySet="telefone" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

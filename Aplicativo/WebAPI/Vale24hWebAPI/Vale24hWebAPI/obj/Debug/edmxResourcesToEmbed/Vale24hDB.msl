@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="vale24hModelStoreContainer" CdmEntityContainer="vale24hEntities">
+    <EntitySetMapping Name="categoria">
+      <EntityTypeMapping TypeName="vale24hModel.categoria">
+        <MappingFragment StoreEntitySet="categoria">
+          <ScalarProperty Name="codigo_cat" ColumnName="codigo_cat" />
+          <ScalarProperty Name="descricao_cat" ColumnName="descricao_cat" />
+          <ScalarProperty Name="ativo_cat" ColumnName="ativo_cat" />
+          <ScalarProperty Name="datacad_cat" ColumnName="datacad_cat" />
+          <ScalarProperty Name="dataalt_cat" ColumnName="dataalt_cat" />
+          <ScalarProperty Name="usercad_cat" ColumnName="usercad_cat" />
+          <ScalarProperty Name="useralt_cat" ColumnName="useralt_cat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cliente">
+      <EntityTypeMapping TypeName="vale24hModel.cliente">
+        <MappingFragment StoreEntitySet="cliente">
+          <ScalarProperty Name="codigo_cli" ColumnName="codigo_cli" />
+          <ScalarProperty Name="nome_cli" ColumnName="nome_cli" />
+          <ScalarProperty Name="documento_cli" ColumnName="documento_cli" />
+          <ScalarProperty Name="tipoDocumento_cli" ColumnName="tipoDocumento_cli" />
+          <ScalarProperty Name="nomeFantasia_cli" ColumnName="nomeFantasia_cli" />
+          <ScalarProperty Name="contato_cli" ColumnName="contato_cli" />
+          <ScalarProperty Name="useralt_cli" ColumnName="useralt_cli" />
+          <ScalarProperty Name="usercad_cli" ColumnName="usercad_cli" />
+          <ScalarProperty Name="datacad_cli" ColumnName="datacad_cli" />
+          <ScalarProperty Name="dataalt_cli" ColumnName="dataalt_cli" />
+          <ScalarProperty Name="cloudId_cli" ColumnName="cloudId_cli" />
+          <ScalarProperty Name="imagem_cli" ColumnName="imagem_cli" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="endereco">
+      <EntityTypeMapping TypeName="vale24hModel.endereco">
+        <MappingFragment StoreEntitySet="endereco">
+          <ScalarProperty Name="codigo_end" ColumnName="codigo_end" />
+          <ScalarProperty Name="codigoCli_end" ColumnName="codigoCli_end" />
+          <ScalarProperty Name="ativo_end" ColumnName="ativo_end" />
+          <ScalarProperty Name="cep_end" ColumnName="cep_end" />
+          <ScalarProperty Name="logradouro_end" ColumnName="logradouro_end" />
+          <ScalarProperty Name="numero_end" ColumnName="numero_end" />
+          <ScalarProperty Name="referencia_end" ColumnName="referencia_end" />
+          <ScalarProperty Name="datacad_end" ColumnName="datacad_end" />
+          <ScalarProperty Name="usercad_end" ColumnName="usercad_end" />
+          <ScalarProperty Name="useralt_end" ColumnName="useralt_end" />
+          <ScalarProperty Name="dataalt_end" ColumnName="dataalt_end" />
+          <ScalarProperty Name="latitude_end" ColumnName="latitude_end" />
+          <ScalarProperty Name="longitude_end" ColumnName="longitude_end" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="imagem">
+      <EntityTypeMapping TypeName="vale24hModel.imagem">
+        <MappingFragment StoreEntitySet="imagem">
+          <ScalarProperty Name="codigo_img" ColumnName="codigo_img" />
+          <ScalarProperty Name="urlRelativa_img" ColumnName="urlRelativa_img" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="promocao">
+      <EntityTypeMapping TypeName="vale24hModel.promocao">
+        <MappingFragment StoreEntitySet="promocao">
+          <ScalarProperty Name="codigo_pro" ColumnName="codigo_pro" />
+          <ScalarProperty Name="titulo_pro" ColumnName="titulo_pro" />
+          <ScalarProperty Name="descricao_pro" ColumnName="descricao_pro" />
+          <ScalarProperty Name="imagem_pro" ColumnName="imagem_pro" />
+          <ScalarProperty Name="inicio_pro" ColumnName="inicio_pro" />
+          <ScalarProperty Name="fim_pro" ColumnName="fim_pro" />
+          <ScalarProperty Name="totalTickets_pro" ColumnName="totalTickets_pro" />
+          <ScalarProperty Name="ticketsAlocados_pro" ColumnName="ticketsAlocados_pro" />
+          <ScalarProperty Name="limitada_pro" ColumnName="limitada_pro" />
+          <ScalarProperty Name="cliente_pro" ColumnName="cliente_pro" />
+          <ScalarProperty Name="latitude_pro" ColumnName="latitude_pro" />
+          <ScalarProperty Name="longitude_pro" ColumnName="longitude_pro" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="promocaorequerida">
+      <EntityTypeMapping TypeName="vale24hModel.promocaorequerida">
+        <MappingFragment StoreEntitySet="promocaorequerida">
+          <ScalarProperty Name="ativa_proreq" ColumnName="ativa_proreq" />
+          <ScalarProperty Name="codVoucher_proreq" ColumnName="codVoucher_proreq" />
+          <ScalarProperty Name="codigo_proreq" ColumnName="codigo_proreq" />
+          <ScalarProperty Name="promocao_proreq" ColumnName="promocao_proreq" />
+          <ScalarProperty Name="validade_proreq" ColumnName="validade_proreq" />
+          <ScalarProperty Name="datacad_proreq" ColumnName="datacad_proreq" />
+          <ScalarProperty Name="userCloudId_proreq" ColumnName="userCloudId_proreq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="telefone">
+      <EntityTypeMapping TypeName="vale24hModel.telefone">
+        <MappingFragment StoreEntitySet="telefone">
+          <ScalarProperty Name="codigo_tel" ColumnName="codigo_tel" />
+          <ScalarProperty Name="codigoCli_tel" ColumnName="codigoCli_tel" />
+          <ScalarProperty Name="ddd_tel" ColumnName="ddd_tel" />
+          <ScalarProperty Name="fone_tel" ColumnName="fone_tel" />
+          <ScalarProperty Name="tipofone_tel" ColumnName="tipofone_tel" />
+          <ScalarProperty Name="contato_tel" ColumnName="contato_tel" />
+          <ScalarProperty Name="datacad_tel" ColumnName="datacad_tel" />
+          <ScalarProperty Name="dataalt_tel" ColumnName="dataalt_tel" />
+          <ScalarProperty Name="usercad_tel" ColumnName="usercad_tel" />
+          <ScalarProperty Name="useralt_tel" ColumnName="useralt_tel" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="usuario">
+      <EntityTypeMapping TypeName="vale24hModel.usuario">
+        <MappingFragment StoreEntitySet="usuario">
+          <ScalarProperty Name="codigo_usr" ColumnName="codigo_usr" />
+          <ScalarProperty Name="login_usr" ColumnName="login_usr" />
+          <ScalarProperty Name="pw_usr" ColumnName="pw_usr" />
+          <ScalarProperty Name="nome_usr" ColumnName="nome_usr" />
+          <ScalarProperty Name="codigoTel_usr" ColumnName="codigoTel_usr" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="promocaocategoria" TypeName="vale24hModel.promocaocategoria" StoreEntitySet="promocaocategoria">
+      <EndProperty Name="categoria">
+        <ScalarProperty Name="codigo_cat" ColumnName="categoria_procat" />
+      </EndProperty>
+      <EndProperty Name="promocao">
+        <ScalarProperty Name="codigo_pro" ColumnName="promocao_procat" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

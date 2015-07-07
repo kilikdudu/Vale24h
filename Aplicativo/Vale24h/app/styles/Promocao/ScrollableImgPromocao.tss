@@ -1,0 +1,14 @@
+"#boxTabsView": {
+	showPagingControl: false,
+	backgroundColor: "white"
+}
+"#pagingControl": {
+	layout: "horizontal",
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.SIZE
+}
+"#auxPaging": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.SIZE,
+	bottom: 10
+}

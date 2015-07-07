@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="vale24hModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="categoria">
+    <Key>
+      <PropertyRef Name="codigo_cat" />
+    </Key>
+    <Property Name="codigo_cat" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descricao_cat" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ativo_cat" Type="Boolean" Nullable="false" />
+    <Property Name="datacad_cat" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dataalt_cat" Type="DateTime" />
+    <Property Name="usercad_cat" Type="Int64" Nullable="false" />
+    <Property Name="useralt_cat" Type="Int64" />
+    <NavigationProperty Name="usuario" Relationship="Self.FK_Categoria_UsuarioAlt" FromRole="categoria" ToRole="usuario" />
+    <NavigationProperty Name="usuario1" Relationship="Self.FK_Categoria_UsuarioCad" FromRole="categoria" ToRole="usuario" />
+    <NavigationProperty Name="promocao" Relationship="Self.promocaocategoria" FromRole="categoria" ToRole="promocao" />
+  </EntityType>
+  <EntityType Name="cliente">
+    <Key>
+      <PropertyRef Name="codigo_cli" />
+    </Key>
+    <Property Name="codigo_cli" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nome_cli" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="documento_cli" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="tipoDocumento_cli" Type="SByte" Nullable="false" />
+    <Property Name="nomeFantasia_cli" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="contato_cli" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="useralt_cli" Type="Int64" />
+    <Property Name="usercad_cli" Type="Int64" Nullable="false" />
+    <Property Name="datacad_cli" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dataalt_cli" Type="DateTime" />
+    <Property Name="cloudId_cli" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="imagem_cli" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="usuario" Relationship="Self.FK_Cliente_UsuarioAlt" FromRole="cliente" ToRole="usuario" />
+    <NavigationProperty Name="usuario1" Relationship="Self.FK_Cliente_UsuarioCad" FromRole="cliente" ToRole="usuario" />
+    <NavigationProperty Name="endereco" Relationship="Self.FK_Endereco_Cliente" FromRole="cliente" ToRole="endereco" />
+    <NavigationProperty Name="promocao" Relationship="Self.FK_Promocao_Cliente" FromRole="cliente" ToRole="promocao" />
+    <NavigationProperty Name="telefone" Relationship="Self.FK_Telefone_Cliente" FromRole="cliente" ToRole="telefone" />
+  </EntityType>
+  <EntityType Name="endereco">
+    <Key>
+      <PropertyRef Name="codigo_end" />
+    </Key>
+    <Property Name="codigo_end" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="codigoCli_end" Type="Int64" Nullable="false" />
+    <Property Name="ativo_end" Type="Boolean" Nullable="false" />
+    <Property Name="cep_end" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="logradouro_end" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="numero_end" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="referencia_end" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="datacad_end" Type="DateTime" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="usercad_end" Type="Int64" Nullable="false" />
+    <Property Name="useralt_end" Type="Int64" />
+    <Property Name="dataalt_end" Type="DateTime" />
+    <Property Name="latitude_end" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="longitude_end" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="cliente" Relationship="Self.FK_Endereco_Cliente" FromRole="endereco" ToRole="cliente" />
+    <NavigationProperty Name="usuario" Relationship="Self.FK_Endereco_UsuarioAlt" FromRole="endereco" ToRole="usuario" />
+    <NavigationProperty Name="usuario1" Relationship="Self.FK_Endereco_UsuarioCad" FromRole="endereco" ToRole="usuario" />
+  </EntityType>
+  <EntityType Name="imagem">
+    <Key>
+      <PropertyRef Name="codigo_img" />
+    </Key>
+    <Property Name="codigo_img" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="urlRelativa_img" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="promocao" Relationship="Self.FK_Promocao_Imagem" FromRole="imagem" ToRole="promocao" />
+  </EntityType>
+  <EntityType Name="promocao">
+    <Key>
+      <PropertyRef Name="codigo_pro" />
+    </Key>
+    <Property Name="codigo_pro" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="titulo_pro" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descricao_pro" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="imagem_pro" Type="Int64" />
+    <Property Name="inicio_pro" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fim_pro" Type="DateTime" Nullable="false" />
+    <Property Name="totalTickets_pro" Type="Int32" Nullable="false" />
+    <Property Name="ticketsAlocados_pro" Type="Int32" Nullable="false" />
+    <Property Name="limitada_pro" Type="Boolean" Nullable="false" />
+    <Property Name="cliente_pro" Type="Int64" Nullable="false" />
+    <Property Name="latitude_pro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="longitude_pro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="cliente" Relationship="Self.FK_Promocao_Cliente" FromRole="promocao" ToRole="cliente" />
+    <NavigationProperty Name="imagem" Relationship="Self.FK_Promocao_Imagem" FromRole="promocao" ToRole="imagem" />
+    <NavigationProperty Name="promocaorequerida" Relationship="Self.FK_PromocaoRequerida_Promocao" FromRole="promocao" ToRole="promocaorequerida" />
+    <NavigationProperty Name="categoria" Relationship="Self.promocaocategoria" FromRole="promocao" ToRole="categoria" />
+  </EntityType>
+  <EntityType Name="promocaorequerida">
+    <Key>
+      <PropertyRef Name="codigo_proreq" />
+    </Key>
+    <Property Name="codigo_proreq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="promocao_proreq" Type="Int64" Nullable="false" />
+    <Property Name="validade_proreq" Type="DateTime" />
+    <Property Name="datacad_proreq" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userCloudId_proreq" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="promocao" Relationship="Self.FK_PromocaoRequerida_Promocao" FromRole="promocaorequerida" ToRole="promocao" />
+    <Property Name="codVoucher_proreq" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="ativa_proreq" Type="Boolean" Nullable="false" DefaultValue="true" />
+  </EntityType>
+  <EntityType Name="telefone">
+    <Key>
+      <PropertyRef Name="codigo_tel" />
+    </Key>
+    <Property Name="codigo_tel" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="codigoCli_tel" Type="Int64" Nullable="false" />
+    <Property Name="ddd_tel" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fone_tel" Type="String" MaxLength="18" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="tipofone_tel" Type="SByte" Nullable="false" />
+    <Property Name="contato_tel" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="datacad_tel" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dataalt_tel" Type="DateTime" />
+    <Property Name="usercad_tel" Type="Int64" Nullable="false" />
+    <Property Name="useralt_tel" Type="Int64" />
+    <NavigationProperty Name="cliente" Relationship="Self.FK_Telefone_Cliente" FromRole="telefone" ToRole="cliente" />
+    <NavigationProperty Name="usuario" Relationship="Self.FK_Telefone_UsuarioAlt" FromRole="telefone" ToRole="usuario" />
+    <NavigationProperty Name="usuario1" Relationship="Self.FK_Telefone_UsuarioCad" FromRole="telefone" ToRole="usuario" />
+  </EntityType>
+  <EntityType Name="usuario">
+    <Key>
+      <PropertyRef Name="codigo_usr" />
+    </Key>
+    <Property Name="codigo_usr" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login_usr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pw_usr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="nome_usr" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="codigoTel_usr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="categoria" Relationship="Self.FK_Categoria_UsuarioAlt" FromRole="usuario" ToRole="categoria" />
+    <NavigationProperty Name="categoria1" Relationship="Self.FK_Categoria_UsuarioCad" FromRole="usuario" ToRole="categoria" />
+    <NavigationProperty Name="cliente" Relationship="Self.FK_Cliente_UsuarioAlt" FromRole="usuario" ToRole="cliente" />
+    <NavigationProperty Name="cliente1" Relationship="Self.FK_Cliente_UsuarioCad" FromRole="usuario" ToRole="cliente" />
+    <NavigationProperty Name="endereco" Relationship="Self.FK_Endereco_UsuarioAlt" FromRole="usuario" ToRole="endereco" />
+    <NavigationProperty Name="endereco1" Relationship="Self.FK_Endereco_UsuarioCad" FromRole="usuario" ToRole="endereco" />
+    <NavigationProperty Name="telefone" Relationship="Self.FK_Telefone_UsuarioAlt" FromRole="usuario" ToRole="telefone" />
+    <NavigationProperty Name="telefone1" Relationship="Self.FK_Telefone_UsuarioCad" FromRole="usuario" ToRole="telefone" />
+  </EntityType>
+  <Association Name="FK_Categoria_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="categoria" Type="Self.categoria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="categoria">
+        <PropertyRef Name="useralt_cat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Categoria_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="categoria" Type="Self.categoria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="categoria">
+        <PropertyRef Name="usercad_cat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cliente_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="cliente">
+        <PropertyRef Name="useralt_cli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cliente_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="cliente">
+        <PropertyRef Name="usercad_cli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Endereco_Cliente">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="endereco" Type="Self.endereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="codigo_cli" />
+      </Principal>
+      <Dependent Role="endereco">
+        <PropertyRef Name="codigoCli_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Promocao_Cliente">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="promocao" Type="Self.promocao" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="codigo_cli" />
+      </Principal>
+      <Dependent Role="promocao">
+        <PropertyRef Name="cliente_pro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_Cliente">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="telefone" Type="Self.telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="codigo_cli" />
+      </Principal>
+      <Dependent Role="telefone">
+        <PropertyRef Name="codigoCli_tel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Endereco_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="endereco" Type="Self.endereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="endereco">
+        <PropertyRef Name="useralt_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Endereco_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="endereco" Type="Self.endereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="endereco">
+        <PropertyRef Name="usercad_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Promocao_Imagem">
+    <End Role="imagem" Type="Self.imagem" Multiplicity="0..1" />
+    <End Role="promocao" Type="Self.promocao" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="imagem">
+        <PropertyRef Name="codigo_img" />
+      </Principal>
+      <Dependent Role="promocao">
+        <PropertyRef Name="imagem_pro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PromocaoRequerida_Promocao">
+    <End Role="promocao" Type="Self.promocao" Multiplicity="1" />
+    <End Role="promocaorequerida" Type="Self.promocaorequerida" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="promocao">
+        <PropertyRef Name="codigo_pro" />
+      </Principal>
+      <Dependent Role="promocaorequerida">
+        <PropertyRef Name="promocao_proreq" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_UsuarioAlt">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="telefone" Type="Self.telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="telefone">
+        <PropertyRef Name="useralt_tel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_UsuarioCad">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+    <End Role="telefone" Type="Self.telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="codigo_usr" />
+      </Principal>
+      <Dependent Role="telefone">
+        <PropertyRef Name="usercad_tel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="promocaocategoria">
+    <End Role="categoria" Type="Self.categoria" Multiplicity="*" />
+    <End Role="promocao" Type="Self.promocao" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="vale24hEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="categoria" EntityType="Self.categoria" />
+    <EntitySet Name="cliente" EntityType="Self.cliente" />
+    <EntitySet Name="endereco" EntityType="Self.endereco" />
+    <EntitySet Name="imagem" EntityType="Self.imagem" />
+    <EntitySet Name="promocao" EntityType="Self.promocao" />
+    <EntitySet Name="promocaorequerida" EntityType="Self.promocaorequerida" />
+    <EntitySet Name="telefone" EntityType="Self.telefone" />
+    <EntitySet Name="usuario" EntityType="Self.usuario" />
+    <AssociationSet Name="FK_Categoria_UsuarioAlt" Association="Self.FK_Categoria_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="categoria" EntitySet="categoria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Categoria_UsuarioCad" Association="Self.FK_Categoria_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="categoria" EntitySet="categoria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cliente_UsuarioAlt" Association="Self.FK_Cliente_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="cliente" EntitySet="cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cliente_UsuarioCad" Association="Self.FK_Cliente_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="cliente" EntitySet="cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Endereco_Cliente" Association="Self.FK_Endereco_Cliente">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="endereco" EntitySet="endereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Promocao_Cliente" Association="Self.FK_Promocao_Cliente">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="promocao" EntitySet="promocao" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_Cliente" Association="Self.FK_Telefone_Cliente">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="telefone" EntitySet="telefone" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Endereco_UsuarioAlt" Association="Self.FK_Endereco_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="endereco" EntitySet="endereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Endereco_UsuarioCad" Association="Self.FK_Endereco_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="endereco" EntitySet="endereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Promocao_Imagem" Association="Self.FK_Promocao_Imagem">
+      <End Role="imagem" EntitySet="imagem" />
+      <End Role="promocao" EntitySet="promocao" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PromocaoRequerida_Promocao" Association="Self.FK_PromocaoRequerida_Promocao">
+      <End Role="promocao" EntitySet="promocao" />
+      <End Role="promocaorequerida" EntitySet="promocaorequerida" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_UsuarioAlt" Association="Self.FK_Telefone_UsuarioAlt">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="telefone" EntitySet="telefone" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_UsuarioCad" Association="Self.FK_Telefone_UsuarioCad">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="telefone" EntitySet="telefone" />
+    </AssociationSet>
+    <AssociationSet Name="promocaocategoria" Association="Self.promocaocategoria">
+      <End Role="categoria" EntitySet="categoria" />
+      <End Role="promocao" EntitySet="promocao" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

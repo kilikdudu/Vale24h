@@ -1,0 +1,12 @@
+"#winCadastro": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL,
+	orientationModes: [Titanium.UI.PORTRAIT]
+}
+"#conteudo": {
+	top: 50,
+	bottom: 0,
+	width: Titanium.UI.FILL,
+	layout: 'vertical',
+	backgroundColor: "white"
+}

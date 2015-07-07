@@ -1,0 +1,7 @@
+<Alloy>
+	<View id="boxInfoTicket" width="90%" >
+		<Label class="descricao espaco info" id="lblVoucher" />
+		<Label class="descricao espaco info" id="lblValidade" />
+		<Label class="descricao espaco info" id="lblAdquirido" />	
+	</View>
+</Alloy>

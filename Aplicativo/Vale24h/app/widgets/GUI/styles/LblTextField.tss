@@ -1,0 +1,13 @@
+"#boxInput": {
+	width: Titanium.UI.FILL,
+	height: Alloy.Globals.CustomComponentHeight,
+	backgroundColor: "transparent"
+}
+"#novoNome": {
+	width: "96%",
+	left: "2%",
+	color: "#292929",
+	backgroundColor: "transparent",
+	height: Titanium.UI.FILL,
+	font:{fontSize: Alloy.Globals.CustomTextSize}
+}
