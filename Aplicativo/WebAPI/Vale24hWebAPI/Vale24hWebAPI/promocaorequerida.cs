@@ -21,7 +21,7 @@ namespace Vale24hWebAPI
     
         public long codigo_proreq { get; set; }
         public long promocao_proreq { get; set; }
-        public Nullable<System.DateTime> validade_proreq { get; set; }
+        public System.DateTime validade_proreq { get; set; }
         public System.DateTime datacad_proreq { get; set; }
         public string userCloudId_proreq { get; set; }
         public string codVoucher_proreq { get; set; }

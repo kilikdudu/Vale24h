@@ -133,6 +133,7 @@
     <Compile Include="usuario.cs">
       <DependentUpon>Vale24hDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Util\Crypto.cs" />
     <Compile Include="Vale24hDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

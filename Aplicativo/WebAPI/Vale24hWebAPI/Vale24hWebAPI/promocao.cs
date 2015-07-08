@@ -27,7 +27,6 @@ namespace Vale24hWebAPI
         public System.DateTime inicio_pro { get; set; }
         public System.DateTime fim_pro { get; set; }
         public int totalTickets_pro { get; set; }
-        public int ticketsAlocados_pro { get; set; }
         public bool limitada_pro { get; set; }
         public long cliente_pro { get; set; }
         public string latitude_pro { get; set; }

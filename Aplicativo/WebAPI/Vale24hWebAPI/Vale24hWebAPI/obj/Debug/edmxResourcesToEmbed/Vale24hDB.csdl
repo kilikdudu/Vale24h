@@ -77,7 +77,6 @@
     <Property Name="inicio_pro" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fim_pro" Type="DateTime" Nullable="false" />
     <Property Name="totalTickets_pro" Type="Int32" Nullable="false" />
-    <Property Name="ticketsAlocados_pro" Type="Int32" Nullable="false" />
     <Property Name="limitada_pro" Type="Boolean" Nullable="false" />
     <Property Name="cliente_pro" Type="Int64" Nullable="false" />
     <Property Name="latitude_pro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
@@ -93,7 +92,7 @@
     </Key>
     <Property Name="codigo_proreq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="promocao_proreq" Type="Int64" Nullable="false" />
-    <Property Name="validade_proreq" Type="DateTime" />
+    <Property Name="validade_proreq" Type="DateTime" Nullable="false" />
     <Property Name="datacad_proreq" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="userCloudId_proreq" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="promocao" Relationship="Self.FK_PromocaoRequerida_Promocao" FromRole="promocaorequerida" ToRole="promocao" />

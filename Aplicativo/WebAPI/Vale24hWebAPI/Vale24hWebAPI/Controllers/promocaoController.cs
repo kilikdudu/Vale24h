@@ -27,7 +27,8 @@ namespace Vale24hWebAPI.Controllers
         public List<InfoPromocao> getPromocoes(ParansLista parans)
         {
             var lstPro = new List<InfoPromocao>();
-            var rowsPro = db.promocao.Include(pro => pro.imagem).Include(pro => pro.cliente).Where(pro => (pro.ticketsAlocados_pro < pro.totalTickets_pro || pro.limitada_pro == false) && pro.fim_pro >= DateTime.Now && pro.codigo_pro > parans.cursor).Take(parans.limite).ToList();
+            var rowsPro = db.promocao.Include(pro => pro.imagem).Include(pro => pro.cliente).
+                Where(pro => /*(getQuantidadeTicketsPromocao(pro.codigo_pro) < pro.totalTickets_pro || pro.limitada_pro == false) && */pro.fim_pro >= DateTime.Now && pro.codigo_pro > parans.cursor).Take(parans.limite).ToList();
             foreach (promocao  rowPro in rowsPro)
             {
                 var pro = new InfoPromocao ();
@@ -38,7 +39,7 @@ namespace Vale24hWebAPI.Controllers
                 pro.empresa_id = rowPro.cliente.cloudId_cli;
                 pro.inicio = rowPro.inicio_pro;
                 pro.qtdeTickets = rowPro.totalTickets_pro;
-                pro.qtdeTicketsUsados = rowPro.ticketsAlocados_pro;
+                pro.qtdeTicketsUsados = getQuantidadeTicketsPromocao(rowPro.codigo_pro);
                 pro.titulo = rowPro.titulo_pro;
                 pro.validade = rowPro.fim_pro;
                 pro.nomeEmpresa = rowPro.cliente.nomeFantasia_cli;
@@ -63,7 +64,7 @@ namespace Vale24hWebAPI.Controllers
             proInfo.empresa_id = promocao.cliente.cloudId_cli;
             proInfo.inicio = promocao.inicio_pro;
             proInfo.qtdeTickets = promocao.totalTickets_pro;
-            proInfo.qtdeTicketsUsados = promocao.ticketsAlocados_pro;
+            proInfo.qtdeTicketsUsados = getQuantidadeTicketsPromocao(promocao.codigo_pro);
             proInfo.titulo = promocao.titulo_pro;
             proInfo.validade = promocao.fim_pro;
             proInfo.nomeEmpresa = promocao.cliente.nomeFantasia_cli;
@@ -71,6 +72,11 @@ namespace Vale24hWebAPI.Controllers
             proInfo.longitude = promocao.longitude_pro;
             proInfo.imagemEmpresa = WebConfigurationManager.AppSettings["urlImages"] + promocao.cliente.cloudId_cli + "/" + promocao.cliente.imagem_cli;
             return proInfo;
+        }
+
+        public  int getQuantidadeTicketsPromocao(long promocao_id)
+        {
+            return db.promocaorequerida.Where(t => t.ativa_proreq && t.validade_proreq <= DateTime.Now && t.promocao_proreq == promocao_id).Count();
         }
         
     }

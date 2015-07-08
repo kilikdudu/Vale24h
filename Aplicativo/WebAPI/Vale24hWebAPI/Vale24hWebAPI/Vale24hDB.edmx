@@ -90,7 +90,7 @@
           </Key>
           <Property Name="codigo_proreq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="promocao_proreq" Type="bigint" Nullable="false" />
-          <Property Name="validade_proreq" Type="datetime" Precision="0" />
+          <Property Name="validade_proreq" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="datacad_proreq" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userCloudId_proreq" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="codVoucher_proreq" Type="varchar" MaxLength="40" Nullable="false" />
@@ -453,7 +453,6 @@
           <Property Name="inicio_pro" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fim_pro" Type="DateTime" Nullable="false" />
           <Property Name="totalTickets_pro" Type="Int32" Nullable="false" />
-          <Property Name="ticketsAlocados_pro" Type="Int32" Nullable="false" />
           <Property Name="limitada_pro" Type="Boolean" Nullable="false" />
           <Property Name="cliente_pro" Type="Int64" Nullable="false" />
           <Property Name="latitude_pro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
@@ -469,7 +468,7 @@
           </Key>
           <Property Name="codigo_proreq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="promocao_proreq" Type="Int64" Nullable="false" />
-          <Property Name="validade_proreq" Type="DateTime" />
+          <Property Name="validade_proreq" Type="DateTime" Nullable="false" />
           <Property Name="datacad_proreq" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="userCloudId_proreq" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="promocao" Relationship="Self.FK_PromocaoRequerida_Promocao" FromRole="promocaorequerida" ToRole="promocao" />
@@ -805,6 +804,7 @@
           <EntitySetMapping Name="promocao">
             <EntityTypeMapping TypeName="vale24hModel.promocao">
               <MappingFragment StoreEntitySet="promocao">
+                <ScalarProperty Name="totalTickets_pro" ColumnName="ticketsAlocados_pro" />
                 <ScalarProperty Name="codigo_pro" ColumnName="codigo_pro" />
                 <ScalarProperty Name="titulo_pro" ColumnName="titulo_pro" />
                 <ScalarProperty Name="descricao_pro" ColumnName="descricao_pro" />
@@ -812,7 +812,6 @@
                 <ScalarProperty Name="inicio_pro" ColumnName="inicio_pro" />
                 <ScalarProperty Name="fim_pro" ColumnName="fim_pro" />
                 <ScalarProperty Name="totalTickets_pro" ColumnName="totalTickets_pro" />
-                <ScalarProperty Name="ticketsAlocados_pro" ColumnName="ticketsAlocados_pro" />
                 <ScalarProperty Name="limitada_pro" ColumnName="limitada_pro" />
                 <ScalarProperty Name="cliente_pro" ColumnName="cliente_pro" />
                 <ScalarProperty Name="latitude_pro" ColumnName="latitude_pro" />

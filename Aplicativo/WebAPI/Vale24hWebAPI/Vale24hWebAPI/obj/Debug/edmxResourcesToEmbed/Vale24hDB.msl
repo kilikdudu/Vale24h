@@ -62,6 +62,7 @@
     <EntitySetMapping Name="promocao">
       <EntityTypeMapping TypeName="vale24hModel.promocao">
         <MappingFragment StoreEntitySet="promocao">
+          <ScalarProperty Name="totalTickets_pro" ColumnName="ticketsAlocados_pro" />
           <ScalarProperty Name="codigo_pro" ColumnName="codigo_pro" />
           <ScalarProperty Name="titulo_pro" ColumnName="titulo_pro" />
           <ScalarProperty Name="descricao_pro" ColumnName="descricao_pro" />
@@ -69,7 +70,6 @@
           <ScalarProperty Name="inicio_pro" ColumnName="inicio_pro" />
           <ScalarProperty Name="fim_pro" ColumnName="fim_pro" />
           <ScalarProperty Name="totalTickets_pro" ColumnName="totalTickets_pro" />
-          <ScalarProperty Name="ticketsAlocados_pro" ColumnName="ticketsAlocados_pro" />
           <ScalarProperty Name="limitada_pro" ColumnName="limitada_pro" />
           <ScalarProperty Name="cliente_pro" ColumnName="cliente_pro" />
           <ScalarProperty Name="latitude_pro" ColumnName="latitude_pro" />

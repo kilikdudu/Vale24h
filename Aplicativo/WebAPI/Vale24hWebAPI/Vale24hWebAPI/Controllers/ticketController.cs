@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Vale24hWebAPI;
 using Vale24hWebAPI.Models;
+using Vale24hWebAPI.Util;
 
 namespace Vale24hWebAPI.Controllers
 {
@@ -20,6 +21,11 @@ namespace Vale24hWebAPI.Controllers
         {
             public long promocaoId { get; set; }
             public string clienteId { get; set; }
+        }
+
+        public class parans_LiberaTicket
+        {
+            public long idTicket { get; set; }
         }
 
         private vale24hEntities db = new vale24hEntities();
@@ -55,9 +61,8 @@ namespace Vale24hWebAPI.Controllers
                 try
                 {
                     var prom = db.promocao.Where(pro => pro.codigo_pro == parans.promocaoId ).FirstOrDefault();
-                    prom.ticketsAlocados_pro = prom.ticketsAlocados_pro + 1;
-                    db.SaveChanges();
-                    if (prom.ticketsAlocados_pro > prom.totalTickets_pro)
+                    var proControl = new promocaoController();
+                    if ((proControl.getQuantidadeTicketsPromocao(prom.codigo_pro) > prom.totalTickets_pro) && prom.limitada_pro == true)
                     {
                         dbTrans.Rollback();
                         resposta.sucesso = false;
@@ -69,10 +74,13 @@ namespace Vale24hWebAPI.Controllers
                     myTicket.datacad_proreq = dtCadastro;
                     myTicket.promocao_proreq = parans.promocaoId;
                     myTicket.userCloudId_proreq = parans.clienteId;
-                    myTicket.codVoucher_proreq = geraVoucher(parans.clienteId, parans.promocaoId, dtCadastro.ToString());
+                    myTicket.codVoucher_proreq = "";
                     //Por isso Vale24h ^_^
-                    myTicket.validade_proreq = dtCadastro.AddHours(24);
+                    myTicket.validade_proreq = prom.limitada_pro ? dtCadastro.AddHours(24) : prom.fim_pro;
                     db.promocaorequerida.Add(myTicket);
+                    db.SaveChanges();
+                    DateTime aux = myTicket.validade_proreq;
+                    myTicket.codVoucher_proreq = myTicket.validade_proreq.ToString("yyyyMMddHHmmss")+'.'+myTicket.promocao_proreq+'.'+myTicket.codigo_proreq;
                     db.SaveChanges();
                     dbTrans.Commit();
                     resposta.sucesso = true;
@@ -94,19 +102,25 @@ namespace Vale24hWebAPI.Controllers
             return resposta;
         }
 
-        private string geraVoucher(string clienteId, long promocaoId, string dataVoucher)
+        [HttpPost]
+        public StatusRequisicao liberaTicket(parans_LiberaTicket parans)
         {
-            string dadosVoucher = clienteId + promocaoId + dataVoucher;
-            byte[] aux = GetBytes(dadosVoucher);
-            long codigoNumerico = BitConverter.ToInt64(aux, 0);
-            return codigoNumerico.ToString();
+            var resposta = new StatusRequisicao();
+            try
+            {
+                var ticket = db.promocaorequerida.Where(t => t.codigo_proreq == parans.idTicket).FirstOrDefault();
+                db.promocaorequerida.Remove(ticket);
+                db.SaveChanges();
+                resposta.sucesso = true;
+                return resposta;
+            }
+            catch (Exception e)
+            {
+                resposta.sucesso = false;
+                resposta.mensagem = e.Message;
+                return resposta;
+            }
         }
 
-        static byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
     }
 }
