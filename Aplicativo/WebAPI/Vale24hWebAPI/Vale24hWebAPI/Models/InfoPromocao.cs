@@ -21,6 +21,7 @@ namespace Vale24hWebAPI.Models
         public string imagemEmpresa { get; set; }
         public string latitude { get; set; }
         public string longitude { get; set; }
+        public bool limitada { get; set; }
 
     }
 }

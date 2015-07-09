@@ -28,7 +28,17 @@ namespace Vale24hWebAPI.Controllers
         {
             var lstPro = new List<InfoPromocao>();
             var rowsPro = db.promocao.Include(pro => pro.imagem).Include(pro => pro.cliente).
-                Where(pro => /*(getQuantidadeTicketsPromocao(pro.codigo_pro) < pro.totalTickets_pro || pro.limitada_pro == false) && */pro.fim_pro >= DateTime.Now && pro.codigo_pro > parans.cursor).Take(parans.limite).ToList();
+                Where(pro => (
+                                (db.promocaorequerida.Where
+                                    (t => 
+                                        t.ativa_proreq 
+                                        && ( t.validade_proreq >= DateTime.Now ) 
+                                        && ( t.promocao_proreq == pro.codigo_pro) )
+                                    .Count() < pro.totalTickets_pro
+                                ) 
+                                || pro.limitada_pro == false
+                            ) 
+                                && pro.fim_pro >= DateTime.Now && pro.codigo_pro > parans.cursor).Take(parans.limite).ToList();
             foreach (promocao  rowPro in rowsPro)
             {
                 var pro = new InfoPromocao ();
@@ -45,6 +55,7 @@ namespace Vale24hWebAPI.Controllers
                 pro.nomeEmpresa = rowPro.cliente.nomeFantasia_cli;
                 pro.latitude = rowPro.latitude_pro;
                 pro.longitude = rowPro.longitude_pro;
+                pro.limitada = rowPro.limitada_pro;
                 pro.imagemEmpresa = WebConfigurationManager.AppSettings["urlImages"] + rowPro.cliente.cloudId_cli + "/" + rowPro.cliente.imagem_cli;
                 lstPro.Add(pro);
             }
@@ -70,13 +81,14 @@ namespace Vale24hWebAPI.Controllers
             proInfo.nomeEmpresa = promocao.cliente.nomeFantasia_cli;
             proInfo.latitude = promocao.latitude_pro;
             proInfo.longitude = promocao.longitude_pro;
+            proInfo.limitada = promocao.limitada_pro;
             proInfo.imagemEmpresa = WebConfigurationManager.AppSettings["urlImages"] + promocao.cliente.cloudId_cli + "/" + promocao.cliente.imagem_cli;
             return proInfo;
         }
 
         public  int getQuantidadeTicketsPromocao(long promocao_id)
         {
-            return db.promocaorequerida.Where(t => t.ativa_proreq && t.validade_proreq <= DateTime.Now && t.promocao_proreq == promocao_id).Count();
+            return db.promocaorequerida.Where(t => t.ativa_proreq && t.validade_proreq >= DateTime.Now && t.promocao_proreq == promocao_id).Count();
         }
         
     }

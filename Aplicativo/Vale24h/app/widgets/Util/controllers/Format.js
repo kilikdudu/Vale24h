@@ -6,6 +6,52 @@
  */
 var args = arguments[0] || {};
 
+var moment = require('alloy/moment');
+
+
+$.cpf = function(cpf){
+    cpf=cpf.replace(/\D/g,"");
+    var flag = /\d{11}/;
+    if(!flag.test(cpf)){
+    	return "Formato inválido";
+    }
+    cpf=cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,"$1.$2.$3-$4");
+    return cpf;
+};
+
+$.cnpj = function(cnpj){
+	cnpj=cnpj.replace(/\D/g,"");
+    var flag = /\d{14}/;
+    if(!flag.test(cnpj)){
+    	return "Formato inválido";
+    }
+    cnpj=cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,"$1.$2.$3/$4-$5");
+    return cnpj;
+};
+
+$.soDigitos = function(texto){
+	texto=texto.replace(/\D/g,"");
+	return texto;
+};
+
+$.toDiaMesAno = function(valor){
+	var d1 = moment(valor);
+	return d1.format("DD/MM/YYYY");
+};
+
+$.generateCustomData = function(strData){
+	var data = moment(valor);
+	var ret = {Ano: null, Mes: null, Dia: null, Hora: null, Minuto: null, Segundo: null};
+	ret.Ano = data.get("year");
+	ret.Mes = parseInt(data.get('month')) + 1;
+	ret.Dia = data.get('date');
+	ret.Hora = data.get('hour');
+	ret.Minuto = data.get('minute');
+	ret.Segundo = data.get('second');
+	return ret;
+};
+
+
 /**
  * @method paraReal
  * Transforma um valor no formato padrão, para o formato monetário do Real.
@@ -35,42 +81,6 @@ $.paraReal = function(valor, separadorDecimal)
 	catch(e){
 		Alloy.Globals.onError(e.message, "paraReal", "app/widgets/Util/controllers/Format.js");
 	}
-};
-
-$.getHoje = function(){
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
-	
-	if(dd<10) {
-	    dd='0'+dd;
-	} 
-	
-	if(mm<10) {
-	    mm='0'+mm;
-	} 
-	
-	return yyyy+"/"+mm+"/"+dd;
-};
-
-/**
- * @method FormatoDiaMesAno
- * Transforma uma data para o formato dd/MM/YYYY 
- * @param {String} data Tipo DateTime do .NET.
- * @alteracao 21/01/2015 176562 Projeto Carlos Eduardo Santos Alves Domingos
- * Criação.
- */
-$.NetDateTimeToDiaMesAno = function(data){
-	if(data == null || data == "" || data == undefined){
-		return "";
-	}
-	var dataPrint = data.split("T")[0];
-	dataPrint = dataPrint.split("-");
-	var ano = dataPrint[0];
-	var mes = (dataPrint[1].length!=2?"0"+dataPrint[1]:dataPrint[1]);
-	var dia = (dataPrint[2].length!=2?"0"+dataPrint[2]:dataPrint[2]);
-	return dia + "/" + mes + "/" + ano;
 };
 
 /**

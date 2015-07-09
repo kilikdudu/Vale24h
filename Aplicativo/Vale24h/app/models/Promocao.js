@@ -14,7 +14,8 @@ exports.definition = {
 	        "nomeEmpresa" : "string", 
 	        "imagemEmpresa" : "string", 
 	        "latitude" : "string", 
-	        "longitude" : "string", 
+	        "longitude" : "string",
+	        "limitada": "Boolean" 
 		},
 		adapter: {
 			type: "properties",

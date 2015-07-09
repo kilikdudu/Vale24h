@@ -64,7 +64,7 @@ function getPromocoes(parans){
 		}
 		var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
 			callback: cursor==0?sucesso:adicionarRegistros,
-			error: function(e){Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao obter os contratos, tente novamente mais tarde.");},
+			error: function(e){Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao obter as promoções, tente novamente mais tarde.");},
 			url:  Alloy.Globals.MainDomain + "api/promocao/getPromocoes", 
 			metodo: "POST", 
 			timeout: 120000,
@@ -85,9 +85,15 @@ function getPromocoes(parans){
 function formatar(model){
 	try{
 		var pro = model.toJSON();
-		pro.qtdeTickets = "Tickets disponíveis: " + (pro.qtdeTickets - pro.qtdeTicketsUsados);	
 		pro.inicio = "Iniciada em " + Alloy.Globals.format.NetDateTimeToDiaMesAno(pro.inicio);
-		pro.validade = "Válido até: " + Alloy.Globals.format.NetDateTimeToDiaMesAno(pro.validade);
+		if(pro.limitada){
+			pro.qtdeTickets = "Tickets disponíveis: " + (pro.qtdeTickets - pro.qtdeTicketsUsados) + ".";	
+			pro.validade = "Válido até: " + Alloy.Globals.format.NetDateTimeToDiaMesAno(pro.validade) + ".";	
+		}else{
+			pro.qtdeTickets = "Tickets ilimitados até o fim da promoção !";	
+			pro.validade = "Válido até: " + Alloy.Globals.format.NetDateTimeToDiaMesAno(pro.validade) + ".";	
+		}
+		
 		return pro;	
 	}
 	catch(e){

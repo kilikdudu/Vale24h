@@ -85,7 +85,7 @@
     </Key>
     <Property Name="codigo_proreq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="promocao_proreq" Type="bigint" Nullable="false" />
-    <Property Name="validade_proreq" Type="datetime" Precision="0" />
+    <Property Name="validade_proreq" Type="datetime" Precision="0" Nullable="false" />
     <Property Name="datacad_proreq" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="userCloudId_proreq" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="codVoucher_proreq" Type="varchar" MaxLength="40" Nullable="false" />
