@@ -23,6 +23,6 @@
 					<View class="divisoria" left="10" right="10" backgroundImage="/images/linhaBlack.png" bottom="0" />
 				</TableViewRow>
 			</TableView>
-		</Widget>
+		</Widget> 
 	</View>
 </Alloy>

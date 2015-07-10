@@ -85,13 +85,13 @@ function getPromocoes(parans){
 function formatar(model){
 	try{
 		var pro = model.toJSON();
-		pro.inicio = "Iniciada em " + Alloy.Globals.format.NetDateTimeToDiaMesAno(pro.inicio);
+		pro.inicio = "Iniciada em " + Alloy.Globals.format.toDiaMesAno(pro.inicio);
 		if(pro.limitada){
-			pro.qtdeTickets = "Tickets disponíveis: " + (pro.qtdeTickets - pro.qtdeTicketsUsados) + ".";	
-			pro.validade = "Válido até: " + Alloy.Globals.format.NetDateTimeToDiaMesAno(pro.validade) + ".";	
+			pro.qtdeTickets = "Tickets disponíveis: " + (parseInt(pro.qtdeTickets) - parseInt(pro.qtdeTicketsUsados)) + ".";	
+			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";	
 		}else{
 			pro.qtdeTickets = "Tickets ilimitados até o fim da promoção !";	
-			pro.validade = "Válido até: " + Alloy.Globals.format.NetDateTimeToDiaMesAno(pro.validade) + ".";	
+			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";	
 		}
 		
 		return pro;	

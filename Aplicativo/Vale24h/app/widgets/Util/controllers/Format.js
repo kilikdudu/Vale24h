@@ -40,7 +40,7 @@ $.toDiaMesAno = function(valor){
 };
 
 $.generateCustomData = function(strData){
-	var data = moment(valor);
+	var data = moment(strData);
 	var ret = {Ano: null, Mes: null, Dia: null, Hora: null, Minuto: null, Segundo: null};
 	ret.Ano = data.get("year");
 	ret.Mes = parseInt(data.get('month')) + 1;

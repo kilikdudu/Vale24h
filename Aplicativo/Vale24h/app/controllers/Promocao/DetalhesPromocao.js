@@ -8,7 +8,7 @@ $.prom = _.extend({}, $.prom, {
     }
 });
 
-$.prom.set(ticket.promocao);
+$.prom.set(args.ticket.promocao);
 
 var vwInfoTicket = null;
 
@@ -20,7 +20,7 @@ function formatar(model) {
  	try{
 		var prom = model.toJSON();
 		prom.qtdeDisponivel = (prom.qtdeTickets - prom.qtdeTicketsUsados) + " tickets disponíveis !";
-		prom.lblValidade = "Válido até: " + Alloy.Globals.format.NetDateTimeToDiaMesAno(prom.validade);
+		prom.lblValidade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(prom.validade);
 	    return prom;
 	}
 	catch(e){
@@ -31,19 +31,21 @@ function formatar(model) {
 function MontaInfoTicket(){
 	$.scrlMestre.remove($.lblNumTickets);
 	$.scrlMestre.remove($.lblValidadeGeral);
-	$.scrlMestre.remove($.btnVerMapa);
+	retiraBotoes();
 	configuraBtnPegaLibera(false);
 	vwInfoTicket = Alloy.createController("Promocao/InfoTicket", {voucher: ticket.voucher, 
-		validade: Alloy.Globals.format.NetDateTimeToDiaMesAno(ticket.validade), adquirido: Alloy.Globals.format.NetDateTimeToDiaMesAno(ticket.dataAquisicao)}).getView();
+		validade: ticket.validade, adquirido: ticket.dataAquisicao}).getView();
 	$.scrlMestre.add(vwInfoTicket);	
-	$.scrlMestre.add($.btnVerMapa);
+	colocaBotoes();
 }
 
 function DesmontaInfoTicket(){
+	retiraBotoes();
 	$.scrlMestre.add($.lblNumTickets);
 	$.scrlMestre.add($.lblValidadeGeral);
 	configuraBtnPegaLibera(true);
-	$.scrlMestre.remove(vwInfoTicket);	
+	$.scrlMestre.remove(vwInfoTicket);
+	colocaBotoes();
 }
 
 function configuraBtnPegaLibera(pega){
@@ -61,6 +63,15 @@ function configuraBtnPegaLibera(pega){
 		$.btnPegaLiberaTicket.setBackgroundColor("#ff2828");
 		$.btnPegaLiberaTicket.setBackgroundSelectedColor("#f95a5a");
 	}
+}
+
+function retiraBotoes(){
+	$.scrlMestre.remove($.btnVerMapa);
+	$.scrlMestre.remove($.btnPegaLiberaTicket);
+}
+function colocaBotoes(){
+	$.scrlMestre.add($.btnPegaLiberaTicket);
+	$.scrlMestre.add($.btnVerMapa);
 }
 
 $.init = function(e){

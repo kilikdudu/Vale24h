@@ -28,7 +28,7 @@ namespace Vale24hWebAPI.Controllers
             public long idTicket { get; set; }
         }
 
-        public class parans_MeusTickets
+        public class parans_MeusTickets : ParansLista 
         {
             public string clienteId{ get; set; }
         }
@@ -60,7 +60,7 @@ namespace Vale24hWebAPI.Controllers
         public List<TicketInfo> getMeusTickets(parans_MeusTickets parans)
         {
             var lstTickets = new List<TicketInfo>();
-            var rowsTickets = db.promocaorequerida.Where(p => p.userCloudId_proreq == parans.clienteId).ToList();
+            var rowsTickets = db.promocaorequerida.Where(p => (p.userCloudId_proreq == parans.clienteId) && (p.codigo_proreq > parans.cursor)).Take(parans.limite).ToList();
             foreach (promocaorequerida row in rowsTickets)
             {
                 var infoParans = new parans_TicketInfo();
