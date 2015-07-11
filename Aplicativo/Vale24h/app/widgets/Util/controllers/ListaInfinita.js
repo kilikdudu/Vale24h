@@ -118,8 +118,8 @@ $.mostrarMais = function(){
 			lista.releaseSelecionados();	
 		}
 		//Atualizo o cursor com o valor mais alto na coluna Row.  
-		var valorMaximo = _.max(colecao.toJSON(), function(processo){ return processo.Row; });
-		refreshCallback({semLoader: true, limite: limite, cursor: valorMaximo.Row});	
+		//var valorMaximo = _.max(colecao.toJSON(), function(processo){ return processo.Row; });
+		refreshCallback({semLoader: true, limite: limite, cursor: colecao.length});	
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "mostrarMais", "widgets/Util/controllers/ListaInfinita.js");

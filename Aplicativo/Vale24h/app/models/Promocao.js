@@ -1,7 +1,6 @@
 exports.definition = {
 	config: {
 		columns: {
-			"Row" : "int", 
 	        "idPromocao" : "int", 
 	        "descricao" : "string", 
 	        "titulo" : "string", 

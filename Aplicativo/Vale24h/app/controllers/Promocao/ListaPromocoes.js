@@ -6,8 +6,7 @@
  */
 var args = arguments[0] || {};
 
-var limite = 10;
-
+var limite = 1;
 
 
 

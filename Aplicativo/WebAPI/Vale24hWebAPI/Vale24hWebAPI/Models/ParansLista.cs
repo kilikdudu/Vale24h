@@ -7,7 +7,7 @@ namespace Vale24hWebAPI.Models
 {
     public class ParansLista
     {
-        public long cursor { get; set; }
+        public int cursor { get; set; }
         public int limite { get; set; }
     }
 }

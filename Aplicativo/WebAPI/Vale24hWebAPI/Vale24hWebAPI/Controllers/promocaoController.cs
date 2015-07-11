@@ -28,22 +28,11 @@ namespace Vale24hWebAPI.Controllers
         {
             var lstPro = new List<InfoPromocao>();
             var rowsPro = db.promocao.Include(pro => pro.imagem).Include(pro => pro.cliente).
-                Where(pro => (
-                                (db.promocaorequerida.Where
-                                    (t => 
-                                        t.ativa_proreq 
-                                        && ( t.validade_proreq >= DateTime.Now ) 
-                                        && ( t.promocao_proreq == pro.codigo_pro) )
-                                    .Count() < pro.totalTickets_pro
-                                ) 
-                                || pro.limitada_pro == false
-                            ) 
-                                && pro.fim_pro >= DateTime.Now && pro.codigo_pro > parans.cursor).Take(parans.limite).ToList();
+                Where(pro => pro.fim_pro >= DateTime.Now).OrderBy(pro => pro.inicio_pro).Skip(parans.cursor).Take(parans.limite).ToList();
             foreach (promocao  rowPro in rowsPro)
             {
                 var pro = new InfoPromocao ();
                 pro.urlImagem = WebConfigurationManager.AppSettings["urlImages"] + rowPro.cliente.cloudId_cli + "/promocao/" + rowPro.imagem.urlRelativa_img;
-                pro.Row = rowPro.codigo_pro;
                 pro.idPromocao = rowPro.codigo_pro;
                 pro.descricao = rowPro.descricao_pro;
                 pro.empresa_id = rowPro.cliente.cloudId_cli;
@@ -69,7 +58,6 @@ namespace Vale24hWebAPI.Controllers
             var proInfo = new InfoPromocao();
             proInfo.descricao = promocao.descricao_pro;
             proInfo.urlImagem = WebConfigurationManager.AppSettings["urlImages"] + promocao.cliente.cloudId_cli + "/promocao/" + promocao.imagem.urlRelativa_img;
-            proInfo.Row = promocao.codigo_pro;
             proInfo.idPromocao = promocao.codigo_pro;
             proInfo.descricao = promocao.descricao_pro;
             proInfo.empresa_id = promocao.cliente.cloudId_cli;

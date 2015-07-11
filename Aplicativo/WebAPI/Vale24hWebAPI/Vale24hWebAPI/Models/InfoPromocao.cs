@@ -7,7 +7,6 @@ namespace Vale24hWebAPI.Models
 {
     public class InfoPromocao
     {
-        public long Row { get; set; }
         public long idPromocao { get; set; }
         public string descricao { get; set; }
         public string titulo { get; set; }

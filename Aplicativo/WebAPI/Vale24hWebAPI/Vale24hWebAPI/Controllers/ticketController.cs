@@ -60,7 +60,7 @@ namespace Vale24hWebAPI.Controllers
         public List<TicketInfo> getMeusTickets(parans_MeusTickets parans)
         {
             var lstTickets = new List<TicketInfo>();
-            var rowsTickets = db.promocaorequerida.Where(p => (p.userCloudId_proreq == parans.clienteId) && (p.codigo_proreq > parans.cursor)).Take(parans.limite).ToList();
+            var rowsTickets = db.promocaorequerida.Where(p => p.userCloudId_proreq == parans.clienteId).OrderBy(p => p.datacad_proreq).Skip(parans.cursor).Take(parans.limite).ToList();
             foreach (promocaorequerida row in rowsTickets)
             {
                 var infoParans = new parans_TicketInfo();
