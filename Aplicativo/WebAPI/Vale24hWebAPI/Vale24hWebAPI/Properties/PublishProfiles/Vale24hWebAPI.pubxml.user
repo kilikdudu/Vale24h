@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2015 16:52:32</publishTime>
     </File>
     <File Include="bin/MySql.Data.Entity.EF6.dll">
-      <publishTime>11/07/2014 21:35:52</publishTime>
+      <publishTime>07/11/2014 21:35:52</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>05/23/2015 16:41:32</publishTime>
@@ -31,7 +31,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2015 16:41:38</publishTime>
     </File>
     <File Include="bin/Vale24hWebAPI.dll">
-      <publishTime>07/11/2015 22:17:22</publishTime>
+      <publishTime>07/12/2015 14:39:00</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>05/23/2015 16:41:31</publishTime>

@@ -95,6 +95,12 @@ namespace Vale24hWebAPI.Controllers
                     resposta.mensagem = "Desculpe, outra pessoa pegou o ticket primeiro.";
                     return resposta;
                 }
+                if(!temTicketLimitado(parans.clienteId))
+                {
+                    resposta.sucesso = false;
+                    resposta.mensagem = "Não é permitido ter dois tickets de promoções limitadas ao mesmo tempo.";
+                    return resposta;
+                }
                 using (var dbTrans = db.Database.BeginTransaction())
                 {
                     try{
@@ -196,6 +202,19 @@ namespace Vale24hWebAPI.Controllers
             }
         }
 
+        private bool temTicketLimitado(string clienteId)
+        {
+            var meusTickets = db.promocaorequerida.Include(t => t.promocao).Where(t => t.userCloudId_proreq == clienteId).ToList();
+            foreach(promocaorequerida  meuTicket in meusTickets)
+            {
+                if (meuTicket.promocao.limitada_pro && (meuTicket.validade_proreq >= DateTime.Now) && (meuTicket.status_proreq == 0))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void expiraVoucher(long codVoucher)
         {
             try
@@ -203,7 +222,7 @@ namespace Vale24hWebAPI.Controllers
                 var ticket = db.promocaorequerida.Where(t => t.codigo_proreq == codVoucher).FirstOrDefault();
                 var numPro = ticket.Promocao_codigo_proreq;
                 ticket.status_proreq = 2;
-                db.SaveChanges();
+                db.SaveChanges(); 
             }
             catch(Exception e)
             {
