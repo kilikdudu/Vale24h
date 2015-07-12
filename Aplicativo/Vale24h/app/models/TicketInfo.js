@@ -1,12 +1,12 @@
 exports.definition = {
 	config: {
 		columns: {
-			"Row" : "int", 
+			"status" : "int", 
 	        "id" : "int", 
 	        "voucher" : "string", 
-	        "titulo" : "string", 
 	        "dataAquisicao" : "Date", 
-	        "validade" : "Date"
+	        "validade" : "Date",
+	        "promocao" : "Object"
 		},
 		adapter: {
 			type: "properties",

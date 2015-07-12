@@ -23,12 +23,9 @@ namespace Vale24hWebAPI
         public string descricao_cat { get; set; }
         public bool ativo_cat { get; set; }
         public System.DateTime datacad_cat { get; set; }
-        public Nullable<System.DateTime> dataalt_cat { get; set; }
         public long usercad_cat { get; set; }
-        public Nullable<long> useralt_cat { get; set; }
     
         public virtual usuario usuario { get; set; }
-        public virtual usuario usuario1 { get; set; }
         public virtual ICollection<promocao> promocao { get; set; }
     }
 }

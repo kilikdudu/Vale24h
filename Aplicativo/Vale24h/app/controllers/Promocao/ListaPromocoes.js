@@ -6,7 +6,7 @@
  */
 var args = arguments[0] || {};
 
-var limite = 1;
+var limite = 10;
 
 
 
@@ -103,6 +103,10 @@ function formatar(model){
 
 function detalhar(e){
 	try{
+		if(e.row.tipo == "atualizar"){
+			listaInfinita.mostrarMais();
+			return;
+		}
 		infoTicketCliente( e.row.post_id);
 	}
 	catch(e){

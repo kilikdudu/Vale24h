@@ -7,3 +7,6 @@ C:\Vale24h\Aplicativo\WebAPI\WindowsFormsApplication1\WindowsFormsApplication1\o
 C:\Vale24h\Aplicativo\WebAPI\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
 C:\Vale24h\Aplicativo\WebAPI\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
 C:\Vale24h\Aplicativo\WebAPI\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\Vale24h\Vale24h\Aplicativo\WebAPI\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Vale24h\Vale24h\Aplicativo\WebAPI\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\Vale24h\Vale24h\Aplicativo\WebAPI\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb

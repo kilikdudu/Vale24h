@@ -1,0 +1,42 @@
+"#vwListaTickets": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL
+}
+"#listaTickets": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL,
+	scrollable: true
+}
+"#boxCabecalho": {
+	width: Titanium.UI.FILL,
+	height : Titanium.UI.SIZE
+}
+"#imgLoja": {
+	left: 10,
+	width: 45,
+	height: 45,
+	borderRadius: 8
+}
+"#boxInfo": {
+	left: 65,
+	right: 10,
+	layout: 'vertical',
+	height: Titanium.UI.SIZE
+}
+"#lblData": {
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	color: "gray",
+	left: 0
+}
+"#lblNomeLoja": {
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	left: 0
+}
+".descricao": {
+	width: "85%"
+}
+"#boxConteudo": {
+	width: "95%",
+	top: 5,
+	layout: 'vertical'
+}

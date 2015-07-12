@@ -100,76 +100,70 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="categoria.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="cliente.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\promocaoController.cs" />
     <Compile Include="Controllers\ticketController.cs" />
-    <Compile Include="endereco.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="imagem.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InfoPromocao.cs" />
     <Compile Include="Models\ParansLista.cs" />
     <Compile Include="Models\StatusRequisicao.cs" />
     <Compile Include="Models\TicketInfo.cs" />
     <Compile Include="promocao.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="promocaorequerida.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="telefone.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="usuario.cs">
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Util\Crypto.cs" />
-    <Compile Include="Vale24hDB.Context.cs">
+    <Compile Include="vale24hEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Vale24hDB.Context.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Vale24hDB.cs">
+    <Compile Include="vale24hEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Vale24hDB.tt</DependentUpon>
+      <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Vale24hDB.Designer.cs">
+    <Compile Include="vale24hEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Vale24hDB.edmx</DependentUpon>
+      <DependentUpon>vale24hEntities.edmx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="Vale24hDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Vale24hDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Vale24hDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Vale24hDB.edmx</DependentUpon>
-      <LastGenOutput>Vale24hDB.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Vale24hDB.edmx.diagram">
-      <DependentUpon>Vale24hDB.edmx</DependentUpon>
-    </Content>
-    <Content Include="Vale24hDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Vale24hDB.edmx</DependentUpon>
-      <LastGenOutput>Vale24hDB.cs</LastGenOutput>
-    </Content>
     <None Include="Properties\PublishProfiles\Vale24hWebAPI.pubxml" />
+    <EntityDeploy Include="vale24hEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>vale24hEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="vale24hEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>vale24hEntities.edmx</DependentUpon>
+      <LastGenOutput>vale24hEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="vale24hEntities.edmx.diagram">
+      <DependentUpon>vale24hEntities.edmx</DependentUpon>
+    </Content>
+    <Content Include="vale24hEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>vale24hEntities.edmx</DependentUpon>
+      <LastGenOutput>vale24hEntities.cs</LastGenOutput>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

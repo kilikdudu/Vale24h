@@ -16,28 +16,23 @@ namespace Vale24hWebAPI
     {
         public cliente()
         {
-            this.endereco = new HashSet<endereco>();
+            this.imagem = new HashSet<imagem>();
             this.promocao = new HashSet<promocao>();
-            this.telefone = new HashSet<telefone>();
         }
     
         public long codigo_cli { get; set; }
         public string nome_cli { get; set; }
-        public string documento_cli { get; set; }
-        public sbyte tipoDocumento_cli { get; set; }
-        public string nomeFantasia_cli { get; set; }
-        public string contato_cli { get; set; }
         public Nullable<long> useralt_cli { get; set; }
         public long usercad_cli { get; set; }
         public System.DateTime datacad_cli { get; set; }
         public Nullable<System.DateTime> dataalt_cli { get; set; }
         public string cloudId_cli { get; set; }
         public string imagem_cli { get; set; }
+        public int codigoUAU_cli { get; set; }
     
         public virtual usuario usuario { get; set; }
         public virtual usuario usuario1 { get; set; }
-        public virtual ICollection<endereco> endereco { get; set; }
+        public virtual ICollection<imagem> imagem { get; set; }
         public virtual ICollection<promocao> promocao { get; set; }
-        public virtual ICollection<telefone> telefone { get; set; }
     }
 }

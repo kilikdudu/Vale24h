@@ -28,6 +28,12 @@ namespace Vale24hWebAPI.Controllers
             public long idTicket { get; set; }
         }
 
+        public class parans_usaTicket
+        {
+            public string voucher { get; set; }
+            public bool foraRegra { get; set; }
+        }
+
         public class parans_MeusTickets : ParansLista 
         {
             public string clienteId{ get; set; }
@@ -43,10 +49,10 @@ namespace Vale24hWebAPI.Controllers
             var promParans = new promocaoController.parans_InfoPromocao();
             promParans.promocaoId = parans.promocaoId;
             ticket.promocao = promController.getInfoPromocao(promParans);
-            var ticketRow = db.promocaorequerida.Where(p => p.promocao_proreq == parans.promocaoId && p.userCloudId_proreq == parans.clienteId).FirstOrDefault();
+            var ticketRow = db.promocaorequerida.Where(p => p.Promocao_codigo_proreq  == parans.promocaoId && p.userCloudId_proreq == parans.clienteId).FirstOrDefault();
             if (ticketRow != null)
             {
-                ticket.ativo = ticketRow.ativa_proreq;
+                ticket.status = ticketRow.status_proreq;
                 ticket.dataAquisicao = ticketRow.datacad_proreq;
                 ticket.id = ticketRow.codigo_proreq;
                 ticket.validade = ticketRow.validade_proreq;
@@ -63,9 +69,13 @@ namespace Vale24hWebAPI.Controllers
             var rowsTickets = db.promocaorequerida.Where(p => p.userCloudId_proreq == parans.clienteId).OrderBy(p => p.datacad_proreq).Skip(parans.cursor).Take(parans.limite).ToList();
             foreach (promocaorequerida row in rowsTickets)
             {
+                if (row.validade_proreq < DateTime.Now)
+                {
+                    expiraVoucher(row.codigo_proreq);
+                }
                 var infoParans = new parans_TicketInfo();
                 infoParans.clienteId = parans.clienteId;
-                infoParans.promocaoId = row.promocao_proreq;
+                infoParans.promocaoId = row.Promocao_codigo_proreq ;
                 lstTickets.Add(getInfoTicket(infoParans));
             }
             return lstTickets;
@@ -91,20 +101,20 @@ namespace Vale24hWebAPI.Controllers
                         promocaorequerida myTicket = db.promocaorequerida.Create();
                         DateTime dtCadastro = DateTime.Now;
                         myTicket.datacad_proreq = dtCadastro;
-                        myTicket.promocao_proreq = parans.promocaoId;
+                        myTicket.Promocao_codigo_proreq  = parans.promocaoId;
                         myTicket.userCloudId_proreq = parans.clienteId;
                         myTicket.codVoucher_proreq = "";
                         //Por isso Vale24h ^_^
-                        myTicket.validade_proreq = prom.limitada_pro ? dtCadastro.AddHours(24) : prom.fim_pro;
+                        myTicket.validade_proreq = prom.limitada_pro ? dtCadastro.AddHours(24) : prom.datafim_pro ;
                         db.promocaorequerida.Add(myTicket);
                         db.SaveChanges();
                         DateTime aux = myTicket.validade_proreq;
-                        myTicket.codVoucher_proreq = myTicket.validade_proreq.ToString("yyyyMMddHHmmss") + '.' + myTicket.promocao_proreq + '.' + myTicket.codigo_proreq;
+                        myTicket.codVoucher_proreq = myTicket.validade_proreq.ToString("yyyyMMddHHmmss") + '.' + myTicket.Promocao_codigo_proreq  + '.' + myTicket.codigo_proreq;
                         db.SaveChanges();
                         dbTrans.Commit();
                         resposta.sucesso = true;
                         TicketInfo retInfo = new TicketInfo();
-                        retInfo.ativo = myTicket.ativa_proreq;
+                        retInfo.status = myTicket.status_proreq;
                         retInfo.dataAquisicao = myTicket.datacad_proreq;
                         retInfo.id = myTicket.codigo_proreq;
                         retInfo.validade = myTicket.validade_proreq;
@@ -130,8 +140,8 @@ namespace Vale24hWebAPI.Controllers
             try
             {
                 var ticket = db.promocaorequerida.Where(t => t.codigo_proreq == parans.idTicket).FirstOrDefault();
-                var numPro = ticket.promocao_proreq;
-                db.promocaorequerida.Remove(ticket);
+                var numPro = ticket.Promocao_codigo_proreq;
+                ticket.status_proreq = 3;
                 db.SaveChanges();
                 resposta.sucesso = true;
                 var promController = new promocaoController();
@@ -148,5 +158,57 @@ namespace Vale24hWebAPI.Controllers
             }
         }
 
+        [HttpPost]
+        public StatusRequisicao usaTicket(parans_usaTicket parans)
+        {
+            var resposta = new StatusRequisicao();
+            try
+            {
+                var ticket = db.promocaorequerida.Where(t => t.codVoucher_proreq  == parans.voucher).FirstOrDefault();
+                if (parans.foraRegra )
+                {
+                    ticket.status_proreq = 1;
+                    db.SaveChanges();
+                    resposta.sucesso = true;
+                    resposta.mensagem = "Ticket utilizado fora da regra.";
+                    return resposta;
+                }
+                else if(ticket.validade_proreq < DateTime.Now )
+                {
+                    ticket.status_proreq = 2;
+                    db.SaveChanges();
+                    resposta.sucesso = false;
+                    resposta.mensagem = "Ticket vencido.";
+                    return resposta;
+                }
+
+                ticket.status_proreq = 1;
+                resposta.sucesso = true;
+                resposta.mensagem = "Ticket utilizado.";
+                return resposta;
+                
+            }
+            catch (Exception e)
+            {
+                resposta.sucesso = false;
+                resposta.mensagem = e.Message;
+                return resposta;
+            }
+        }
+
+        private void expiraVoucher(long codVoucher)
+        {
+            try
+            {
+                var ticket = db.promocaorequerida.Where(t => t.codigo_proreq == codVoucher).FirstOrDefault();
+                var numPro = ticket.Promocao_codigo_proreq;
+                ticket.status_proreq = 2;
+                db.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                throw;
+            }
+        }
     }
 }

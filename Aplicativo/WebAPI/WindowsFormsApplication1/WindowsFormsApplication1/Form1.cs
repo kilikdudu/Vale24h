@@ -12,6 +12,8 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
+        private string[] titulos = { "Tudo 20% OFF", "Super desconto", "Quem pegar pegou", "Semana maluca", "O gerente ficou louco", "Encha as sacolas", "É para acabar", "Chance de ouro", "Promoção", "Cabe no bolso", "Nunca mais", "Venha conhecer", "Seja nosso cliente", 
+                                   "Fique na moda", "Estilo", "Imperdível", "50% OFF", ""};
         public Form1()
         {
             InitializeComponent();

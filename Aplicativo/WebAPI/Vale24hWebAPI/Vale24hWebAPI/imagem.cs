@@ -21,7 +21,9 @@ namespace Vale24hWebAPI
     
         public long codigo_img { get; set; }
         public string urlRelativa_img { get; set; }
+        public long Cliente_codigo_cli { get; set; }
     
+        public virtual cliente cliente { get; set; }
         public virtual ICollection<promocao> promocao { get; set; }
     }
 }

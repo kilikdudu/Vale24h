@@ -21,16 +21,19 @@ namespace Vale24hWebAPI
         }
     
         public long codigo_pro { get; set; }
+        public long cliente_pro { get; set; }
+        public long Imagem_codigo_pro { get; set; }
         public string titulo_pro { get; set; }
         public string descricao_pro { get; set; }
-        public Nullable<long> imagem_pro { get; set; }
-        public System.DateTime inicio_pro { get; set; }
-        public System.DateTime fim_pro { get; set; }
-        public int totalTickets_pro { get; set; }
+        public System.DateTime datainicio_pro { get; set; }
+        public System.DateTime datafim_pro { get; set; }
+        public System.DateTime datacad_pro { get; set; }
         public bool limitada_pro { get; set; }
-        public long cliente_pro { get; set; }
+        public int totalTickets_pro { get; set; }
         public string latitude_pro { get; set; }
         public string longitude_pro { get; set; }
+        public bool iniciada_pro { get; set; }
+        public bool ativa_pro { get; set; }
     
         public virtual cliente cliente { get; set; }
         public virtual imagem imagem { get; set; }

@@ -32,9 +32,7 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
-			comparator: function(model){
-				return model.get("Row");
-			}
+			
 		});
 
 		return Collection;

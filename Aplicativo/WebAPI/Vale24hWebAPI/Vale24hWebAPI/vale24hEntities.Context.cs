@@ -27,11 +27,9 @@ namespace Vale24hWebAPI
     
         public virtual DbSet<categoria> categoria { get; set; }
         public virtual DbSet<cliente> cliente { get; set; }
-        public virtual DbSet<endereco> endereco { get; set; }
         public virtual DbSet<imagem> imagem { get; set; }
         public virtual DbSet<promocao> promocao { get; set; }
         public virtual DbSet<promocaorequerida> promocaorequerida { get; set; }
-        public virtual DbSet<telefone> telefone { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
     }
 }

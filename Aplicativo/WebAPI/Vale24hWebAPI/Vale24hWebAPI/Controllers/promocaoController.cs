@@ -28,7 +28,7 @@ namespace Vale24hWebAPI.Controllers
         {
             var lstPro = new List<InfoPromocao>();
             var rowsPro = db.promocao.Include(pro => pro.imagem).Include(pro => pro.cliente).
-                Where(pro => pro.fim_pro >= DateTime.Now).OrderBy(pro => pro.inicio_pro).Skip(parans.cursor).Take(parans.limite).ToList();
+                Where(pro => pro.datafim_pro  >= DateTime.Now).OrderByDescending(pro => pro.datacad_pro).Skip(parans.cursor).Take(parans.limite).ToList();
             foreach (promocao  rowPro in rowsPro)
             {
                 var pro = new InfoPromocao ();
@@ -36,12 +36,12 @@ namespace Vale24hWebAPI.Controllers
                 pro.idPromocao = rowPro.codigo_pro;
                 pro.descricao = rowPro.descricao_pro;
                 pro.empresa_id = rowPro.cliente.cloudId_cli;
-                pro.inicio = rowPro.inicio_pro;
+                pro.inicio = rowPro.datainicio_pro ;
                 pro.qtdeTickets = rowPro.totalTickets_pro;
                 pro.qtdeTicketsUsados = getQuantidadeTicketsPromocao(rowPro.codigo_pro);
                 pro.titulo = rowPro.titulo_pro;
-                pro.validade = rowPro.fim_pro;
-                pro.nomeEmpresa = rowPro.cliente.nomeFantasia_cli;
+                pro.validade = rowPro.datafim_pro;
+                pro.nomeEmpresa = rowPro.cliente.nome_cli;
                 pro.latitude = rowPro.latitude_pro;
                 pro.longitude = rowPro.longitude_pro;
                 pro.limitada = rowPro.limitada_pro;
@@ -61,12 +61,12 @@ namespace Vale24hWebAPI.Controllers
             proInfo.idPromocao = promocao.codigo_pro;
             proInfo.descricao = promocao.descricao_pro;
             proInfo.empresa_id = promocao.cliente.cloudId_cli;
-            proInfo.inicio = promocao.inicio_pro;
+            proInfo.inicio = promocao.datainicio_pro;
             proInfo.qtdeTickets = promocao.totalTickets_pro;
             proInfo.qtdeTicketsUsados = getQuantidadeTicketsPromocao(promocao.codigo_pro);
             proInfo.titulo = promocao.titulo_pro;
-            proInfo.validade = promocao.fim_pro;
-            proInfo.nomeEmpresa = promocao.cliente.nomeFantasia_cli;
+            proInfo.validade = promocao.datafim_pro;
+            proInfo.nomeEmpresa = promocao.cliente.nome_cli;
             proInfo.latitude = promocao.latitude_pro;
             proInfo.longitude = promocao.longitude_pro;
             proInfo.limitada = promocao.limitada_pro;
@@ -76,7 +76,7 @@ namespace Vale24hWebAPI.Controllers
 
         public  int getQuantidadeTicketsPromocao(long promocao_id)
         {
-            return db.promocaorequerida.Where(t => t.ativa_proreq && t.validade_proreq >= DateTime.Now && t.promocao_proreq == promocao_id).Count();
+            return db.promocaorequerida.Where(t => (t.status_proreq == 0 || t.status_proreq == 1) && (t.validade_proreq >= DateTime.Now) && (t.Promocao_codigo_proreq  == promocao_id)).Count();
         }
         
     }

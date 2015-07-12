@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2015 16:52:32</publishTime>
     </File>
     <File Include="bin/MySql.Data.Entity.EF6.dll">
-      <publishTime>07/11/2014 21:35:52</publishTime>
+      <publishTime>11/07/2014 21:35:52</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>05/23/2015 16:41:32</publishTime>
@@ -31,7 +31,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2015 16:41:38</publishTime>
     </File>
     <File Include="bin/Vale24hWebAPI.dll">
-      <publishTime>07/10/2015 21:05:21</publishTime>
+      <publishTime>07/11/2015 22:17:22</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>05/23/2015 16:41:31</publishTime>
@@ -40,10 +40,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2015 16:52:34</publishTime>
     </File>
     <File Include="Vale24hDB.edmx.diagram">
-      <publishTime>06/13/2015 14:16:45</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="vale24hEntities.edmx.diagram">
+      <publishTime>07/11/2015 18:39:00</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/08/2015 22:33:59</publishTime>
+      <publishTime>07/11/2015 18:49:10</publishTime>
     </File>
   </ItemGroup>
 </Project>

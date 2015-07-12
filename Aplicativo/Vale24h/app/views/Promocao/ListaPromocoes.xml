@@ -3,7 +3,7 @@
 	<View id="vwListaPromocoes"> 
 		<Widget src="nl.fokkezb.pullToRefresh" id="ptr" onRelease="myRefresher">
 			<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" onClick="detalhar"  id="listaPromocoes" dataCollection="$.promocoes" dataTransform="formatar">
-				<TableViewRow class="RowDetail" post_id="{idPromocao}" nome_loja="{nomeEmpresa}" className="ListaMedicaoRow" >
+				<TableViewRow class="RowDetail" post_id="{idPromocao}" className="ListaPromocaoRow" >
 					<View width="100%" height="Ti.UI.SIZE" top="10" layout="vertical">
 						<View id="boxConteudo">
 							<View id="boxCabecalho">
