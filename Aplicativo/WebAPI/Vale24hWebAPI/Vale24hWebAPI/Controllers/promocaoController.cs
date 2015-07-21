@@ -22,13 +22,20 @@ namespace Vale24hWebAPI.Controllers
             public long promocaoId {get; set;}
         }
 
+        public class parans_getPromocoes : ParansLista 
+        {
+            public string clientId { get; set; }
+        }
+
         private vale24hEntities db = new vale24hEntities();
         [HttpPost]
-        public List<InfoPromocao> getPromocoes(ParansLista parans)
+        public List<InfoPromocao> getPromocoes(parans_getPromocoes parans)
         {
             var lstPro = new List<InfoPromocao>();
             var rowsPro = db.promocao.Include(pro => pro.imagem).Include(pro => pro.cliente).
-                Where(pro => pro.datafim_pro  >= DateTime.Now).OrderByDescending(pro => pro.datacad_pro).Skip(parans.cursor).Take(parans.limite).ToList();
+                Where(pro => (pro.datafim_pro >= DateTime.Now) && 
+                             (db.promocaorequerida.Where(req => (req.Promocao_codigo_proreq == pro.codigo_pro) && (req.userCloudId_proreq == parans.clientId)).Count() == 0))
+                .OrderByDescending(pro => pro.datacad_pro).Skip(parans.cursor).Take(parans.limite).ToList();
             foreach (promocao  rowPro in rowsPro)
             {
                 var pro = new InfoPromocao ();

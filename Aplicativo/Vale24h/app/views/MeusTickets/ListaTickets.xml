@@ -2,8 +2,8 @@
 	<Collection src="TicketInfo" id="tickets" instance="true" />
 	<View id="vwListaTickets"> 
 		<Widget src="nl.fokkezb.pullToRefresh" id="ptr" onRelease="myRefresher">
-			<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" onClick="detalhar"  id="listaTickets" dataCollection="$.tickets" dataTransform="formatar">
-				<TableViewRow class="RowDetail" ticketId="{id}" className="ListaTicketsRow" >
+			<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" onClick="verMais" id="listaTickets" dataCollection="$.tickets" dataTransform="formatar">
+				<TableViewRow class="RowDetail" className="ListaTicketsRow" >
 					<View width="100%" height="Ti.UI.SIZE" top="10" layout="vertical">
 						<View id="boxConteudo">
 							<View id="boxCabecalho">
@@ -16,7 +16,12 @@
 							<ImageView  image="{lblUrlImagem}" height="200" borderRadius="12" top="10" />
 							<Label class="descricao" text="{lblDescricao}" width="100%" top="10"  />
 							<Label class="descricao" text="{lblVoucher}" width="100%" />
+							<Label class="descricao" text="{lblQtdeTickets}" width="100%" />
 							<Label class="descricao" text="{lblValidade}" width="100%" />
+							<View height="Ti.UI.SIZE" width="Ti.UI.FILL" top="10">
+								<Button id="liberaTicket" class="CustomButton" onClick="liberaTicket" ticketId="{id}" title="{descLiberaTicket}" />
+								<Button id="verMapa" class="CustomButton" onClick="verMapa" latitude="{latitude}" longitude="{longitude}" nomeLoja="{lblNomeEmpresa}" />
+							</View>
 							<View height="10" />
 						</View>	
 					</View>

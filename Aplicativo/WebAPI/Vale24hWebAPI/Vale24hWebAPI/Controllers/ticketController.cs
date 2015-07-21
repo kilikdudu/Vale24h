@@ -95,7 +95,7 @@ namespace Vale24hWebAPI.Controllers
                     resposta.mensagem = "Desculpe, outra pessoa pegou o ticket primeiro.";
                     return resposta;
                 }
-                if(!temTicketLimitado(parans.clienteId))
+                if(prom.limitada_pro && temTicketLimitado(parans.clienteId))
                 {
                     resposta.sucesso = false;
                     resposta.mensagem = "Não é permitido ter dois tickets de promoções limitadas ao mesmo tempo.";
@@ -125,6 +125,8 @@ namespace Vale24hWebAPI.Controllers
                         retInfo.id = myTicket.codigo_proreq;
                         retInfo.validade = myTicket.validade_proreq;
                         retInfo.voucher = myTicket.codVoucher_proreq;
+                        retInfo.promocao = new InfoPromocao();
+                        retInfo.promocao.idPromocao = parans.promocaoId;
                         resposta.dados = retInfo;
                     }
                     catch (Exception e)
@@ -145,15 +147,25 @@ namespace Vale24hWebAPI.Controllers
             var resposta = new StatusRequisicao();
             try
             {
-                var ticket = db.promocaorequerida.Where(t => t.codigo_proreq == parans.idTicket).FirstOrDefault();
+                var ticket = db.promocaorequerida.Include(tic => tic.promocao).Where(t => t.codigo_proreq == parans.idTicket).FirstOrDefault();
                 var numPro = ticket.Promocao_codigo_proreq;
-                ticket.status_proreq = 3;
+                if (ticket.promocao.limitada_pro)
+                {
+                    ticket.status_proreq = 3;
+                }
+                else
+                {
+                    db.promocaorequerida.Remove(ticket);
+                }
                 db.SaveChanges();
                 resposta.sucesso = true;
+                TicketInfo retInfo = new TicketInfo();
+                retInfo.id = parans.idTicket;
                 var promController = new promocaoController();
                 var promParans = new promocaoController.parans_InfoPromocao();
                 promParans.promocaoId = numPro;
-                resposta.dados = promController.getInfoPromocao(promParans);
+                retInfo.promocao = promController.getInfoPromocao(promParans);
+                resposta.dados = retInfo;
                 return resposta;
             }
             catch (Exception e)
@@ -209,10 +221,10 @@ namespace Vale24hWebAPI.Controllers
             {
                 if (meuTicket.promocao.limitada_pro && (meuTicket.validade_proreq >= DateTime.Now) && (meuTicket.status_proreq == 0))
                 {
-                    return false;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
 
         private void expiraVoucher(long codVoucher)

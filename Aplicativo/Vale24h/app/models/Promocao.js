@@ -1,20 +1,20 @@
 exports.definition = {
 	config: {
 		columns: {
-	        "idPromocao" : "int", 
+	        "idPromocao" : "number", 
 	        "descricao" : "string", 
 	        "titulo" : "string", 
 	        "urlImagem" : "string", 
 	        "validade" : "Date", 
 	        "inicio" : "Date", 
-	        "qtdeTickets" : "int", 
-	        "qtdeTicketsUsados" : "int", 
+	        "qtdeTickets" : "number", 
+	        "qtdeTicketsUsados" : "number", 
 	        "empresa_id" : "string", 
 	        "nomeEmpresa" : "string", 
 	        "imagemEmpresa" : "string", 
 	        "latitude" : "string", 
 	        "longitude" : "string",
-	        "limitada": "bool" 
+	        "limitada": "boolean" 
 		},
 		adapter: {
 			type: "properties",

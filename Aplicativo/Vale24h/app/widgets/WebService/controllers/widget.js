@@ -40,15 +40,19 @@ $.iniciarHttpRequest = function(param)
 		var funcaoRetornoS = function(ret){
 			var tempWindow = Alloy.Globals.currentWindow();
 			param.callback(ret);
-			if(!semLoader && tempWindow != null){
-				tempWindow.remove(camada);	
+			if(!semLoader){
+				if(tempWindow != null){
+					tempWindow.remove(camada);	
+				}
 			}
 		};
 		var funcaoRetornoN = function(ret){
 			var tempWindow = Alloy.Globals.currentWindow();
 			param.error(ret);
-			if(!semLoader && tempWindow != null){
-				tempWindow.remove(camada);	
+			if(!semLoader){
+				if(tempWindow != null){
+					tempWindow.remove(camada);	
+				}	
 			}
 		};
 		var varHttpRequest = Widget.createController("HttpRequest",{ 
@@ -58,7 +62,8 @@ $.iniciarHttpRequest = function(param)
 			error: funcaoRetornoN,
 			timeout: param.timeout,
 			colecao: param.colecao,
-			collectionConfig: param.collectionConfig
+			collectionConfig: param.collectionConfig,
+			headerType: param.headerType
 		});
 		if(!param.semLoader){
 			Alloy.Globals.currentWindow().add(camada);

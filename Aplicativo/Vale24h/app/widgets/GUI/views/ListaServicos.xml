@@ -4,8 +4,9 @@
 		<View id="boxListaServicos"> 
 			<View id="headerListaServicos">
 				<View id="conteudoHeader">
-					<ImageView id="icone" /> 
+					<Label id="icone" /> 
 					<Label id="usuario" />
+					<Label id="empresa" />
 				</View>
 			</View>
 			<TableView id="servicos" onClick="clickRowSection" />

@@ -35,7 +35,6 @@ var numberOfPages = null;
  */
 $.init = function(views, titulos){
 	$.boxTabsView.setViews(views);
-	$.boxTabsView.cacheSize = 5;
 	preenchePaggingControl(titulos);
 };
 
@@ -44,6 +43,7 @@ $.setViewIndex = function(index){
 	$.boxTabsView.scrollToView(index);
 };
 
+
 /**
  * @method preenchePaggingControl
  * Monta o pagging controll.
@@ -51,6 +51,8 @@ $.setViewIndex = function(index){
  * @param {Object} titulos Vetor de títulos das abas.
  * @alteracao 05/03/2015 180419 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação.
+ * @alteracao 10/04/2015 185753 Projeto Carlos Eduardo Santos Alves Domingos
+ * Alterado a cor de fundo das tabs.
  */
 function preenchePaggingControl(titulos){
 	numberOfPages = titulos.length;
@@ -92,6 +94,15 @@ function preenchePaggingControl(titulos){
 			backgroundColor: "#E6E6E6"
 		});
 		page.add(lblPage);
+		if(i != numberOfPages - 1){
+			var divisoria = Ti.UI.createView({
+				backgroundColor: "black",
+				height: 25,
+				right: 0,
+				width: Alloy.isHandheld?0.5:1
+			});
+			page.add(divisoria);
+		}
 		page.add(faixa);
 		page.add(vwClick);
 		vwClick.addEventListener("click", function(e){

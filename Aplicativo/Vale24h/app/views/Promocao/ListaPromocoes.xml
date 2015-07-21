@@ -2,8 +2,8 @@
 	<Collection src="Promocao" id="promocoes" instance="true" />
 	<View id="vwListaPromocoes"> 
 		<Widget src="nl.fokkezb.pullToRefresh" id="ptr" onRelease="myRefresher">
-			<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" onClick="detalhar"  id="listaPromocoes" dataCollection="$.promocoes" dataTransform="formatar">
-				<TableViewRow class="RowDetail" post_id="{idPromocao}" className="ListaPromocaoRow" >
+			<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" id="listaPromocoes" onClick="verMais" dataCollection="$.promocoes" dataTransform="formatar">
+				<TableViewRow class="RowDetail" className="ListaPromocaoRow" >
 					<View width="100%" height="Ti.UI.SIZE" top="10" layout="vertical">
 						<View id="boxConteudo">
 							<View id="boxCabecalho">
@@ -17,6 +17,10 @@
 							<Label class="descricao" text="{descricao}" width="100%" top="10"  />
 							<Label class="descricao" text="{qtdeTickets}" width="100%" />
 							<Label class="descricao" text="{validade}" width="100%" />
+							<View height="Ti.UI.SIZE" width="Ti.UI.FILL" top="10">
+								<Button id="pegaTicket" class="CustomButton" onClick="pegaTicket" promocaoId="{idPromocao}" title="{descPegaTicket}" />
+								<Button id="verMapa" class="CustomButton" onClick="verMapa" latitude="{latitude}" longitude="{longitude}" nomeLoja="{nomeEmpresa}" />
+							</View>
 							<View height="10" />
 						</View>	
 					</View>

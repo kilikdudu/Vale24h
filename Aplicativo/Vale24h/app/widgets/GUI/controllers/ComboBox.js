@@ -3,6 +3,10 @@
  * ComboBox personalizada.
  * @alteracao 21/01/2015 176562 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação.
+ * 
+ * @alteracao 09/07/2015 191658 Projeto Carlos Eduardo Santos Alves Domingos
+ * Alterado para aceitar uma lista padrão de registros.
+ * 
  */
 var args = arguments[0] || {};
 
@@ -25,29 +29,90 @@ var lista = Widget.createWidget("GUI", "PopUpList");
 var funcAdd = null;
 
 /**
+ * @property {Function} showFunction Rotina executada antes de abrir e mostrar e lista.
+ * @private 
+ */
+var showFunction = null;
+
+/**
  * @method init
  * Construtor da classe. 
  * @param {Object} parans Configurações da ComboBox
  * @param {String} parans.nome título da combobox
- * @param {Function} addFunc Referência utilizada por widgets.GUI.ComboBox.funcAdd
- * @param {String} chave Referência utilizada por widgets.GUI.ComboBox.keyColumn
- * @param {BackBone.Collection} colecao Coleção vinculada a listagem da combobox
- * @param {String} coluna Coluna da coleção que será exibida na listagem.
+ * @param {Function} parans.addFunc Referência utilizada por widgets.GUI.ComboBox.funcAdd
+ * @param {Array} parans.chave Vetor de chaves que conseguem identificar unicamente o registro.
+ * @param {BackBone.Collection} parans.colecao Coleção vinculada a listagem da combobox
+ * @param {String} parans.coluna Coluna da coleção que será exibida na listagem.
+ * @param {Function} parans.showFunction Rotina que será executada antes de abrir a lista de registros.
+ * @param {Function} parans.filterHandler Rotina executada após executar o filtro nos registros.
+ * @param {Object} parans.defaultData Lista de registros padrão. Inicialmente apenas esses registros serão mostrados, após uma busca os demais serão mostrados.
+ * @param {String} parans.mensagem Mensagem que será exibida quando não existe nenhum registro a ser apresentado na lista.
  * @alteracao 21/01/2015 176562 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação.
+ * 
+ * @alteracao 09/07/2015 191658 Projeto Carlos Eduardo Santos Alves Domingos
+ * Alterado para aceitar uma lista padrão de registros.
+ * 
  */
 $.init = function(parans){
 	try{
 		$.lblDesc.text = parans.nome;
-		funcAdd = parans.addFunc;
+		
+		if(parans.addFunc){
+			funcAdd = parans.addFunc;
+			
+			$.selectedDesc.setRight(90);
+			$.linhaDesc.setRight(90);
+			$.btList.setRight(45);
+			
+			var btAdd = Ti.UI.createButton({
+				width: Alloy.Globals.CustomComponentHeight,
+				height: Alloy.Globals.CustomComponentHeight,
+				right: 0,
+				backgroundImage: "/images/add.png",
+				backgroundSelectedColor: "#E6E6E6",
+				borderRadius: 4
+			});
+			btAdd.addEventListener("click", btAddFunc);
+			$.boxControles.add(btAdd);
+		}
+		
+		if(parans.showFunction){
+			showFunction = parans.showFunction;
+		}
+		
 		keyColumn = parans.chave;
-		lista.init($.lblDesc.text, parans.colecao, parans.chave, parans.coluna, $.setSelected);	
+		lista.init($.lblDesc.text, parans.colecao, parans.chave, parans.coluna, $.setSelected, parans.filterHandler, parans.defaultData, parans.mensagem, handlerLongClick);	
 		lista.getView().addEventListener("atualizou", checkInput);
 		return null;
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "init", "app/widgets/GUI/controllers/ComboBox.js");
 	}
+};
+
+/**
+ * @method setDefaultData
+ * Altera a lista de registros padrão.
+ * @param {Object} data Nova coleção.
+ * @alteracao 09/07/2015 191658 Projeto Carlos Eduardo Santos Alves Domingos
+ * Criação.
+ */
+$.setDefaultData = function(data){
+	lista.setDefaultData(data);
+};
+
+/**
+ * @event handlerLongClick 
+ * Disparada quando se segura o dedo em cima do registro.
+ * @param {Object} e Objeto do evento.
+ * @param {String} e.title Descrição do registro.
+ * @param {Array} e.chave Vetor de chaves do registro.
+ * @alteracao 09/07/2015 191658 Projeto Carlos Eduardo Santos Alves Domingos
+ * Criação.
+ */
+function handlerLongClick(e){
+	$.trigger("listlngclick", e);
 };
 
 /**
@@ -59,16 +124,23 @@ $.init = function(parans){
  * Criação.
  */
 function checkInput(param){
+	var flagCount = 0;
 	var flag = false;
 	if($.selectedDesc.chave !== null){
 		for(var i = 0; i < param.colecao.length; i++){
-			if(param.colecao[i][keyColumn] === $.selectedDesc.chave){
+			flagCount = 0;
+			for(var j = 0; j < $.selectedDesc.chave.length; j++){
+				if(param.colecao[i][keyColumn[j]] === $.selectedDesc.chave[j]){
+					flagCount++;
+				}	
+			}
+			if(flagCount > 0){
 				flag = true;
 				break;
 			}
 		}
 		if(!flag){
-			$.selectedDesc.chave = null;
+			$.selectedDesc.chave = "";
 			$.selectedDesc.text = "";
 		}
 	}
@@ -124,6 +196,10 @@ $.getSelected = function(){
 $.setSelected = function(texto, chave){
 	$.selectedDesc.text = texto;
 	$.selectedDesc.chave = chave;
+	$.trigger("change", {
+		text: texto,
+		chave: chave
+	});
 };
 
 /**
@@ -134,7 +210,11 @@ $.setSelected = function(texto, chave){
  */
 function listar(){
 	try{
-		lista.show();
+		if(showFunction){
+			showFunction({show: lista.show});
+		}else{
+			lista.show();	
+		}
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "listar", "app/widgets/GUI/controllers/ComboBox.js");

@@ -109,7 +109,7 @@ $.nova = function(novaJanela, construtor, parans){
 		construtor(parans);
 		if(Ti.App.name === 'android'){
 			novaView.open({
-		        activityEnterAnimation : Ti.App.Android.R.anim.slide_in_right,
+				activityEnterAnimation : Ti.App.Android.R.anim.slide_in_right,
 		        activityExitAnimation : Ti.App.Android.R.anim.slide_out_left
 			});	
 		}

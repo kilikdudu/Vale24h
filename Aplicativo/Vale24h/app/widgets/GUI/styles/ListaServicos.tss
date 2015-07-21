@@ -4,66 +4,75 @@
 	left: 0,
 	backgroundColor: "white"
 }
-"#headerListaServicos[formFactor=handheld]": {
+"#headerListaServicos": {
 	width: Titanium.UI.FILL,
-	height: 110,
+	height: 150,
 	top: 0,
-	backgroundImage: "/images/grama.png"
+	backgroundColor: Alloy.Globals.MainColor
 }
-
-"#headerListaServicos[formFactor=tablet]": {
-	width: Titanium.UI.FILL,
-	height: 140,
-	top: 0,
-	backgroundImage: "/images/grama.png"
-}
-
 "#conteudoHeader": {
 	width: Titanium.UI.FILL,
 	height: Titanium.UI.SIZE,
-	layout: 'vertical',
-	horizontalWrap: false
+	layout: "vertical",
+	bottom: 0
 }
 "#icone[formFactor=handheld]": {
-	height: 60,
-	width: 60,
-	left: 10,
-	borderRadius: 12
+	height: 68,
+	width: "90%",
+	bottom: 15,
+	left: "5%",
+	backgroundImage: "/images/empresa.png",
 }
 "#icone[formFactor=tablet]": {
-	top: 10,
-	height: 80,
-	width: 80,
-	left: 10,
-	borderRadius: 12
+	height: 98,
+	width: "90%",
+	bottom: 15,
+	left: "5%",
+	backgroundImage: "/images/empresa.png",
 }
 "#usuario[formFactor=handheld]": {
-	left: 10,
-	font: {fontSize: 20},
-	bottom: 10,
+	width: "90%",
+	bottom: 2,
+	height: 24,
+	font: {fontSize: 14},
 	color: "white",
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 	wordWrap: false,
 	ellipsize: true
 }
 "#usuario[formFactor=tablet]": {
-	left: 10,
-	bottom: 0,
-	font: {fontSize: 24},
+	width: "90%",
+	bottom: 2,
+	height: 36,
+	font: {fontSize: 18},
 	color: "white",
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
-	wordWrap: true,
-	ellipsize: false
+	wordWrap: false,
+	ellipsize: true
 }
-"#servicos[formFactor=handheld]": {
-	width: Titanium.UI.FILL,
-	top: 120,
-	bottom: 0,
-	scrollable: true
+"#empresa[formFactor=handheld]": {
+	width: "90%",
+	bottom: 2,
+	height: 24,
+	font: {fontSize: 14},
+	color: "white",
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	wordWrap: false,
+	ellipsize: true
 }
-"#servicos[formFactor=tablet]": {
+"#empresa[formFactor=tablet]": {
+	width: "90%",
+	bottom: 2,
+	height: 36,
+	font: {fontSize: 18},
+	color: "white",
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	wordWrap: false,
+	ellipsize: true
+}
+"#servicos": {
 	width: Titanium.UI.FILL,
-	top: 150,
+	top: 145,
 	bottom: 0,
 	scrollable: true
 }

@@ -111,6 +111,14 @@
 	wordWrap: false,
 	ellipsize: true
 }
+".meuSwitch[platform=android]": {
+	style: Titanium.UI.Android.SWITCH_STYLE_SWITCH,
+	backgroundSelectedColor: 'transparent'
+}
+".meuSwitch[platform=ios]": {
+	onTintColor: Alloy.Globals.MainColor,
+	tintColor: "#E6E6E6",
+}
 /*Fim classes gerais*/
 /*Config componentes gerais*/
 "ListView": {

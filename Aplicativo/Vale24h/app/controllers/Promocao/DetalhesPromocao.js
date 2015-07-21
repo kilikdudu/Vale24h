@@ -19,7 +19,12 @@ if(ticket != null){
 function formatar(model) {
  	try{
 		var prom = model.toJSON();
-		prom.qtdeDisponivel = (prom.qtdeTickets - prom.qtdeTicketsUsados) + " tickets disponíveis !";
+		if(prom.limitada){
+			prom.qtdeDisponivel = (prom.qtdeTickets - prom.qtdeTicketsUsados) + " tickets disponíveis !";
+		}else{
+			prom.qtdeDisponivel = "Promoção ilimitada !";
+		}
+		$.btnPegaLiberaTicket.setTitle("Curti !");
 		prom.lblValidade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(prom.validade);
 	    return prom;
 	}
@@ -144,8 +149,9 @@ function sucessLiberaTicket(e){
 	var res = e.at(0).toJSON();
 	if(res.sucesso){
 		Alloy.Globals.Alerta("Parabéns !", "Você liberou este ticket !");
-		ticket = null;	
+		ticket.status = 3;	
 		$.prom.set(res.dados);
+		alteraTicket();
 		DesmontaInfoTicket();
 	}else{
 		Alloy.Globals.Alerta("Falhou", res.mensagem);
@@ -156,4 +162,8 @@ function sucessLiberaTicket(e){
 function verMapa(e){
 	var mapa = Alloy.createController("Promocao/PromocaoMapa", {nome_loja: $.prom.get("nomeLoja"), latitude: $.prom.get("latitude"), longitude: $.prom.get("longitude")});
 	Alloy.Globals.Transicao.proximo(mapa, mapa.init, {});
+}
+
+function alteraTicket(){
+	Ti.App.fireEvent("alteraTicket", {ticket: ticket});
 }

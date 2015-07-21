@@ -202,7 +202,3 @@ $.boxListaServico.addEventListener("click", function(e){
 		Alloy.Globals.ListaServicos.abrir();
 	}
 });
-
-$.removeListaServico = function(){
-	$.boxTopBar.remove($.boxListaServico);
-};

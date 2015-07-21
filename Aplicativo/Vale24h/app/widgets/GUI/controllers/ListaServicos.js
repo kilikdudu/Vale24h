@@ -102,6 +102,31 @@ $.atualizar = function(){
 	$.servicos.setData(dadosServicos);
 };
 
+/**
+ * @method configCabecalho
+ * Configura o cabeçalho da lista para apresentar ou não usuário e empresa.
+ * @param {Boolean} status True para mostar usuario e empresa.
+ * @alteracao 21/01/2015 176562 Projeto Carlos Eduardo Santos Alves Domingos
+ * Criação.
+ */
+$.configCabecalho = function(status){
+	if(status){
+		$.servicos.setTop(Alloy.isHandheld?160:214);
+		$.headerListaServicos.setHeight(Alloy.isHandheld?150:204);
+		$.usuario.setHeight(Alloy.isHandheld?24:36);
+		$.empresa.setHeight(Alloy.isHandheld?24:36);
+		$.usuario.text = "Usuário: " + (Alloy.Globals.Usuario.Nome?Alloy.Globals.Usuario.Nome:Alloy.Globals.Usuario.UsuarioUAU);
+		$.empresa.text = "Empresa: " + Alloy.Globals.Empresa.descricao;
+	}
+	else{
+		$.servicos.setTop(Alloy.isHandheld?100:154);
+		$.headerListaServicos.setHeight(Alloy.isHandheld?98:152);
+		$.usuario.setHeight(0);
+		$.empresa.setHeight(0);
+		$.usuario.text = "";
+		$.empresa.text = "";
+	}
+};
 
 /**
  * @method criarSessao
@@ -364,20 +389,4 @@ $.adicionarServico = function(icon, servico, callback){
 	catch(e){
 		Alloy.Globals.onError(e.message, "adicionarServico", "app/widgets/GUI/controllers/ListaServicos.js");
 	}
-};
-
-$.refreshUser = function(){
-	Alloy.Globals.Cloud.Users.show({
-		user_id: Alloy.Globals.Cliente.at(0).get("id"),
-		response_json_depth: 2	
-	}, 
-		function (e) {
-	    if (e.success) {
-	        var user = e.users[0];
-	        $.usuario.setText(user.first_name);
-	        $.icone.setImage(user.photo.urls.thumb_100);
-	    } else {
-	        Ti.API.info("Não obteve os detalhes do usuário");
-	    }
-	});
 };

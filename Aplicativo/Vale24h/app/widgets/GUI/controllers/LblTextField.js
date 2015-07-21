@@ -11,10 +11,45 @@ var args = arguments[0] || {};
  * Construtor da classe.
  * @param {Object} parans Configurações do textInput
  * @param {String} parans.nome Título do texto input.
+ * @param {widgets.GUI.LblTextField} parans.next Próximo input a receber o foco.
+ * @alteracao 18/05/2015 187463 Projeto Carlos Eduardo Santos Alves Domingos
+ * Criação.
  */
 $.init = function(parans){
 	if(parans.nome){
 		$.lblNovoNome.text = parans.nome;
+	}
+	if(parans.keyboardType){
+		$.novoNome.setKeyboardType(parans.keyboardType);
+	}
+	if(parans.next){
+		$.novoNome.setReturnKeyType(Ti.UI.RETURNKEY_NEXT);
+		$.novoNome.addEventListener("return", function(e){
+			parans.next.selecionar();
+		});
+		
+		if(parans.keyboardType == Titanium.UI.KEYBOARD_NUMBER_PAD && Ti.Platform.name === 'iPhone OS'){
+			var flexSpace = Titanium.UI.createButton({
+			    systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
+			});
+			var proximo = Titanium.UI.createButton({
+			    title: 'Seguinte',
+			    style: Titanium.UI.iPhone.SystemButtonStyle.DONE,
+			});
+			proximo.addEventListener("click", function(e){
+				parans.next.selecionar();
+			});
+			var toolbar = Titanium.UI.iOS.createToolbar({
+			    items:[flexSpace, proximo]
+			});
+			$.novoNome.keyboardToolbar = toolbar;
+		}
+		
+	}else{
+		$.novoNome.setReturnKeyType(Ti.UI.RETURNKEY_DONE);
+		$.novoNome.addEventListener("return", function(e){
+			$.novoNome.blur();
+		});
 	}
 	return null;
 };
@@ -74,9 +109,13 @@ $.selecionar = function(){
 
 
 $.novoNome.addEventListener('focus', function() {
-    $.linha.setBackgroundColor(Alloy.Globals.MainColor);
+    $.linha.setBackgroundColor(Alloy.Globals.MainColorLight);
 });
   
 $.novoNome.addEventListener('blur', function() {
 	$.linha.setBackgroundColor("black");
+	$.trigger('blur', {
+		source: $.novoNome,
+		text:  $.novoNome.value
+	});
 });

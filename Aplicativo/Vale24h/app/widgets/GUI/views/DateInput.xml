@@ -2,9 +2,9 @@
 	<View class="TextFieldBox"> 
 		<Label id="lblDesc" class="TextFieldTitle" />
 		<View id="boxControles">  
-			<Label id="selectedDesc" chave="" />
+			<Label id="selectedDate" text="" /> 
 			<View id="linhaDesc" class="divisoria" />
-			<Button id="btList" onClick="listar" />
+			<Button id="btCalendario" onClick="abrirPicker" />
 		</View> 
 	</View>
 </Alloy>

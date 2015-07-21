@@ -84,15 +84,26 @@ function getTickets(parans){
 function formatar(model){
 	try{
 		var tic = model.toJSON();
-		tic.lblAdquirido = "Adquirido em " + Alloy.Globals.format.toDiaMesAno(tic.dataAquisicao);
-		tic.lblVoucher = "Código: " + tic.voucher + ".";	
+		tic.lblAdquirido = "Adquirido em " + Alloy.Globals.format.toDiaMesAno(tic.dataAquisicao);	
 		tic.lblValidade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(tic.validade) + ".";	
+		
+		if(tic.promocao.limitada){
+			tic.lblVoucher = "Código: " + tic.voucher + ".";	
+			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas também pegaram este ticket.";
+			tic.descLiberaTicket = "Liberar ticket";
+		}else{
+			tic.lblVoucher = "Você curtiu essa promoção.";	
+			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas também curtiram essa promoção.";
+			tic.descLiberaTicket = "Descurtir";
+		}
 		
 		//Verificar remendo !
 		tic.lblImagemEmpresa = tic.promocao.imagemEmpresa;
 		tic.lblNomeEmpresa = tic.promocao.nomeEmpresa;
 		tic.lblUrlImagem = tic.promocao.urlImagem;
 		tic.lblDescricao = tic.promocao.descricao;
+		tic.latitude = tic.promocao.latitude;
+		tic.longitude = tic.promocao.longitude;
 		return tic;	
 	}
 	catch(e){
@@ -101,20 +112,63 @@ function formatar(model){
 }
 
 
-function detalhar(e){
+function verMais(e){
 	try{
 		if(e.row.tipo == "atualizar"){
 			listaInfinita.mostrarMais();
-			return;
 		}
-		var detalhes = Alloy.createController("Promocao/DetalhesPromocao", {ticket: $.tickets.where({id: e.row.ticketId})[0].toJSON()});
-		Alloy.Globals.Transicao.proximo(detalhes, detalhes.init, {});
+		return;
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "detalhar", "app/controllers/Boletos.js");
 	}
 }
 
+
+
+function liberaTicket(e){
+	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
+		callback: sucessLiberaTicket,
+		error: failLiberaTicket,
+		url:  Alloy.Globals.MainDomain + "api/ticket/liberaTicket", 
+		metodo: "POST", 
+		timeout: 120000
+	});
+	if(ws){
+		ws.adicionaParametro({idTicket:  e.source.ticketId});
+		ws.NovoEnvia();
+	}
+}
+
+function failLiberaTicket(e){
+	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar obter as informações da promocao.");
+}
+
+function sucessLiberaTicket(e){
+	var res = e.at(0).toJSON();
+	if(res.sucesso){
+		if(res.dados.promocao.limitada){
+			Alloy.Globals.Alerta("Parabéns !", "Você liberou este ticket !");
+		}else{
+			apagaPromocaoLista(res.dados.id);
+		}
+	}else{
+		Alloy.Globals.Alerta("Falhou", res.mensagem);
+	}
+}
+
+function apagaPromocaoLista(ticketId){
+	var md = $.tickets.where({id: ticketId})[0];
+	$.tickets.remove(md);
+	//listaInfinita.reiniciarContainer();
+}
+
+function verMapa(e){
+	var mapa = Alloy.createController("Promocao/PromocaoMapa", {nome_loja: e.source.nomeLoja, latitude: e.source.latitude, longitude: e.source.longitude});
+	Alloy.Globals.Transicao.proximo(mapa, mapa.init, {});
+}
+
 //Inicio o processo;
 iniciar();
 
+Ti.App.addEventListener("novoTicket", iniciar);

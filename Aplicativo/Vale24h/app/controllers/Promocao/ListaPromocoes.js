@@ -71,7 +71,7 @@ function getPromocoes(parans){
 			semLoader: semLoader
 		});
 		if(ws){
-			ws.adicionaParametro({limite: limit, cursor: cursor});
+			ws.adicionaParametro({limite: limit, cursor: cursor, clientId: Alloy.Globals.Cliente.at(0).get("id")});
 			ws.NovoEnvia();
 		}
 	}
@@ -87,10 +87,12 @@ function formatar(model){
 		pro.inicio = "Iniciada em " + Alloy.Globals.format.toDiaMesAno(pro.inicio);
 		if(pro.limitada){
 			pro.qtdeTickets = "Tickets disponíveis: " + (parseInt(pro.qtdeTickets) - parseInt(pro.qtdeTicketsUsados)) + ".";	
-			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";	
+			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";
+			pro.descPegaTicket = "Pegar";	
 		}else{
-			pro.qtdeTickets = "Tickets ilimitados até o fim da promoção !";	
-			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";	
+			pro.qtdeTickets = pro.qtdeTicketsUsados + " pessoas curtiram isso.";	
+			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";
+			pro.descPegaTicket = "Curtir";	
 		}
 		
 		return pro;	
@@ -100,7 +102,66 @@ function formatar(model){
 	}
 }
 
+function verMais(e){
+	try{
+		if(e.row.tipo == "atualizar"){
+			listaInfinita.mostrarMais();
+		}
+		return;
+	}
+	catch(e){
+		Alloy.Globals.onError(e.message, "detalhar", "app/controllers/Boletos.js");
+	}
+}
 
+
+
+function pegaTicket(e){
+	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
+		callback: sucessPegaTicket,
+		error: failPegaTicket,
+		url:  Alloy.Globals.MainDomain + "api/ticket/pegaTicket", 
+		metodo: "POST", 
+		timeout: 120000
+	});
+	if(ws){
+		ws.adicionaParametro({promocaoId: e.source.promocaoId, clienteId: Alloy.Globals.Cliente.at(0).get("id")});
+		ws.NovoEnvia();
+	}
+}
+
+function failPegaTicket(e){
+	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar obter as informações da promocao.");
+}
+
+function sucessPegaTicket(e){
+	var res = e.at(0).toJSON();
+	if(res.sucesso){
+		Alloy.Globals.Alerta("Parabéns !", "Você conseguiu adquirir um ticket !");
+		ticket = res.dados;
+		apagaPromocaoLista(res.dados.promocao.idPromocao);
+		Ti.App.fireEvent("novoTicket");
+	}else{
+		Alloy.Globals.Alerta("Falhou", res.mensagem);
+	}
+}
+
+function apagaPromocaoLista(promocaoId){
+	var md = $.promocoes.where({idPromocao: promocaoId})[0];
+	$.promocoes.remove(md);
+	listaInfinita.reiniciarContainer();
+}
+
+function verMapa(e){
+	var mapa = Alloy.createController("Promocao/PromocaoMapa", {nome_loja: e.source.nomeLoja, latitude: e.source.latitude, longitude: e.source.longitude});
+	Alloy.Globals.Transicao.proximo(mapa, mapa.init, {});
+}
+
+//Inicio o processo;
+iniciar();
+
+/* Antigo
+ 
 function detalhar(e){
 	try{
 		if(e.row.tipo == "atualizar"){
@@ -136,8 +197,4 @@ function failInfoTicketCliente(e){
 function sucessInfoTicketCliente(e){
 	var detalhes = Alloy.createController("Promocao/DetalhesPromocao", {ticket: e.at(0).toJSON()});
 	Alloy.Globals.Transicao.proximo(detalhes, detalhes.init, {});
-}
-
-//Inicio o processo;
-iniciar();
-
+}*/

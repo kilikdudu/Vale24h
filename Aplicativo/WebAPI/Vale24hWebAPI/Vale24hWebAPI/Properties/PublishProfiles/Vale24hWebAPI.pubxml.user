@@ -31,7 +31,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2015 16:41:38</publishTime>
     </File>
     <File Include="bin/Vale24hWebAPI.dll">
-      <publishTime>07/12/2015 14:39:00</publishTime>
+      <publishTime>07/21/2015 00:32:39</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>05/23/2015 16:41:31</publishTime>

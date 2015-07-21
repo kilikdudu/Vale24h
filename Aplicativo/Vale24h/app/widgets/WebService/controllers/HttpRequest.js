@@ -119,6 +119,6 @@ $.NovoEnvia = function(parans){
 };
 function Envia(cliente){
 	cliente.open(metodo, url);
-	//cliente.setRequestHeader("Content-Type","application/json");
-	cliente.send(dados);
+	cliente.setRequestHeader("Content-Type","application/json");
+	cliente.send(JSON.stringify(dados));
 }

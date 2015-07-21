@@ -1,17 +1,12 @@
 "#conteudoPopUp": {
 	width: "80%",
 	height: "80%",
-	top: "15%",
-	left: "10%",
-	right: "10%",
 	borderRadius: 4,
-	backgroundColor: "white",
-	layout: "vertical"
+	backgroundColor: "white"
 }
-
 "#boxTitulo": {
 	width: Titanium.UI.FILL,
-	height: "10%",
+	height: 35,
 	top: 0,
 	backgroundColor: 'transparent'
 }
@@ -23,37 +18,34 @@
 	left: 15,
 	font: {fontSize: Alloy.Globals.CustomTitleFont},
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT
-} 
-"#barraDeBusca": {
-	backgroundColor: "white",
-	font: {fontSize: Alloy.Globals.CustomTextSize},
-	color: "black",
-	hintText: "Procurar...",
 }
+"#barraBusca": {
+	 height: 50, 
+	 width: Titanium.UI.FILL, 
+	 top: 40
+} 
 "#listaPopUp": {
 	width: Titanium.UI.FILL,
-	height: "78%",
+	bottom: 50,
+	top: 90,
 	scrollable: true
 }
-"#boxButton": {
-	width: "100%",
-	height: "10%",
-	backgroundColor: 'transparent',
-	layout: 'horizontal'
-}
-"#btnOk": {
-	width: "48%",
-	left: 0,
-	height: Titanium.UI.FILL,
-	enabled: false,
-	opacity: 0.6,
-	backgroundSelectedColor: "#E6E6E6",
-	backgroundColor: 'transparent'
+"#lblEmpty": {
+	width: Titanium.UI.FILL,
+	bottom: 50,
+	top: 90,
+	text: "",
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	wordWrap: true,
+	opacity: 0,
+	color: "#595959"
 }
 "#btnCancelar": {
-	width: "48%",
-	right: 0,
-	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	height: 40,
+	bottom: 10,
 	backgroundSelectedColor: "#E6E6E6",
-	backgroundColor: 'transparent'
+	backgroundColor: 'transparent',
+	color: Alloy.Globals.MainColor
 }
