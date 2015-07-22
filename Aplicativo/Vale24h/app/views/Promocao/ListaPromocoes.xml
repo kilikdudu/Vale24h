@@ -18,8 +18,8 @@
 							<Label class="descricao" text="{qtdeTickets}" width="100%" />
 							<Label class="descricao" text="{validade}" width="100%" />
 							<View height="Ti.UI.SIZE" width="Ti.UI.FILL" top="10">
-								<Button id="pegaTicket" class="CustomButton" onClick="pegaTicket" promocaoId="{idPromocao}" title="{descPegaTicket}" />
 								<Button id="verMapa" class="CustomButton" onClick="verMapa" latitude="{latitude}" longitude="{longitude}" nomeLoja="{nomeEmpresa}" />
+								<Button id="pegaTicket" class="CustomButton" onClick="pegaTicket" promocaoId="{idPromocao}" title="{descPegaTicket}" />
 							</View>
 							<View height="10" />
 						</View>	

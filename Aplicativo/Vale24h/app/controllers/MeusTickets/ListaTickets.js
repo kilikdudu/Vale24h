@@ -84,15 +84,19 @@ function getTickets(parans){
 function formatar(model){
 	try{
 		var tic = model.toJSON();
-		tic.lblAdquirido = "Adquirido em " + Alloy.Globals.format.toDiaMesAno(tic.dataAquisicao);	
-		tic.lblValidade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(tic.validade) + ".";	
+		tic.lblAdquirido = "Adquirido em " + Alloy.Globals.format.toDiaMesAno(tic.dataAquisicao);
+		var dataValidade = Alloy.Globals.format.generateCustomData(tic.validade, "");
+		tic.lblValidade = "Válido até: " + dataValidade.Dia + "/" + dataValidade.Mes + "/" + dataValidade.Ano + " as " + dataValidade.Hora + ":" + dataValidade.Minuto + ":" + dataValidade.Segundo;	
 		
 		if(tic.promocao.limitada){
-			tic.lblVoucher = "Código: " + tic.voucher + ".";	
+			tic.limitada = true;
+			tic.mostraVoucher = Ti.UI.SIZE;
+			tic.lblVoucher = "Código: " + tic.voucher;	
 			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas também pegaram este ticket.";
 			tic.descLiberaTicket = "Liberar ticket";
 		}else{
-			tic.lblVoucher = "Você curtiu essa promoção.";	
+			tic.limitada = false;
+			tic.mostraVoucher = 0;	
 			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas também curtiram essa promoção.";
 			tic.descLiberaTicket = "Descurtir";
 		}

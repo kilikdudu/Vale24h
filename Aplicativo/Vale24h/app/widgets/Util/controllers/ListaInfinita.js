@@ -73,8 +73,6 @@ var imgCarregando = Ti.UI.createImageView({
 	opacity: 0
 });
 //Adiciono os itens no container
-imgCarregando.start();
-imgCarregando.stop();
 tbwRow.add(imgCarregando);
 tbwRow.add(btnMostrarMais);
 
@@ -120,8 +118,8 @@ $.mostrarMais = function(){
 			lista.releaseSelecionados();	
 		}
 		//Atualizo o cursor com o valor mais alto na coluna Row.  
-		var valorMaximo = _.max(colecao.toJSON(), function(processo){ return processo.Row; });
-		refreshCallback({semLoader: true, limite: limite, cursor: valorMaximo.Row});	
+		//var valorMaximo = _.max(colecao.toJSON(), function(processo){ return processo.Row; });
+		refreshCallback({semLoader: true, limite: limite, cursor: colecao.length});	
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "mostrarMais", "widgets/Util/controllers/ListaInfinita.js");
@@ -150,7 +148,7 @@ $.verificaFimLista = function(qtde){
 /**
  * @method adicionarRegistros
  * Adiciona mais registros a lista.
- * @param {Object} ret Registros retornados pela consulta ao webservice.
+ * @param {Json} ret Registros retornados pela consulta ao webservice.
  * @alteracao 05/05/2015 186931 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação.
  */
