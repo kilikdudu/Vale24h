@@ -94,7 +94,7 @@
     </deployment-targets>
     <sdk-version>4.1.0.GA</sdk-version>
     <plugins>
-        <plugin version="1.0">ti.alloy</plugin>
+        <plugin version="1.4">ti.alloy</plugin>
     </plugins>
     <property name="appc-app-id" type="string">5560e8750a9d846a4192575b</property>
     <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>

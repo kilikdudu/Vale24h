@@ -87,18 +87,50 @@ function formatar(model){
 		tic.lblAdquirido = "Adquirido em " + Alloy.Globals.format.toDiaMesAno(tic.dataAquisicao);
 		var dataValidade = Alloy.Globals.format.generateCustomData(tic.validade, "");
 		tic.lblValidade = "Válido até: " + dataValidade.Dia + "/" + dataValidade.Mes + "/" + dataValidade.Ano + " as " + dataValidade.Hora + ":" + dataValidade.Minuto + ":" + dataValidade.Segundo;	
+		tic.mostraMapa = 140;
+		tic.mostraLibera = 140;
 		
 		if(tic.promocao.limitada){
 			tic.limitada = true;
-			tic.mostraVoucher = Ti.UI.SIZE;
-			tic.lblVoucher = "Código: " + tic.voucher;	
-			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas também pegaram este ticket.";
-			tic.descLiberaTicket = "Liberar ticket";
+			tic.mostraVoucher = Ti.UI.SIZE;	
+			tic.lblQtdeTickets = (tic.promocao.qtdeTickets - tic.promocao.qtdeTicketsUsados) + " tickets restantes.";
+			tic.imgList = "/images/ticketList.png";
+			switch(tic.status){
+				case 0: //Em aberto
+					tic.lblVoucher = "Ticket: " + tic.voucher;
+					tic.colorVoucher = Alloy.Globals.MainColor;
+					tic.imgTicket = "/images/ticket.png";
+					tic.descLiberaTicket = "Liberar ticket";
+					tic.imgLibera = "/images/x.png";
+					break;
+				case 1: //Utilizado
+					tic.lblVoucher = "Ticket utilizado !";
+					tic.colorVoucher = Alloy.Globals.MainColor;
+					tic.imgTicket = "/images/ticket.png";
+					tic.mostraLibera = "0";
+					break;
+				case 2: //Expirado
+					tic.lblVoucher = "Ticket expirado.";
+					tic.colorVoucher = "#ee3624";
+					tic.imgTicket = "/images/ticket_red.png";
+					tic.mostraLibera = "0";
+					break;
+				case 3: //Desistiu
+					tic.lblVoucher = "Você desistiu desse ticket.";
+					tic.colorVoucher = "#ee3624";
+					tic.imgTicket = "/images/ticket_red.png";
+					tic.descLiberaTicket = "Pegar";
+					tic.imgLibera = "/images/ticket.png";
+					break;		
+			}
+			
 		}else{
 			tic.limitada = false;
 			tic.mostraVoucher = 0;	
-			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas também curtiram essa promoção.";
+			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas curtiram essa promoção.";
 			tic.descLiberaTicket = "Descurtir";
+			tic.imgLibera = "/images/dislike.png";
+			tic.imgList = "/images/like.png";
 		}
 		
 		//Verificar remendo !
@@ -139,7 +171,7 @@ function liberaTicket(e){
 		timeout: 120000
 	});
 	if(ws){
-		ws.adicionaParametro({idTicket:  e.source.ticketId});
+		ws.adicionaParametro({idTicket:  e.source.dados.ticketId});
 		ws.NovoEnvia();
 	}
 }
@@ -153,6 +185,7 @@ function sucessLiberaTicket(e){
 	if(res.sucesso){
 		if(res.dados.promocao.limitada){
 			Alloy.Globals.Alerta("Parabéns !", "Você liberou este ticket !");
+			setTicketLista(res.dados);
 		}else{
 			apagaPromocaoLista(res.dados.id);
 		}
@@ -168,8 +201,14 @@ function apagaPromocaoLista(ticketId){
 }
 
 function verMapa(e){
-	var mapa = Alloy.createController("Promocao/PromocaoMapa", {nome_loja: e.source.nomeLoja, latitude: e.source.latitude, longitude: e.source.longitude});
+	var mapa = Alloy.createController("Promocao/PromocaoMapa", {nome_loja: e.source.dados.nomeLoja, latitude: e.source.dados.latitude, longitude: e.source.dados.longitude});
 	Alloy.Globals.Transicao.proximo(mapa, mapa.init, {});
+}
+
+function setTicketLista(info){
+	var ticket = $.tickets.where({id: info.id})[0];
+	ticket.set(info);
+	//$.tickets.trigger("change");
 }
 
 //Inicio o processo;

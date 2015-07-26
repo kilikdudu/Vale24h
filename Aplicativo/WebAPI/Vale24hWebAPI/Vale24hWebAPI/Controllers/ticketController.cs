@@ -86,57 +86,66 @@ namespace Vale24hWebAPI.Controllers
         {
             var resposta = new StatusRequisicao();
             resposta.sucesso = false;
-            
-                var prom = db.promocao.Where(pro => pro.codigo_pro == parans.promocaoId ).FirstOrDefault();
-                var proControl = new promocaoController();
-                if ((proControl.getQuantidadeTicketsPromocao(prom.codigo_pro) > prom.totalTickets_pro) && prom.limitada_pro == true)
-                {
-                    resposta.sucesso = false;
-                    resposta.mensagem = "Desculpe, outra pessoa pegou o ticket primeiro.";
-                    return resposta;
+            string ticketAlocado = null;
+            Nullable<DateTime> dataLiberacao = null;
+            var prom = db.promocao.Where(pro => pro.codigo_pro == parans.promocaoId ).FirstOrDefault();
+            var proControl = new promocaoController();
+            if ((proControl.getQuantidadeTicketsPromocao(prom.codigo_pro) > prom.totalTickets_pro) && prom.limitada_pro == true)
+            {
+                resposta.sucesso = false;
+                resposta.mensagem = "Desculpe, outra pessoa pegou o ticket primeiro.";
+                return resposta;
+            }
+            if(prom.limitada_pro && temTicketLimitado(parans.clienteId, ref ticketAlocado)) 
+            {
+                resposta.sucesso = false;
+                resposta.mensagem = "Não é permitido ter dois tickets de promoções limitadas ao mesmo tempo. Ticket atual: " + ticketAlocado;
+                return resposta;
+            }
+            if (ticketLiberado(parans.promocaoId, parans.clienteId, ref dataLiberacao))
+            {
+                resposta.sucesso = false;
+                var ts = dataLiberacao.Value.Subtract(DateTime.Now);
+                resposta.mensagem = "Você precisa esperar 24 horas para pegar novamente este ticket. Faltam " + ts.Hours + " horas, " + ts.Minutes + " minutos e " + ts.Seconds + ".";
+                return resposta;
+            }
+            using (var dbTrans = db.Database.BeginTransaction())
+            {
+                try{
+                    promocaorequerida myTicket = db.promocaorequerida.Create();
+                    DateTime dtCadastro = DateTime.Now;
+                    myTicket.datacad_proreq = dtCadastro;
+                    myTicket.Promocao_codigo_proreq  = parans.promocaoId;
+                    myTicket.userCloudId_proreq = parans.clienteId;
+                    myTicket.codVoucher_proreq = "";
+                    myTicket.datastatus_proreq = DateTime.Now;
+                    //Por isso Vale24h ^_^
+                    myTicket.validade_proreq = prom.limitada_pro ? dtCadastro.AddHours(24) : prom.datafim_pro ;
+                    db.promocaorequerida.Add(myTicket);
+                    db.SaveChanges();
+                    DateTime aux = myTicket.validade_proreq;
+                    myTicket.codVoucher_proreq = myTicket.validade_proreq.ToString("yyyyMMddHHmmss") + '.' + myTicket.Promocao_codigo_proreq  + '.' + myTicket.codigo_proreq;
+                    db.SaveChanges();
+                    dbTrans.Commit();
+                    resposta.sucesso = true;
+                    TicketInfo retInfo = new TicketInfo();
+                    retInfo.status = myTicket.status_proreq;
+                    retInfo.dataAquisicao = myTicket.datacad_proreq;
+                    retInfo.id = myTicket.codigo_proreq;
+                    retInfo.validade = myTicket.validade_proreq;
+                    retInfo.voucher = myTicket.codVoucher_proreq;
+                    retInfo.promocao = new InfoPromocao();
+                    retInfo.promocao.idPromocao = parans.promocaoId;
+                    resposta.dados = retInfo;
                 }
-                if(prom.limitada_pro && temTicketLimitado(parans.clienteId))
+                catch (Exception e)
                 {
+                    dbTrans.Rollback();
                     resposta.sucesso = false;
-                    resposta.mensagem = "Não é permitido ter dois tickets de promoções limitadas ao mesmo tempo.";
-                    return resposta;
+                    resposta.mensagem = e.Message;
                 }
-                using (var dbTrans = db.Database.BeginTransaction())
-                {
-                    try{
-                        promocaorequerida myTicket = db.promocaorequerida.Create();
-                        DateTime dtCadastro = DateTime.Now;
-                        myTicket.datacad_proreq = dtCadastro;
-                        myTicket.Promocao_codigo_proreq  = parans.promocaoId;
-                        myTicket.userCloudId_proreq = parans.clienteId;
-                        myTicket.codVoucher_proreq = "";
-                        //Por isso Vale24h ^_^
-                        myTicket.validade_proreq = prom.limitada_pro ? dtCadastro.AddHours(24) : prom.datafim_pro ;
-                        db.promocaorequerida.Add(myTicket);
-                        db.SaveChanges();
-                        DateTime aux = myTicket.validade_proreq;
-                        myTicket.codVoucher_proreq = myTicket.validade_proreq.ToString("yyyyMMddHHmmss") + '.' + myTicket.Promocao_codigo_proreq  + '.' + myTicket.codigo_proreq;
-                        db.SaveChanges();
-                        dbTrans.Commit();
-                        resposta.sucesso = true;
-                        TicketInfo retInfo = new TicketInfo();
-                        retInfo.status = myTicket.status_proreq;
-                        retInfo.dataAquisicao = myTicket.datacad_proreq;
-                        retInfo.id = myTicket.codigo_proreq;
-                        retInfo.validade = myTicket.validade_proreq;
-                        retInfo.voucher = myTicket.codVoucher_proreq;
-                        retInfo.promocao = new InfoPromocao();
-                        retInfo.promocao.idPromocao = parans.promocaoId;
-                        resposta.dados = retInfo;
-                    }
-                    catch (Exception e)
-                    {
-                        dbTrans.Rollback();
-                        resposta.sucesso = false;
-                        resposta.mensagem = e.Message;
-                    }
                     
-                }
+            }
             
             return resposta;
         }
@@ -152,6 +161,7 @@ namespace Vale24hWebAPI.Controllers
                 if (ticket.promocao.limitada_pro)
                 {
                     ticket.status_proreq = 3;
+                    ticket.datastatus_proreq = DateTime.Now;
                 }
                 else
                 {
@@ -159,12 +169,11 @@ namespace Vale24hWebAPI.Controllers
                 }
                 db.SaveChanges();
                 resposta.sucesso = true;
+                parans_TicketInfo paransInfo = new parans_TicketInfo();
+                paransInfo.clienteId = ticket.userCloudId_proreq;
+                paransInfo.promocaoId = ticket.Promocao_codigo_proreq;
                 TicketInfo retInfo = new TicketInfo();
-                retInfo.id = parans.idTicket;
-                var promController = new promocaoController();
-                var promParans = new promocaoController.parans_InfoPromocao();
-                promParans.promocaoId = numPro;
-                retInfo.promocao = promController.getInfoPromocao(promParans);
+                retInfo = getInfoTicket(paransInfo);
                 resposta.dados = retInfo;
                 return resposta;
             }
@@ -214,13 +223,28 @@ namespace Vale24hWebAPI.Controllers
             }
         }
 
-        private bool temTicketLimitado(string clienteId)
+        private bool ticketLiberado(long promocaoId, string clienteId, ref Nullable<DateTime> dataRetorno)
+        {
+            var ticket = db.promocaorequerida.Where(tic => tic.Promocao_codigo_proreq == promocaoId && tic.userCloudId_proreq == clienteId && tic.status_proreq == 3).FirstOrDefault();
+            if (ticket != null)
+            {
+                if (DateTime.Now.Subtract(ticket.datastatus_proreq.Value).Hours < 24)
+                {
+                    dataRetorno = ticket.datastatus_proreq.Value.AddHours(24);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool temTicketLimitado(string clienteId, ref string ticketRetorno)
         {
             var meusTickets = db.promocaorequerida.Include(t => t.promocao).Where(t => t.userCloudId_proreq == clienteId).ToList();
             foreach(promocaorequerida  meuTicket in meusTickets)
             {
                 if (meuTicket.promocao.limitada_pro && (meuTicket.validade_proreq >= DateTime.Now) && (meuTicket.status_proreq == 0))
                 {
+                    ticketRetorno = meuTicket.codVoucher_proreq;
                     return true;
                 }
             }
@@ -234,9 +258,10 @@ namespace Vale24hWebAPI.Controllers
                 var ticket = db.promocaorequerida.Where(t => t.codigo_proreq == codVoucher).FirstOrDefault();
                 var numPro = ticket.Promocao_codigo_proreq;
                 ticket.status_proreq = 2;
+                ticket.datastatus_proreq = DateTime.Now;
                 db.SaveChanges(); 
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 throw;
             }

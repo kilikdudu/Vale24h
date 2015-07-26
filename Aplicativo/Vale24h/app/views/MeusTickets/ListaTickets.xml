@@ -15,12 +15,27 @@
 							</View>
 							<ImageView  image="{lblUrlImagem}" height="200" borderRadius="12" top="10" />
 							<Label class="descricao" text="{lblDescricao}" width="100%" top="10"  />
-							<Label class="descricao" text="{lblQtdeTickets}" width="100%" />
-							<Label class="descricao" text="{lblValidade}" width="100%" />
-							<Label class="titulo voucher" text="{lblVoucher}" width="100%" visible="{limitada}" height="{mostraVoucher}" /> 
-							<View height="Ti.UI.SIZE" width="Ti.UI.FILL" top="10">
-								<Button id="verMapa" class="CustomButton" onClick="verMapa" latitude="{latitude}" longitude="{longitude}" nomeLoja="{lblNomeEmpresa}" />
-								<Button id="liberaTicket" class="CustomButton" onClick="liberaTicket" ticketId="{id}" title="{descLiberaTicket}" />
+							<View width="Titanium.UI.FILL" height="Titanium.UI.SIZE" layout="horizontal" >
+								<ImageView image="{imgList}" width="24" height="24" right="5" />
+								<Label class="descricao" color="black" text="{lblQtdeTickets}" />
+							</View>
+							<View width="Titanium.UI.FILL" height="Titanium.UI.SIZE" layout="horizontal" >
+								<ImageView image="/images/relogio.png" width="24" height="24" right="5" />
+								<Label class="descricao" color="black" text="{lblValidade}" />
+							</View>
+							<View width="Titanium.UI.FILL" layout="horizontal" visible="{limitada}" height="{mostraVoucher}" >
+								<ImageView image="{imgTicket}" width="24" height="24" right="5" />
+								<Label class="descricao" text="{lblVoucher}" color="{colorVoucher}" />
+							</View> 
+							<View height="Ti.UI.SIZE" width="Ti.UI.FILL" top="10" >
+								<View layout="horizontal" width="Titanium.UI.SIZE" height="Titanium.UI.SIZE" right="0">
+									<Widget src="GUI" name="ImgButton" 
+										id="verMapa" onClick="verMapa" latitude="{latitude}" longitude="{longitude}" nomeLoja="{lblNomeEmpresa}" 
+										imagem="/images/map.png" tamanho="24" fontSize="18" descricao="Mapa" width="{mostraMapa}" />
+									<Widget src="GUI" name="ImgButton" 
+										id="liberaTicket" onClick="liberaTicket" ticketId="{id}" 
+										imagem="{imgLibera}" tamanho="24" fontSize="18" descricao="{descLiberaTicket}" corDescricao="{corLibera}" width="{mostraLibera}" />
+								</View>
 							</View>
 							<View height="10" />
 						</View>	
