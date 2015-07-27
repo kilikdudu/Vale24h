@@ -40,20 +40,3 @@
 	top: 5,
 	layout: 'vertical'
 }
-"#verMapa": {
-	width: "48%", 
-	left: 0,
-	title: "Ver no mapa",
-	backgroundColor: 'transparent',
-	backgroundSelectedColor: "#E6E6E6",
-	color: Alloy.Globals.MainColor
-}
-"#liberaTicket": {
-	width: "48%", 
-	right: 0,
-	backgroundColor: "#ff1515",
-	backgroundSelectedColor: "#fa4b4b"
-}
-".voucher": {
-	color: Alloy.Globals.MainColor
-}

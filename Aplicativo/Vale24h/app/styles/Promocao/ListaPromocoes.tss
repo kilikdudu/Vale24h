@@ -41,14 +41,8 @@
 	layout: 'vertical'
 }
 "#verMapa": {
-	width: "48%", 
-	left: 0,
-	title: "Ver no mapa",
-	backgroundColor: 'transparent',
-	backgroundSelectedColor: "#E6E6E6",
-	color: Alloy.Globals.MainColor
+	width: 140
 }
 "#pegaTicket": {
-	width: "48%", 
-	right: 0
+	width: 140
 }

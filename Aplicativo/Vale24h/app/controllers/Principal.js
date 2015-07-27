@@ -15,6 +15,6 @@ $.winPrincipal.addEventListener("open", function(e){
 	var Posts = Alloy.createController("Promocao/ListaPromocoes");
 	var DadosPessoa = Alloy.createController("DadosPessoa");
 	var MeusTickets = Alloy.createController("MeusTickets/ListaTickets");
-	$.minhaScrollable.init([DadosPessoa.getView(), Posts.getView(), MeusTickets.getView()], ["Perfil", "Promoções", "Tickets"]);
+	$.minhaScrollable.init([DadosPessoa.getView(), Posts.getView(), MeusTickets.getView()], ["Perfil", "Promoções", "Tickets"], {cacheSize: 3});
 	$.minhaScrollable.setViewIndex(1);
 });

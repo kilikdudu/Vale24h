@@ -44,10 +44,15 @@ $.generateCustomData = function(strData){
 	var ret = {Ano: null, Mes: null, Dia: null, Hora: null, Minuto: null, Segundo: null};
 	ret.Ano = data.get("year");
 	ret.Mes = parseInt(data.get('month')) + 1;
+	if(ret.Mes < 10){ ret.Mes = "0" + ret.Mes; };
 	ret.Dia = data.get('date');
+	if(ret.Dia < 10){ ret.Dia = "0" + ret.Dia; };
 	ret.Hora = data.get('hour');
+	if(ret.Hora < 10){ ret.Hora = "0" + ret.Hora; };
 	ret.Minuto = data.get('minute');
+	if(ret.Minuto < 10){ ret.Minuto = "0" + ret.Minuto; };
 	ret.Segundo = data.get('second');
+	if(ret.Segundo < 10){ ret.Segundo = "0" + ret.Segundo; };
 	return ret;
 };
 

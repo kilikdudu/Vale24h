@@ -33,7 +33,7 @@ var numberOfPages = null;
  * @alteracao 05/03/2015 180419 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação.
  */
-$.init = function(views, titulos){
+$.init = function(views, titulos, parans){
 	$.boxTabsView.setViews(views);
 	preenchePaggingControl(titulos);
 };

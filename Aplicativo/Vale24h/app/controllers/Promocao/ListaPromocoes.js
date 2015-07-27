@@ -88,11 +88,15 @@ function formatar(model){
 		if(pro.limitada){
 			pro.qtdeTickets = "Tickets disponíveis: " + (parseInt(pro.qtdeTickets) - parseInt(pro.qtdeTicketsUsados)) + ".";	
 			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";
-			pro.descPegaTicket = "Pegar";	
+			pro.descPegaTicket = "Pegar";
+			pro.imgPega = "/images/ticket.png";	
+			pro.imgList = "/images/ticketList.png";
 		}else{
-			pro.qtdeTickets = pro.qtdeTicketsUsados + " pessoas curtiram isso.";	
+			pro.qtdeTickets = pro.qtdeTicketsUsados + " curtidas.";	
 			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";
 			pro.descPegaTicket = "Curtir";	
+			pro.imgPega = "/images/like.png";
+			pro.imgList = "/images/like.png";
 		}
 		
 		return pro;	
@@ -125,7 +129,7 @@ function pegaTicket(e){
 		timeout: 120000
 	});
 	if(ws){
-		ws.adicionaParametro({promocaoId: e.source.promocaoId, clienteId: Alloy.Globals.Cliente.at(0).get("id")});
+		ws.adicionaParametro({promocaoId: e.source.dados.promocaoId, clienteId: Alloy.Globals.Cliente.at(0).get("id")});
 		ws.NovoEnvia();
 	}
 }
@@ -149,11 +153,11 @@ function sucessPegaTicket(e){
 function apagaPromocaoLista(promocaoId){
 	var md = $.promocoes.where({idPromocao: promocaoId})[0];
 	$.promocoes.remove(md);
-	listaInfinita.reiniciarContainer();
+	listaInfinita.reiniciarContainer({checaFim: false});
 }
 
 function verMapa(e){
-	var mapa = Alloy.createController("Promocao/PromocaoMapa", {nome_loja: e.source.nomeLoja, latitude: e.source.latitude, longitude: e.source.longitude});
+	var mapa = Alloy.createController("Promocao/PromocaoMapa", {nome_loja: e.source.dados.nomeLoja, latitude: e.source.dados.latitude, longitude: e.source.dados.longitude});
 	Alloy.Globals.Transicao.proximo(mapa, mapa.init, {});
 }
 
