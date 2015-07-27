@@ -19,7 +19,7 @@
 								<ImageView image="{imgList}" width="24" height="24" right="5" />
 								<Label class="descricao" color="black" text="{lblQtdeTickets}" />
 							</View>
-							<View width="Titanium.UI.FILL" height="Titanium.UI.SIZE" layout="horizontal" >
+							<View width="Titanium.UI.FILL" height="{mostraValidade}" layout="horizontal" >
 								<ImageView image="/images/relogio.png" width="24" height="24" right="5" />
 								<Label class="descricao" color="black" text="{lblValidade}" />
 							</View>
@@ -33,7 +33,7 @@
 										id="verMapa" onClick="verMapa" latitude="{latitude}" longitude="{longitude}" nomeLoja="{lblNomeEmpresa}" 
 										imagem="/images/map.png" tamanho="24" fontSize="18" descricao="Mapa" width="{mostraMapa}" />
 									<Widget src="GUI" name="ImgButton" 
-										id="liberaTicket" onClick="liberaTicket" ticketId="{id}" 
+										id="liberaTicket" onClick="ticketLiberaRenova" ticketId="{id}" promocaoId="{idPromocao}" status="{status}" limitada="{limitada}"  
 										imagem="{imgLibera}" tamanho="24" fontSize="18" descricao="{descLiberaTicket}" corDescricao="{corLibera}" width="{mostraLibera}" />
 								</View>
 							</View>

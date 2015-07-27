@@ -89,6 +89,7 @@ function formatar(model){
 		tic.lblValidade = "Válido até: " + dataValidade.Dia + "/" + dataValidade.Mes + "/" + dataValidade.Ano + " as " + dataValidade.Hora + ":" + dataValidade.Minuto + ":" + dataValidade.Segundo;	
 		tic.mostraMapa = 140;
 		tic.mostraLibera = 140;
+		tic.mostraValidade = Titanium.UI.SIZE;
 		
 		if(tic.promocao.limitada){
 			tic.limitada = true;
@@ -108,6 +109,7 @@ function formatar(model){
 					tic.colorVoucher = Alloy.Globals.MainColor;
 					tic.imgTicket = "/images/ticket.png";
 					tic.mostraLibera = "0";
+					tic.mostraValidade = 0;
 					break;
 				case 2: //Expirado
 					tic.lblVoucher = "Ticket expirado.";
@@ -121,19 +123,21 @@ function formatar(model){
 					tic.imgTicket = "/images/ticket_red.png";
 					tic.descLiberaTicket = "Pegar";
 					tic.imgLibera = "/images/ticket.png";
+					tic.mostraValidade = 0;
 					break;		
 			}
 			
 		}else{
 			tic.limitada = false;
 			tic.mostraVoucher = 0;	
-			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " pessoas curtiram essa promoção.";
+			tic.lblQtdeTickets = tic.promocao.qtdeTicketsUsados + " curtidas.";
 			tic.descLiberaTicket = "Descurtir";
 			tic.imgLibera = "/images/dislike.png";
 			tic.imgList = "/images/like.png";
 		}
 		
 		//Verificar remendo !
+		tic.idPromocao = tic.promocao.idPromocao;
 		tic.lblImagemEmpresa = tic.promocao.imagemEmpresa;
 		tic.lblNomeEmpresa = tic.promocao.nomeEmpresa;
 		tic.lblUrlImagem = tic.promocao.urlImagem;
@@ -160,7 +164,14 @@ function verMais(e){
 	}
 }
 
-
+function ticketLiberaRenova(e){
+	if(e.source.dados.status == 3  && e.source.dados.limitada ){
+		renovaTicket(e);
+	}
+	else if(e.source.dados.status == 0 || !e.source.dados.limitada){
+		liberaTicket(e);
+	}
+}
 
 function liberaTicket(e){
 	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
@@ -177,14 +188,14 @@ function liberaTicket(e){
 }
 
 function failLiberaTicket(e){
-	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar obter as informações da promocao.");
+	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar liberar o ticket.");
 }
 
 function sucessLiberaTicket(e){
 	var res = e.at(0).toJSON();
 	if(res.sucesso){
 		if(res.dados.promocao.limitada){
-			Alloy.Globals.Alerta("Parabéns !", "Você liberou este ticket !");
+			Alloy.Globals.Alerta("Alerta", "Você liberou este ticket !");
 			setTicketLista(res.dados);
 		}else{
 			apagaPromocaoLista(res.dados.id);
@@ -194,10 +205,39 @@ function sucessLiberaTicket(e){
 	}
 }
 
+function renovaTicket(e){
+	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
+		callback: sucessRenovaTicket,
+		error: failRenovaTicket,
+		url:  Alloy.Globals.MainDomain + "api/ticket/renovaTicket", 
+		metodo: "POST", 
+		timeout: 120000
+	});
+	if(ws){
+		ws.adicionaParametro({clienteId:  Alloy.Globals.Cliente.at(0).get("id"), promocaoId: e.source.dados.promocaoId});
+		ws.NovoEnvia();
+	}
+}
+
+function failRenovaTicket(e){
+	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar renovar o ticket.");
+}
+
+function sucessRenovaTicket(e){
+	var res = e.at(0).toJSON();
+	if(res.sucesso){
+		Alloy.Globals.Alerta("Parabéns !", "Você renovou este ticket !");
+		setTicketLista(res.dados);
+	}else{
+		Alloy.Globals.Alerta("Falhou", res.mensagem);
+	}
+}
+
 function apagaPromocaoLista(ticketId){
+	Ti.API.info("id: " + ticketId);
 	var md = $.tickets.where({id: ticketId})[0];
 	$.tickets.remove(md);
-	//listaInfinita.reiniciarContainer();
+	listaInfinita.reiniciarContainer({checaFim: false});
 }
 
 function verMapa(e){
@@ -208,7 +248,6 @@ function verMapa(e){
 function setTicketLista(info){
 	var ticket = $.tickets.where({id: info.id})[0];
 	ticket.set(info);
-	//$.tickets.trigger("change");
 }
 
 //Inicio o processo;

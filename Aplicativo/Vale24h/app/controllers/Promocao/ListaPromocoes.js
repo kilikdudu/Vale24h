@@ -92,7 +92,7 @@ function formatar(model){
 			pro.imgPega = "/images/ticket.png";	
 			pro.imgList = "/images/ticketList.png";
 		}else{
-			pro.qtdeTickets = pro.qtdeTicketsUsados + " pessoas curtiram isso.";	
+			pro.qtdeTickets = pro.qtdeTicketsUsados + " curtidas.";	
 			pro.validade = "Válido até: " + Alloy.Globals.format.toDiaMesAno(pro.validade) + ".";
 			pro.descPegaTicket = "Curtir";	
 			pro.imgPega = "/images/like.png";
@@ -153,7 +153,7 @@ function sucessPegaTicket(e){
 function apagaPromocaoLista(promocaoId){
 	var md = $.promocoes.where({idPromocao: promocaoId})[0];
 	$.promocoes.remove(md);
-	listaInfinita.reiniciarContainer();
+	listaInfinita.reiniciarContainer({checaFim: false});
 }
 
 function verMapa(e){

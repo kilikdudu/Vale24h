@@ -195,10 +195,16 @@ $.iniciarLoader = function(){
  * @alteracao 05/05/2015 186931 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação.
  */
-$.reiniciarContainer = function(){
+$.reiniciarContainer = function(parans){
 	try{
 		$.adicionarTBR();
-		$.verificaFimLista(colecao.length);
+		var flag = true;
+		if(parans){
+			flag = parans.checaFim || true;
+		}
+		if(flag){
+			$.verificaFimLista(colecao.length);	
+		}
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "fecharLoader", "widgets/Util/controllers/ListaInfinita.js");

@@ -35,3 +35,4 @@ C:\Vale24h\Vale24h\Aplicativo\WebAPI\Vale24hWebAPI\Vale24hWebAPI\bin\System.Web.
 C:\Vale24h\Vale24h\Aplicativo\WebAPI\Vale24hWebAPI\Vale24hWebAPI\bin\System.Web.Http.WebHost.xml
 C:\Vale24h\Vale24h\Aplicativo\WebAPI\Vale24hWebAPI\Vale24hWebAPI\obj\Debug\Vale24hWebAPI.dll
 C:\Vale24h\Vale24h\Aplicativo\WebAPI\Vale24hWebAPI\Vale24hWebAPI\obj\Debug\Vale24hWebAPI.pdb
+C:\Vale24h\Vale24h\Aplicativo\WebAPI\Vale24hWebAPI\Vale24hWebAPI\obj\Debug\Vale24hWebAPI.csprojResolveAssemblyReference.cache
