@@ -1,5 +1,0 @@
-<Alloy>
-	<View width="Titanium.UI.FILL" height="Titanium.UI.FILL">
-		<Label class="titulo">Meus Dados</Label>
-	</View>
-</Alloy>

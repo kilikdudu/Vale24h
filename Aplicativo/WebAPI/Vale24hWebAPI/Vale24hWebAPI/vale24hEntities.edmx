@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="vale24hModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="vale24hModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="categoria">
           <Key>
             <PropertyRef Name="codigo_cat" />
@@ -87,6 +87,14 @@
           <Property Name="pw_usr" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="nome_usr" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="telefone_usr" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuariocategoria">
+          <Key>
+            <PropertyRef Name="userCloudId_usucat" />
+            <PropertyRef Name="Categoria_codigo_cat" />
+          </Key>
+          <Property Name="userCloudId_usucat" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Categoria_codigo_cat" Type="bigint" Nullable="false" />
         </EntityType>
         <Association Name="FK_Categoria_UsuarioCad">
           <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
@@ -196,6 +204,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_UsuarioCategoria_Categoria1">
+          <End Role="categoria" Type="Self.categoria" Multiplicity="1" />
+          <End Role="usuariocategoria" Type="Self.usuariocategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoria">
+              <PropertyRef Name="codigo_cat" />
+            </Principal>
+            <Dependent Role="usuariocategoria">
+              <PropertyRef Name="Categoria_codigo_cat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="vale24hModelStoreContainer">
           <EntitySet Name="categoria" EntityType="Self.categoria" Schema="vale24h" store:Type="Tables" />
           <EntitySet Name="cliente" EntityType="Self.cliente" Schema="vale24h" store:Type="Tables" />
@@ -204,6 +224,7 @@
           <EntitySet Name="promocaocategoria" EntityType="Self.promocaocategoria" Schema="vale24h" store:Type="Tables" />
           <EntitySet Name="promocaorequerida" EntityType="Self.promocaorequerida" Schema="vale24h" store:Type="Tables" />
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="vale24h" store:Type="Tables" />
+          <EntitySet Name="usuariocategoria" EntityType="Self.usuariocategoria" Schema="vale24h" store:Type="Tables" />
           <AssociationSet Name="FK_Categoria_UsuarioCad" Association="Self.FK_Categoria_UsuarioCad">
             <End Role="usuario" EntitySet="usuario" />
             <End Role="categoria" EntitySet="categoria" />
@@ -240,9 +261,12 @@
             <End Role="promocao" EntitySet="promocao" />
             <End Role="promocaorequerida" EntitySet="promocaorequerida" />
           </AssociationSet>
+          <AssociationSet Name="fk_UsuarioCategoria_Categoria1" Association="Self.fk_UsuarioCategoria_Categoria1">
+            <End Role="categoria" EntitySet="categoria" />
+            <End Role="usuariocategoria" EntitySet="usuariocategoria" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="vale24hModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -257,6 +281,7 @@
           <Property Name="usercad_cat" Type="Int64" Nullable="false" />
           <NavigationProperty Name="usuario" Relationship="Self.FK_Categoria_UsuarioCad" FromRole="categoria" ToRole="usuario" />
           <NavigationProperty Name="promocao" Relationship="Self.promocaocategoria" FromRole="categoria" ToRole="promocao" />
+          <NavigationProperty Name="usuariocategoria" Relationship="vale24hModel.fk_UsuarioCategoria_Categoria1" FromRole="categoria" ToRole="usuariocategoria" />
         </EntityType>
         <EntityType Name="cliente">
           <Key>
@@ -464,7 +489,33 @@
             <End Role="categoria" EntitySet="categoria" />
             <End Role="promocao" EntitySet="promocao" />
           </AssociationSet>
+          <EntitySet Name="usuariocategoria" EntityType="vale24hModel.usuariocategoria" />
+          <AssociationSet Name="fk_UsuarioCategoria_Categoria1" Association="vale24hModel.fk_UsuarioCategoria_Categoria1">
+            <End Role="categoria" EntitySet="categoria" />
+            <End Role="usuariocategoria" EntitySet="usuariocategoria" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="usuariocategoria">
+          <Key>
+            <PropertyRef Name="userCloudId_usucat" />
+            <PropertyRef Name="Categoria_codigo_cat" />
+          </Key>
+          <Property Name="userCloudId_usucat" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Categoria_codigo_cat" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="categoria" Relationship="vale24hModel.fk_UsuarioCategoria_Categoria1" FromRole="usuariocategoria" ToRole="categoria" />
+        </EntityType>
+        <Association Name="fk_UsuarioCategoria_Categoria1">
+          <End Type="vale24hModel.categoria" Role="categoria" Multiplicity="1" />
+          <End Type="vale24hModel.usuariocategoria" Role="usuariocategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoria">
+              <PropertyRef Name="codigo_cat" />
+            </Principal>
+            <Dependent Role="usuariocategoria">
+              <PropertyRef Name="Categoria_codigo_cat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -560,6 +611,14 @@
               <ScalarProperty Name="codigo_pro" ColumnName="promocao_procat" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="usuariocategoria">
+            <EntityTypeMapping TypeName="vale24hModel.usuariocategoria">
+              <MappingFragment StoreEntitySet="usuariocategoria">
+                <ScalarProperty Name="Categoria_codigo_cat" ColumnName="Categoria_codigo_cat" />
+                <ScalarProperty Name="userCloudId_usucat" ColumnName="userCloudId_usucat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

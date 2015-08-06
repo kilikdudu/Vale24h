@@ -2,15 +2,3 @@
 	height: Titanium.UI.FILL,
 	width: Titanium.UI.FILL
 }
-"#engrenagem": {
-	width: 32,
-	height: 32,
-	duration: 90
-}
-"#boxEngrenagem": {
-	width: 50,
-	height: 50,
-	borderRadius: 4,
-	backgroundColor: "white",
-	visible: false
-}

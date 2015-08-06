@@ -7,11 +7,6 @@
 var args = arguments[0] || {};
 
 /**
- * @property {widgets.GUI.Camada} camada Adiciona uma camada na janela, a fim de desabilitar os controles que ficam sobrepostos pela janela. Global nesta classe pois é necessário utilizar a mesma referência em diferentes métodos.
- */
-var camada = Alloy.createWidget("GUI", "Camada", {load: true}).getView();
-
-/**
  * @method proximo
  * Deve ser utilizado sempre que for necesário abrir a próxima janela.
  * Exemplo: Uma listagem de pessoas, ao clicar na linha de uma determinada pessoa, chama-se uma nova janela com os detalhes do contato da pessoa.
@@ -24,12 +19,12 @@ var camada = Alloy.createWidget("GUI", "Camada", {load: true}).getView();
  */
 $.proximo = function(proxima, construtor, parans){
 	try{
-		var atual = Alloy.Globals.currentWindow();
-		atual.add(camada);
+		Alloy.Globals.carregando();
 		var proximaView = proxima.getView();
 		proximaView._previousWin = true;
 		Alloy.Globals.pilhaWindow.push(proximaView);
 		construtor(parans);
+		Alloy.Globals.carregou();
 		if(Ti.Platform.name === 'android'){
 			proximaView.open({
 				activityEnterAnimation : Ti.App.Android.R.anim.slide_in_right,
@@ -51,7 +46,6 @@ $.proximo = function(proxima, construtor, parans){
 			proximaView.stackBackFunction[proximaView.stackBackFunction.length-1]();
 		};
 		proximaView.addEventListener('android:back', proximaView.executeBackFunction);
-		atual.remove(camada);
 		Ti.API.info("proxima window, tamanhao da pilha: " + Alloy.Globals.pilhaWindow.length);
 	}
 	catch(e){
@@ -69,7 +63,6 @@ $.anterior = function(){
 	try{
 		if(Alloy.Globals.currentWindow() && Alloy.Globals.currentWindow()._previousWin){
 			var atual = Alloy.Globals.currentWindow();
-			atual.add(camada);
 			Alloy.Globals.pilhaWindow.pop();
 			if(Ti.Platform.name === 'android'){
 				atual.close({
@@ -101,12 +94,12 @@ $.anterior = function(){
 $.nova = function(novaJanela, construtor, parans){
 	try{
 		if(Alloy.Globals.pilhaWindow.length > 0){
-			var atual = Alloy.Globals.currentWindow();
-			atual.add(camada);	
+			Alloy.Globals.carregando();	
 		}
 		var novaView = novaJanela.getView();
 		Alloy.Globals.pilhaWindow.push(novaView);
 		construtor(parans);
+		Alloy.Globals.carregou();
 		if(Ti.App.name === 'android'){
 			novaView.open({
 				activityEnterAnimation : Ti.App.Android.R.anim.slide_in_right,

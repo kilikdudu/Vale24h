@@ -48,7 +48,8 @@ Alloy.Globals.Cloud = Cloud;
 
 //Acesso a nuvem do facebook
 Alloy.Globals.Facebook = require('facebook');
-Alloy.Globals.Facebook.permissions = [];
+Alloy.Globals.Facebook.permissions = ["public_profile", "email"];
+//Alloy.Globals.Facebook.addEventListener('logout', finalizarLogout);
 
 Alloy.Globals.CloudPush = require('ti.cloudpush');
 Alloy.Globals.deviceToken = null; 
@@ -85,6 +86,11 @@ Alloy.Globals.Map = require('ti.map');
 
 Alloy.Globals.Cliente = Alloy.createCollection("Cliente");
 Alloy.Globals.Cliente.fetch();
+
+/**
+ * @property {Object} InfoUser Dados do usuário no ACS. 
+ */
+Alloy.Globals.InfoUser = null;
 
 /**
  * @property {Array} pilhaWindow Pilha contendo todas as janelas abertas. O topo da pilha representa a janela atual.
@@ -163,6 +169,28 @@ Alloy.Globals.Alerta = function(titulo, mensagem){
 	check.show();
 };
 
+var progressIndicator = Ti.UI.Android.createProgressIndicator({
+	  message: 'Carregando...',
+	  location: Ti.UI.Android.PROGRESS_INDICATOR_DIALOG,
+	  type: Ti.UI.Android.PROGRESS_INDICATOR_INDETERMINANT,
+	  cancelable: false
+	});
+
+var contChamadasCarregando = 0;
+
+Alloy.Globals.carregando = function(){
+	contChamadasCarregando++;
+	progressIndicator.show();
+};
+
+Alloy.Globals.carregou = function(){
+	contChamadasCarregando--;
+	if(contChamadasCarregando <= 0){
+		contChamadasCarregando = 0;
+		progressIndicator.hide();	
+	}
+};
+
 /**
  * @property {widgets.Util.Format} format Objeto utilizado para formatação de dados. Toda formatação de dados deve ser feita por esse objeto.
  */
@@ -192,11 +220,11 @@ Alloy.Globals.onError = function(erro, rotina, arquivo){
  * @alteracao 21/01/2015 176562 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação.
  */
-function logout(){
+Alloy.Globals.logout = function(){
 	var check = Alloy.createWidget("GUI", "Mensagem");
 	check.init("Atenção !", "Gostaria de sair ?", true);
 	check.show({callback: executeLogout});	
-}
+};
 /**
  * @event executeLogout
  * Volta a tela de login.
@@ -212,13 +240,10 @@ function executeLogout(parans){
 	if(parans.value){
 		Alloy.Globals.Cloud.Users.logout(function (e) {
 		    if (e.success) {
-		    	Alloy.Globals.Facebook.addEventListener('logout', finalizarLogout);
-		    	if(Alloy.Globals.Facebook.accessToken){
+		    	if(Alloy.Globals.InfoUser.external_accounts.length > 0){
 		    		Alloy.Globals.Facebook.logout();
 		    	}
-		    	else{
-		    		finalizarLogout({});
-		    	}
+		    	finalizarLogout({});
 		    	
 		    } else {
 		        alert('Error:\n' +
@@ -232,6 +257,7 @@ function finalizarLogout(e){
 	Alloy.Globals.Facebook.removeEventListener('logout', finalizarLogout);
 	Alloy.Globals.Cliente.at(0).destroy({silent: true});
 	Alloy.Globals.Cliente.fetch();
+	Alloy.Globals.InfoUser = null;
     Alloy.createController("index");
 	Ti.API.info("logout, tamanhao da pilha: " + Alloy.Globals.pilhaWindow.length);
 }
@@ -276,12 +302,11 @@ var callbackServicos = function(nome){
 		Alloy.Globals.ListaServicos.fechar();
 		switch(nome) {
 			case "Sair": 
-				logout();
+				Alloy.Globals.logout();
 				break;
-			case "Promoções": 
-				Alloy.Globals.iniciarServicos();
-				var novo = Alloy.createController("Promocao/ListaPromocoes");
-				Alloy.createWidget("Util", "Transicao").nova(novo, novo.init, {});
+			case "Alterar dados": 
+				var novo = Alloy.createController("Perfil/Cadastro", {tipo: "atualizar"});
+				Alloy.Globals.Transicao.proximo(novo, novo.init, {});
 				break;
 			default :
 				alert("Servico não implementado.");
@@ -304,8 +329,7 @@ var callbackServicos = function(nome){
  */
 Alloy.Globals.iniciarServicos = function(){
 	Alloy.Globals.ListaServicos.resetar();
-	Alloy.Globals.ListaServicos.refreshUser();
-	Alloy.Globals.ListaServicos.adicionarServico("/images/servicos/cartao.png", "Promoções", callbackServicos);
+	Alloy.Globals.ListaServicos.adicionarServico("/images/perfil.png", "Alterar dados", callbackServicos);
 	Alloy.Globals.ListaServicos.adicionarServico("/images/logout.png", "Sair", callbackServicos);
 };
 

@@ -1,4 +1,4 @@
-/*"#boxCabecalho": {
+"#boxCabecalho": {
 	width: Titanium.UI.FILL,
 	height: 50,
 	top: 0,
@@ -21,14 +21,8 @@
 	left: 7,
 	height: Titanium.UI.FILL
 }
-"#boxButtons": {
-	right: 10,
-	layout: 'horizontal',
-	width: Titanium.UI.SIZE,
-	height: Titanium.UI.FILL
-}*/
 "#conteudo": {
 	width: Titanium.UI.FILL,
-	top: 0,
+	top: 50,
 	bottom: 0
 }

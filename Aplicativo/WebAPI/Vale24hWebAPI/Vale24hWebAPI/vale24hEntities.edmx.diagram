@@ -19,6 +19,8 @@
         <AssociationConnector Association="vale24hModel.fk_Promocao_Imagem1" ManuallyRouted="false" />
         <AssociationConnector Association="vale24hModel.fk_PromocaoRequerida_Promocao1" ManuallyRouted="false" />
         <AssociationConnector Association="vale24hModel.promocaocategoria" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="vale24hModel.usuariocategoria" Width="1.5" PointX="5.25" PointY="2.875" />
+        <AssociationConnector Association="vale24hModel.fk_UsuarioCategoria_Categoria1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

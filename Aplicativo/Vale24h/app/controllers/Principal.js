@@ -5,6 +5,7 @@ var args = arguments[0] || {};
 $.init = function(){
 	try{
 		Alloy.Globals.configWindow($.winPrincipal, $);
+		$.minhaTopBar.iniciar("Vale24h");
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "init", "app/controllers/AprovacaoPagamento/DetalhesProcessoDePagamento.js");
@@ -13,8 +14,6 @@ $.init = function(){
 
 $.winPrincipal.addEventListener("open", function(e){
 	var Posts = Alloy.createController("Promocao/ListaPromocoes");
-	var DadosPessoa = Alloy.createController("DadosPessoa");
 	var MeusTickets = Alloy.createController("MeusTickets/ListaTickets");
-	$.minhaScrollable.init([DadosPessoa.getView(), Posts.getView(), MeusTickets.getView()], ["Perfil", "Promoções", "Tickets"], {cacheSize: 3});
-	$.minhaScrollable.setViewIndex(1);
+	$.minhaScrollable.init([Posts.getView(), MeusTickets.getView()], ["Promoções", "Tickets"], {cacheSize: 3});
 });

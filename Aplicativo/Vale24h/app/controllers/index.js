@@ -8,12 +8,11 @@ var args = arguments[0] || {};
 
 var semaforoLogin = false;
 
-var camada = Alloy.createWidget("GUI", "Camada", {load: true}).getView();
-
 function updateLoginStatus() {
 	if(semaforoLogin){return;}
 	semaforoLogin = true;
 	 if (Alloy.Globals.Facebook.loggedIn) {
+	 		Alloy.Globals.carregando();
 	        Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
 	            type: 'facebook',
 	            token: Alloy.Globals.Facebook.accessToken
@@ -21,17 +20,17 @@ function updateLoginStatus() {
 	        function (e) {
 				 if (e.success) {
 				 	var user = e.users[0];
+				 	Alloy.Globals.InfoUser = user;
 	                solicitacoes.salvarCliente({sessionId: Alloy.Globals.Cloud.sessionId, id: user.id});
 	                callbackOK();
 	            }
 				else {
-					Alloy.Globals.currentWindow().remove(camada);
 					Alloy.Globals.Alerta("Falha", "Não foi exetuado o login pelo facebook.");
-	            }
+	            } 
+	            Alloy.Globals.carregou();
 			});
 	    }
 	 else {
-	 	Alloy.Globals.currentWindow().remove(camada);
 	 	Alloy.Globals.Alerta("Falha", "Não foi exetuado o login pelo facebook.");
 	 }
 }
@@ -39,7 +38,6 @@ function updateLoginStatus() {
 Alloy.Globals.Facebook.addEventListener('login', updateLoginStatus);
 
 function loginFacebook(e){
-	Alloy.Globals.currentWindow().add(camada);
 	Alloy.Globals.Facebook.authorize();
 }
 
@@ -59,11 +57,9 @@ var solicitacoes = Alloy.createController("SolicitacoesLogin");
  */
 var callbackOK = function(){
 	try{
-		if(Alloy.Globals.currentWindow()){
-			Alloy.Globals.currentWindow().remove(camada);	
-		}
 		Alloy.Globals.Facebook.removeEventListener('login', updateLoginStatus);
-		//Alloy.Globals.iniciarServicos();
+		Alloy.Globals.iniciarServicos();
+		Alloy.Globals.carregou();
 		var novo = Alloy.createController("Principal");
 		Alloy.Globals.Transicao.nova(novo, novo.init, {});
 	}
@@ -81,8 +77,8 @@ var callbackOK = function(){
  */
 var callbackNaoOK = function(mensagem){
 	try{
-		Alloy.Globals.currentWindow().remove(camada);
 		Alloy.Globals.Alerta("Erro ao entrar", mensagem);
+		Alloy.Globals.carregou();
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "callbackNaoOK", "app/controllers/index.js");
@@ -111,7 +107,16 @@ function init(){
 
 if(Alloy.Globals.Cliente.length > 0){
 	Alloy.Globals.Cloud.sessionId = Alloy.Globals.Cliente.at(0).get("sessionId");
-	callbackOK();
+	Alloy.Globals.Cloud.Users.showMe(function(e){
+		if (e.success) {
+	        var user = e.users[0];
+	        Alloy.Globals.InfoUser = user;
+	        callbackOK();    
+	    } else {
+			Alloy.Globals.Transicao.nova($, init, {});        
+	    }
+	});
+	
 }
 else{
 	//Abro a janela.
@@ -121,6 +126,7 @@ else{
 
 function checkLogin(){
 	try{
+		Alloy.Globals.carregando();
 		var check = Alloy.createWidget("GUI", "Mensagem");
 		if($.login.getInputValue() == ""){
 			check.init("Alerta", "Informe o login.");
@@ -132,7 +138,6 @@ function checkLogin(){
 			check.show({callback: $.senha.selecionar});
 			return;
 		}
-		Alloy.Globals.currentWindow().add(camada);
 		solicitacoes.executeLogin(callbackOK, callbackNaoOK, 
 			{login: $.login.getInputValue(), senha: $.senha.getInputValue()});
 	}
@@ -142,6 +147,6 @@ function checkLogin(){
 }
 
 function abrirCadastro(){
-	var novo = Alloy.createController("Cadastro");
+	var novo = Alloy.createController("Perfil/Cadastro", {tipo: "cadastro"});
 	Alloy.Globals.Transicao.proximo(novo, novo.init, {});
 }

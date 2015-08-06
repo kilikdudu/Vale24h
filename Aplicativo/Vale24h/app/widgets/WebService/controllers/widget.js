@@ -12,7 +12,6 @@ var args = arguments[0] || {};
  * Camada adicionada a tela.
  * @type {widgets.GUI.Camada}
  */
-var camada = Alloy.createWidget("GUI", "Camada", {load: true}).getView();
 var semLoader = false;
 
 /**
@@ -38,21 +37,15 @@ $.iniciarHttpRequest = function(param)
 			return ;
 		}
 		var funcaoRetornoS = function(ret){
-			var tempWindow = Alloy.Globals.currentWindow();
 			param.callback(ret);
 			if(!semLoader){
-				if(tempWindow != null){
-					tempWindow.remove(camada);	
-				}
+				Alloy.Globals.carregou();
 			}
 		};
 		var funcaoRetornoN = function(ret){
-			var tempWindow = Alloy.Globals.currentWindow();
 			param.error(ret);
 			if(!semLoader){
-				if(tempWindow != null){
-					tempWindow.remove(camada);	
-				}	
+				Alloy.Globals.carregou();	
 			}
 		};
 		var varHttpRequest = Widget.createController("HttpRequest",{ 
@@ -66,8 +59,7 @@ $.iniciarHttpRequest = function(param)
 			headerType: param.headerType
 		});
 		if(!param.semLoader){
-			Alloy.Globals.currentWindow().add(camada);
-			semLoader = param.semLoader;
+			Alloy.Globals.carregando();
 		}
 		return varHttpRequest;
 	}

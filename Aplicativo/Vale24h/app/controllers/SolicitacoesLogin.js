@@ -37,6 +37,7 @@ function sucessAcesslogin(e){
 	try{
 		if(e.success){
 			var user = e.users[0];
+			Alloy.Globals.InfoUser = user;
 			$.salvarCliente({sessionId: Alloy.Globals.Cloud.sessionId, id: user.id});
 			sucessoLogin();	
 		}

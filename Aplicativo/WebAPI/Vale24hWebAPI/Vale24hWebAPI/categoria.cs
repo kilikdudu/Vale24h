@@ -17,6 +17,7 @@ namespace Vale24hWebAPI
         public categoria()
         {
             this.promocao = new HashSet<promocao>();
+            this.usuariocategoria = new HashSet<usuariocategoria>();
         }
     
         public long codigo_cat { get; set; }
@@ -27,5 +28,6 @@ namespace Vale24hWebAPI
     
         public virtual usuario usuario { get; set; }
         public virtual ICollection<promocao> promocao { get; set; }
+        public virtual ICollection<usuariocategoria> usuariocategoria { get; set; }
     }
 }

@@ -1,12 +1,6 @@
 <Alloy>
 	<Window id="winPrincipal" class="janela" >
-		<!--<View id="boxCabecalho">
-			<View id="boxInfo">
-				<ImageView id="logoEmpresa" /> 
-				<Label id="lblEmpresa">Vale24h</Label>
-			</View>
-			<View id="boxButtons" />
-	</View> -->
+		<Widget src="GUI" id="minhaTopBar" name="Topbar" />
 		<View id="conteudo">
 			<Widget id="minhaScrollable" src="GUI" name="TabsView" />
 		</View>

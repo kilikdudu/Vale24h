@@ -6,6 +6,8 @@
  */
 var args = arguments[0] || {};
 
+$.lblNovoNome.text = args.nome;
+
 /**
  * @method
  * Construtor da classe.
@@ -107,6 +109,17 @@ $.selecionar = function(){
 	$.novoNome.focus();
 };
 
+$.setEnabled = function(status){
+	if(!status){
+		$.linha.backgroundColor = "transparent";
+		$.novoNome.color = "#505050";
+		$.novoNome.enabled = false;
+	}else{
+		$.linha.backgroundColor = "black";
+		$.novoNome.color = "black";
+		$.novoNome.enabled = true;
+	}
+};
 
 $.novoNome.addEventListener('focus', function() {
     $.linha.setBackgroundColor(Alloy.Globals.MainColorLight);

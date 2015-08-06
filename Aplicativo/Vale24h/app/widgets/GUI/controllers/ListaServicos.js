@@ -103,32 +103,6 @@ $.atualizar = function(){
 };
 
 /**
- * @method configCabecalho
- * Configura o cabeçalho da lista para apresentar ou não usuário e empresa.
- * @param {Boolean} status True para mostar usuario e empresa.
- * @alteracao 21/01/2015 176562 Projeto Carlos Eduardo Santos Alves Domingos
- * Criação.
- */
-$.configCabecalho = function(status){
-	if(status){
-		$.servicos.setTop(Alloy.isHandheld?160:214);
-		$.headerListaServicos.setHeight(Alloy.isHandheld?150:204);
-		$.usuario.setHeight(Alloy.isHandheld?24:36);
-		$.empresa.setHeight(Alloy.isHandheld?24:36);
-		$.usuario.text = "Usuário: " + (Alloy.Globals.Usuario.Nome?Alloy.Globals.Usuario.Nome:Alloy.Globals.Usuario.UsuarioUAU);
-		$.empresa.text = "Empresa: " + Alloy.Globals.Empresa.descricao;
-	}
-	else{
-		$.servicos.setTop(Alloy.isHandheld?100:154);
-		$.headerListaServicos.setHeight(Alloy.isHandheld?98:152);
-		$.usuario.setHeight(0);
-		$.empresa.setHeight(0);
-		$.usuario.text = "";
-		$.empresa.text = "";
-	}
-};
-
-/**
  * @method criarSessao
  * Cria uma nova sessão de servicos na lista de serviços.
  * @private

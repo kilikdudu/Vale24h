@@ -69,7 +69,7 @@ namespace Vale24hWebAPI.Controllers
             var rowsTickets = db.promocaorequerida.Where(p => p.userCloudId_proreq == parans.clienteId).OrderByDescending(p => p.datacad_proreq).Skip(parans.cursor).Take(parans.limite).ToList();
             foreach (promocaorequerida row in rowsTickets)
             {
-                if (row.validade_proreq < DateTime.Now)
+                if (row.validade_proreq < DateTime.Now && row.status_proreq == 0)
                 {
                     expiraVoucher(row.codigo_proreq);
                 }

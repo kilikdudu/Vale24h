@@ -31,5 +31,6 @@ namespace Vale24hWebAPI
         public virtual DbSet<promocao> promocao { get; set; }
         public virtual DbSet<promocaorequerida> promocaorequerida { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
+        public virtual DbSet<usuariocategoria> usuariocategoria { get; set; }
     }
 }

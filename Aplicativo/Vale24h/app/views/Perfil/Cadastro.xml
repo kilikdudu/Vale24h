@@ -1,0 +1,31 @@
+<Alloy>
+	<Window id="winCadastro"> 
+		<Widget src="GUI" id="minhaTopBar" name="Topbar" />
+		<ScrollView id="conteudo" >
+			<View height="Ti.UI.SIZE" top=5>
+				<Widget src="GUI" name="LblTextField" id="nome" nome="*Nome" />
+			</View>
+			<View height="Ti.UI.SIZE" top=5>
+				<Widget src="GUI" name="LblTextField" id="sobrenome" nome="*Sobrenome" />
+			</View>
+			<View height="Ti.UI.SIZE" top=5>
+				<Widget src="GUI" name="LblTextField" id="email" nome="Email" />
+			</View>
+			<View height="Ti.UI.SIZE" top=5>
+				<Widget src="GUI" name="LblTextField" id="cpf" nome="CPF" />
+			</View>
+			<View height="Ti.UI.SIZE" top=5>
+				<Widget src="GUI" name="LblTextField" id="login" nome="*Login" />
+			</View>
+			<View id="boxSenha" height="Ti.UI.SIZE" top=5>
+				<Widget src="GUI" name="LblTextField" id="senha" nome="*Senha" />
+			</View>
+			<View id="boxSenhaRep" height="Ti.UI.SIZE" top=5>
+				<Widget src="GUI" name="LblTextField" id="senhaRep" nome="*Senha novamente" />
+			</View>
+			<Button width="90%" left="5%" class="CustomButton" onClick="cadastro" top="10" id="btnConcluir" />
+			<Button width="90%" left="5%" class="CustomButton" id="btnAlterarSenha" top="0" height="0" enabled="false" >Alterar Senha</Button>
+			<View height="15" />
+		</ScrollView>
+	</Window>
+</Alloy>
