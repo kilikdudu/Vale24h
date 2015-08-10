@@ -85,13 +85,11 @@ $.getSelected = function(){
  * Criação.
  */
 $.setSelected = function(parans){
-	if(parans.flag){
-		$.selectedDate.text = Alloy.Globals.format.toDiaMesAno(parans.valor);
-		$.trigger('change', {
-	    	source: $.selectedDate,
-	    	data: $.selectedDate.text
-	  	});
-	}
+	$.selectedDate.text = Alloy.Globals.format.toDiaMesAno(parans.valor);
+	$.trigger('change', {
+    	source: $.selectedDate,
+    	data: $.selectedDate.text
+  	});
 };
 
 /**

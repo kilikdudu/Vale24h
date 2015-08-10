@@ -121,18 +121,30 @@ function verMais(e){
 
 
 function pegaTicket(e){
-	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
-		callback: sucessPegaTicket,
-		error: failPegaTicket,
-		url:  Alloy.Globals.MainDomain + "api/ticket/pegaTicket", 
-		metodo: "POST", 
-		timeout: 120000
-	});
-	if(ws){
-		ws.adicionaParametro({promocaoId: e.source.dados.promocaoId, clienteId: Alloy.Globals.Cliente.at(0).get("id")});
-		ws.NovoEnvia();
+	function confirmaPegaTicket(res){
+		if(!res.value){return;}
+		var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
+			callback: sucessPegaTicket,
+			error: failPegaTicket,
+			url:  Alloy.Globals.MainDomain + "api/ticket/pegaTicket", 
+			metodo: "POST", 
+			timeout: 120000
+		});
+		if(ws){
+			ws.adicionaParametro({promocaoId: e.source.dados.promocaoId, clienteId: Alloy.Globals.Cliente.at(0).get("id")});
+			ws.NovoEnvia();
+		}
+	}
+	if(e.source.dados.limitada){
+		var alerta = Alloy.createWidget("GUI", "Mensagem");
+		alerta.init("Atenção", "Gostaria de pegar este ticket ?\nApós pegar este ticket não será possível adquirir outro a menos que este seja liberado ou usado.", true);
+		alerta.show({callback: confirmaPegaTicket});
+	}else{
+		confirmaPegaTicket({value: true});
 	}
 }
+
+
 
 function failPegaTicket(e){
 	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar obter as informações da promocao.");
@@ -163,42 +175,3 @@ function verMapa(e){
 
 //Inicio o processo;
 iniciar();
-
-/* Antigo
- 
-function detalhar(e){
-	try{
-		if(e.row.tipo == "atualizar"){
-			listaInfinita.mostrarMais();
-			return;
-		}
-		infoTicketCliente( e.row.post_id);
-	}
-	catch(e){
-		Alloy.Globals.onError(e.message, "detalhar", "app/controllers/Boletos.js");
-	}
-}
-
-
-function infoTicketCliente(promocaoId){
-	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
-		callback: sucessInfoTicketCliente,
-		error: failInfoTicketCliente,
-		url:  Alloy.Globals.MainDomain + "api/ticket/getInfoTicket", 
-		metodo: "POST", 
-		timeout: 120000
-	});
-	if(ws){
-		ws.adicionaParametro({promocaoId: promocaoId, clienteId: Alloy.Globals.Cliente.at(0).get("id")});
-		ws.NovoEnvia();
-	}
-}
-
-function failInfoTicketCliente(e){
-	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar obter as informações da promocao.");
-}
-
-function sucessInfoTicketCliente(e){
-	var detalhes = Alloy.createController("Promocao/DetalhesPromocao", {ticket: e.at(0).toJSON()});
-	Alloy.Globals.Transicao.proximo(detalhes, detalhes.init, {});
-}*/

@@ -39,6 +39,11 @@ $.toDiaMesAno = function(valor){
 	return d1.format("DD/MM/YYYY");
 };
 
+$.customFormatData = function(strData, sourceFormat, targetFormat){
+	var d1 = moment(strData, sourceFormat);
+	return d1.format(targetFormat);
+};
+
 $.generateCustomData = function(strData){
 	var data = moment(strData);
 	var ret = {Ano: null, Mes: null, Dia: null, Hora: null, Minuto: null, Segundo: null};

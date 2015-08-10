@@ -29,7 +29,7 @@
 										id="verMapa" onClick="verMapa" latitude="{latitude}" longitude="{longitude}" nomeLoja="{nomeEmpresa}" 
 										imagem="/images/map.png" tamanho="24" fontSize="18" descricao="Mapa" />
 									<Widget src="GUI" name="ImgButton" 
-										id="pegaTicket" onClick="pegaTicket" promocaoId="{idPromocao}" 
+										id="pegaTicket" onClick="pegaTicket" promocaoId="{idPromocao}" limitada="{limitada}"
 										imagem="{imgPega}" tamanho="24" fontSize="18" descricao="{descPegaTicket}" />	
 								</View>	
 							</View>

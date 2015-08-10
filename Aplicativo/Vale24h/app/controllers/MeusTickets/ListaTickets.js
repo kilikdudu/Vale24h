@@ -174,16 +174,25 @@ function ticketLiberaRenova(e){
 }
 
 function liberaTicket(e){
-	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
-		callback: sucessLiberaTicket,
-		error: failLiberaTicket,
-		url:  Alloy.Globals.MainDomain + "api/ticket/liberaTicket", 
-		metodo: "POST", 
-		timeout: 120000
-	});
-	if(ws){
-		ws.adicionaParametro({idTicket:  e.source.dados.ticketId});
-		ws.NovoEnvia();
+	function confirmaLiberaTicket(){
+		var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
+			callback: sucessLiberaTicket,
+			error: failLiberaTicket,
+			url:  Alloy.Globals.MainDomain + "api/ticket/liberaTicket", 
+			metodo: "POST", 
+			timeout: 120000
+		});
+		if(ws){
+			ws.adicionaParametro({idTicket:  e.source.dados.ticketId});
+			ws.NovoEnvia();
+		}
+	}
+	if(e.source.dados.limitada){
+		var alerta = Alloy.createWidget("GUI", "Mensagem");
+		alerta.init("Atenção", "Gostaria de liberar este ticket ?\nApós liberar este ticket, você só poderá pegar este ticket novamente após 24 horas.", true);
+		alerta.show({callback: confirmaLiberaTicket});
+	}else{
+		confirmaLiberaTicket();
 	}
 }
 
@@ -206,17 +215,22 @@ function sucessLiberaTicket(e){
 }
 
 function renovaTicket(e){
-	var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
-		callback: sucessRenovaTicket,
-		error: failRenovaTicket,
-		url:  Alloy.Globals.MainDomain + "api/ticket/renovaTicket", 
-		metodo: "POST", 
-		timeout: 120000
-	});
-	if(ws){
-		ws.adicionaParametro({clienteId:  Alloy.Globals.Cliente.at(0).get("id"), promocaoId: e.source.dados.promocaoId});
-		ws.NovoEnvia();
+	function confirmaRenovaTicket(){
+		var ws = Alloy.createWidget("WebService").iniciarHttpRequest({
+			callback: sucessRenovaTicket,
+			error: failRenovaTicket,
+			url:  Alloy.Globals.MainDomain + "api/ticket/renovaTicket", 
+			metodo: "POST", 
+			timeout: 120000
+		});
+		if(ws){
+			ws.adicionaParametro({clienteId:  Alloy.Globals.Cliente.at(0).get("id"), promocaoId: e.source.dados.promocaoId});
+			ws.NovoEnvia();
+		}
 	}
+	var alerta = Alloy.createWidget("GUI", "Mensagem");
+	alerta.init("Atenção", "Gostaria de renovar este ticket ?\nApós renovar este ticket não será possível adquirir outro, a menos que este seja liberado ou usado.", true);
+	alerta.show({callback: confirmaRenovaTicket});
 }
 
 function failRenovaTicket(e){

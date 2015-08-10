@@ -154,6 +154,12 @@ Alloy.Globals.DAL = Alloy.createWidget("DAL");
  * @property {widgets.Util.Transicao} Transicao Deve ser utilizado sempre que for necessário chamar uma nova janela.
  */
 Alloy.Globals.Transicao = Alloy.createWidget("Util", "Transicao");
+
+/**
+ * @property {widgets.Util.Validador} format Objeto utilizado para validação de dados.
+ */
+Alloy.Globals.validador = Alloy.createWidget("Util", "Validador");
+
 /**
  * @method Alerta
  * Exibe um alerta simples com o título e a mensagem.
@@ -235,9 +241,8 @@ Alloy.Globals.logout = function(){
  * Criação.
  */
 function executeLogout(parans){
-	var camada = Alloy.createWidget("GUI", "Camada", {load: true}).getView();
-	Alloy.Globals.currentWindow().add(camada);
 	if(parans.value){
+		Alloy.Globals.carregando();
 		Alloy.Globals.Cloud.Users.logout(function (e) {
 		    if (e.success) {
 		    	if(Alloy.Globals.InfoUser.external_accounts.length > 0){
@@ -258,6 +263,7 @@ function finalizarLogout(e){
 	Alloy.Globals.Cliente.at(0).destroy({silent: true});
 	Alloy.Globals.Cliente.fetch();
 	Alloy.Globals.InfoUser = null;
+	Alloy.Globals.carregou();
     Alloy.createController("index");
 	Ti.API.info("logout, tamanhao da pilha: " + Alloy.Globals.pilhaWindow.length);
 }

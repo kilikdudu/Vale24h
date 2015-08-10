@@ -96,7 +96,7 @@ function init(){
 	try{
 		$.janela.fbProxy = Alloy.Globals.Facebook.createActivityWorker({lifecycleContainer: $.janela});
 		Alloy.Globals.configWindow($.janela, $);
-		$.login.init({nome: "Login"});
+		$.login.init({nome: "Login", next: $.senha});
 		$.senha.init({nome: "Senha"});
 		$.senha.novoNome.passwordMask = true;
 	}

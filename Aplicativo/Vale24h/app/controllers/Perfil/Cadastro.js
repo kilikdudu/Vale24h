@@ -8,6 +8,8 @@ var args = arguments[0] || {};
 
 var tipo = args.tipo;
 
+configuraInput();
+
 if(tipo == "cadastro"){
 	$.btnConcluir.title = "Concluir";
 }else{
@@ -65,13 +67,28 @@ $.init = function(){
 	try{
 		Alloy.Globals.configWindow($.winCadastro, $);
 		$.minhaTopBar.iniciar(tipo=="cadastro"?"Cadastro":"Dados Pessoais");
-		$.senha.novoNome.passwordMask = true;
-		$.senhaRep.novoNome.passwordMask = true;
 	}
 	catch(e){
 		Alloy.Globals.onError(e.message, "init", "app/controllers/Boletos.js");
 	}
 };
+
+function configuraInput(){
+	$.nome.init({nome: "*Nome", next: $.sobrenome});
+	$.sobrenome.init({nome: "*Sobrenome", next: $.email});
+	$.dataNascimento.init({nome: "*Data de nascimento"});
+	$.email.init({nome: "Email", next: $.cpf, keyboardType: Titanium.UI.KEYBOARD_EMAIL});
+	if(tipo == "cadastro"){
+		$.cpf.init({nome: "CPF", next: $.login, keyboardType: Titanium.UI.KEYBOARD_NUMBER_PAD});
+		$.login.init({nome: "*Login", next: $.senha});
+		$.senha.init({nome: "*Senha", next: $.senhaRep});
+		$.senhaRep.init({nome: "*Senha novamente"});
+	}else{
+		$.cpf.init({nome: "CPF", keyboardType: Titanium.UI.KEYBOARD_NUMBER_PAD});
+	}
+	$.senha.novoNome.passwordMask = true;
+	$.senhaRep.novoNome.passwordMask = true;
+}
 
 function ativaBtnSenha(){
 	$.boxSenha.top = 0;
@@ -81,6 +98,28 @@ function ativaBtnSenha(){
 	$.btnAlterarSenha.enabled = true;
 	$.btnAlterarSenha.height = Ti.UI.SIZE;
 	$.btnAlterarSenha.top = 10;
+}
+
+function validaCpf(e){
+	if(e.text == ""){
+		return ;
+	}
+	if(Alloy.Globals.validador.validarCPF(e.text)){
+			e.source.value = Alloy.Globals.format.cpf(e.text);
+	}else{
+		Alloy.Globals.Alerta("Alerta", "CPF inválido");
+		e.source.value = Alloy.Globals.format.soDigitos(e.text);
+	}
+	
+}
+
+function validaEmail(e){
+	if(e.text == ""){
+		return ;
+	}
+	if(!Alloy.Globals.validador.validarEmail(e.text)){
+		Alloy.Globals.Alerta("Alerta", "Email inválido");
+	}
 }
 
 function validar(){
@@ -94,6 +133,11 @@ function validar(){
 		if($.sobrenome.getInputValue() == ""){
 			check.init("Alerta", "Informe o sobrenome.");
 			check.show({callback: $.sobrenome.selecionar});
+			return false;
+		}
+		if($.dataNascimento.getSelected().data == ""){
+			check.init("Alerta", "Informe a data de nascimento.");
+			check.show({callback: $.dataNascimento.selecionar});
 			return false;
 		}
 		if($.login.getInputValue() == "" && tipo == "cadastro"){
@@ -116,6 +160,20 @@ function validar(){
 			$.senhaRep.setInputValue("");
 			check.show({callback: $.senhaRep.selecionar});
 			return false;
+		}
+		if($.cpf.getInputValue() != ""){
+			if(!Alloy.Globals.validador.validarCPF($.cpf.getInputValue())){
+				check.init("Alerta", "CPF inválido.");
+				check.show({callback: $.cpf.selecionar});
+				return false;
+			}
+		}
+		if($.email.getInputValue() != ""){
+			if(!Alloy.Globals.validador.validarEmail($.email.getInputValue())){
+				check.init("Alerta", "Email inválido.");
+				check.show({callback: $.email.selecionar});
+				return false;
+			}
 		}
 		return true;
 	}
@@ -145,7 +203,7 @@ function requestCadastro(){
 		    first_name: $.nome.getInputValue(),
 		    last_name: $.sobrenome.getInputValue(),
 		    email: $.email.getInputValue(),
-		    custom_fields: {cpf: $.cpf.getInputValue()}
+		    custom_fields: {cpf: $.cpf.getInputValue(), datanascimento: Alloy.Globals.format.customFormatData($.dataNascimento.getSelected().data, "DD/MM/YYYY", "YYYY/MM/DD")}
 		}, function (e) {
 			if (e.success) {
 			 	callbackOk(e);
@@ -168,7 +226,7 @@ function alteraDados(){
 		    first_name: $.nome.getInputValue(),
 		    last_name: $.sobrenome.getInputValue(),
 		    email: $.email.getInputValue(),
-		    custom_fields: {cpf: $.cpf.getInputValue()}
+		    custom_fields: {cpf: $.cpf.getInputValue(), datanascimento: Alloy.Globals.format.customFormatData($.dataNascimento.getSelected().data, "DD/MM/YYYY", "YYYY/MM/DD")}
 		}, function (e) {
 			if (e.success) {
 				var user = e.users[0];
@@ -190,6 +248,7 @@ function PreencheDados(){
     $.sobrenome.setInputValue(Alloy.Globals.InfoUser.last_name);
     $.email.setInputValue(Alloy.Globals.InfoUser.email);
     if(Alloy.Globals.InfoUser.custom_fields){
+    	$.dataNascimento.setSelected({valor: Alloy.Globals.InfoUser.custom_fields.datanascimento});
     	$.cpf.setInputValue(Alloy.Globals.InfoUser.custom_fields.cpf);
     }
     if(Alloy.Globals.InfoUser.external_accounts.length > 0){
