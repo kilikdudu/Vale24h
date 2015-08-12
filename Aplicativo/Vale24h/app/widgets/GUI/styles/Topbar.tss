@@ -19,7 +19,12 @@
 	color: "white",
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
 }
-
+"#boxBotoes": {
+	right: 0,
+	width: Titanium.UI.SIZE,
+	height: 32,
+	backgroundColor: 'transparent'
+}
 "#sombra": {
 	width: Titanium.UI.FILL,
 	height: 1,

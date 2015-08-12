@@ -114,7 +114,7 @@
     <Compile Include="imagem.cs">
       <DependentUpon>vale24hEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\InfoCategoriaUsuario.cs" />
+    <Compile Include="Models\InfoCategoria.cs" />
     <Compile Include="Models\InfoPromocao.cs" />
     <Compile Include="Models\ParansLista.cs" />
     <Compile Include="Models\StatusRequisicao.cs" />

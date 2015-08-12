@@ -1,9 +1,0 @@
-<Alloy>
-	<View height="100%" width="100%">
-		<View height="100%" width="100%" backgroundColor="black" opacity="0.4" />
-		<ScrollableView id="boxTabsView" />
-		<View id="auxPaging">
-			<View id="pagingControl" />
-		</View>
-	</View>
-</Alloy>

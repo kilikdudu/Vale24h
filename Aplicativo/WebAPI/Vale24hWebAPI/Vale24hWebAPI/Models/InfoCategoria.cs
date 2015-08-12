@@ -5,10 +5,9 @@ using System.Web;
 
 namespace Vale24hWebAPI.Models
 {
-    public class InfoCategoriaUsuario
+    public class InfoCategoria
     {
         public string descricao { get; set; }
         public long id { get; set; }
-        public bool marcada { get; set; }
     }
 }

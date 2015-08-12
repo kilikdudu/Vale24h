@@ -17,21 +17,15 @@ namespace Vale24hWebAPI.Controllers
     {
         private vale24hEntities db = new vale24hEntities();
 
-        public class parans_InfoCliente
-        {
-            public string clienteId { get; set; }
-        }
-
         [HttpPost]
-        public List<InfoCategoriaUsuario> getCategoriasUsuario(parans_InfoCliente parans)
+        public List<InfoCategoria> getCategorias()
         {
-            var ret = new List<InfoCategoriaUsuario>();
+            var ret = new List<InfoCategoria>();
 
             List<categoria> categorias = db.categoria.Where(c => c.ativo_cat == true).ToList();
             foreach(categoria cat in categorias)
             {
-                var infoCat = new InfoCategoriaUsuario();
-                infoCat.marcada = db.usuariocategoria.Where(u => u.userCloudId_usucat == parans.clienteId && u.Categoria_codigo_cat == cat.codigo_cat).Count() > 0 ? true : false;
+                var infoCat = new InfoCategoria();
                 infoCat.descricao = cat.descricao_cat;
                 infoCat.id = cat.codigo_cat;
                 ret.Add(infoCat);

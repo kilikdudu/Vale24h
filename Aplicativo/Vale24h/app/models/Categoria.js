@@ -2,8 +2,7 @@ exports.definition = {
 	config: {
 		columns: {
 			"id": "Number",
-			"descricao": "String",
-			"marcada": "Boolean"
+			"descricao": "String"
 		},
 		adapter: {
 			type: "properties",

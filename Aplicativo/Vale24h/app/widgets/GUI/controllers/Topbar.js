@@ -10,6 +10,10 @@ var inputSearch = null;
 var searchBar = null;
 var semaforo = false;
 
+var tamanhoBotao = 32;
+var gapDireitaBotao = 10;
+var boxBuscar = {};
+
 /**
  * @method iniciar
  * Construtor da classe. Altera o título e caso exista uma janela anterior, a barra substitui o ícone de lista para o ícone voltar.
@@ -58,31 +62,17 @@ $.iniciar = function(titulo){
  */
 $.addRightButtom = function(icon, callback){
 	var btnRight = Ti.UI.createButton({
-		right: 10,
-		width: 32,
-		height: 32,
+		right: gapDireitaBotao + ($.boxBotoes.children.length * (tamanhoBotao + gapDireitaBotao)),
+		width: tamanhoBotao,
+		height: tamanhoBotao,
 		backgroundColor: 'transparent',
 		backgroundImage: icon,
 		backgroundSelectedColor: Alloy.Globals.MainColorLight
 	});
 	btnRight.addEventListener("click", callback);
-	$.boxTopBar.add(btnRight);
+	$.boxBotoes.add(btnRight);
 	return btnRight;
 };
-
-
-function configSearchBariOS(tableView){
-	searchBar = Ti.UI.createSearchBar({
-		hintText: "Procurar...",
-		height: Alloy.isTablet?60:40,
-		left: 0,
-		right: 0,
-		width: Ti.UI.FILL
-	});
-	tableView.search = searchBar;
-	tableView.setFilterCaseInsensitive(true);
-	tableView.setFilterAttribute("title");
-}
 
 /**
  * @method enableSmartFilter
@@ -91,102 +81,92 @@ function configSearchBariOS(tableView){
  * @alteracao 05/03/2015 180419 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação. 
  */
-$.enableSmartFilter = function(tableView){
-	if(Ti.Platform.name === 'iPhone OS'){
-		configSearchBariOS(tableView);
-		return ;
+$.enableFilter = function(tableView){
+	
+	var btnBuscar = $.addRightButtom("/images/lupa_white.png", callback);
+	montarSearchBar({view: tableView});
+	function callback(e){
+		$.boxBotoes.remove(btnBuscar);
+		$.titulo.visible = false;
+		$.boxTopBar.add(boxBuscar);
 	}
-	else if(Ti.Platform.name === 'android'){
-		searchBar = Ti.UI.Android.createSearchView({
-			height: 0,
-			top: 0,
-			visible: false
-		});
-		inputSearch =Ti.UI.createTextField({
-			top: 5,
-			right: 47,
-			width: 0,
-			backgroundColor: "white",
-			color: "black",
-			textAlign: Ti.UI.TEXT_ALIGNMENT_RIGHT,
-			borderRadius: 4,
-			hintText: "Buscar",
-			softKeyboardOnFocus: Ti.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS
-		});
-		inputSearch.addEventListener("change", function(e){
-			searchBar.setValue(e.source.value);
-		});
-		
-	}
-	
-	tableView.search = searchBar;
-	tableView.setFilterCaseInsensitive(true);
-	tableView.setFilterAttribute("title");	
-	
-	var btSearch = Ti.UI.createButton({
-		backgroundColor: 'transparent',
-		backgroundImage: '/images/lupa_white.png',
-		right: 10,
-		width: 32,
-		height: 32,
-		ativado: false
+	boxBuscar.addEventListener("fechar", function(e){
+		$.boxTopBar.remove(boxBuscar);
+		$.boxBotoes.add(btnBuscar);
+		$.titulo.visible = true;
 	});
-	
-	$.boxTopBar.add(btSearch);
-	
-	btSearch.addEventListener("click", function(e){
-		if(semaforo){
-			return ;
-		}
-		semaforo = true;
-		btSearch.ativado = !btSearch.ativado;
-		if(btSearch.ativado){
-			$.boxTopBar.add(inputSearch);
-			inputSearch.focus();
-			btSearch.backgroundImage = "/images/delete_white.png";
-		}
-		else{
-			btSearch.backgroundImage = "/images/lupa_white.png";
-			inputSearch.setValue("");
-			searchBar.setValue("");
-		}
-		var animacaoinputSearch = Ti.UI.createAnimation({
-			width: btSearch.ativado?"60%":0,
-			duration: 150
-		});
-		
-		animacaoinputSearch.addEventListener("complete", function(){
-			if(!btSearch.ativado){
-				$.boxTopBar.remove(inputSearch);
-			}
-			else{
-				inputSearch.focus();
-			}
-			semaforo = false;
-		});
-		
-		var animacaoTitulo = Ti.UI.createAnimation({
-			opacity: e.source.ativado?0:1,
-			duration: 100
-		});
-		
-		Ti.API.info("Tenta executar evento.");
-		if(Ti.Platform.name === 'android'){
-			inputSearch.animate(animacaoinputSearch);	
-		}
-		else{
-			if(!btSearch.ativado){
-				$.boxTopBar.remove(inputSearch);
-			}
-			else{
-				inputSearch.focus();
-			}
-			semaforo = false;
-		}
-		$.titulo.animate(animacaoTitulo);
-	});
-	
 };
+
+function montarSearchBar(parans){
+	var sField = Ti.UI.createTextField({
+		color: "white",
+		backgroundColor: "transparent",
+		enableReturnKey: true,
+		returnKeyType: Titanium.UI.RETURNKEY_SEARCH,
+		font: {fontSize: 18},
+		hintText: "Buscar...",
+		left: 26,
+		right: 26,
+		top: 0,
+		height: 40
+	});
+	var btnLimpar = Ti.UI.createButton({
+		backgroundColor: 'transparent',
+		backgroundImage: "/images/x_white.png",
+		visible: false,
+		enabled: false,
+		height: 20,
+		width: 20,
+		right: 4,
+		backgroundSelectedColor: Alloy.Globals.MainColorLight
+	});
+	btnLimpar.addEventListener("click", function(e){
+		sField.value = "";
+	});
+	
+	var btnFechar = Ti.UI.createButton({
+		width: 20,
+		height: 20,
+		left: 4,
+		backgroundImage: "/images/lupa_white.png",
+		backgroundColor: "transparent",
+		backgroundSelectedColor: Alloy.Globals.MainColorLight
+	});
+	
+	btnFechar.addEventListener("click", function(e){
+		boxBuscar.fireEvent("fechar", {});
+	});
+	
+	var linha = Ti.UI.createView({
+		backgroundColor: "white",
+		height: 1,
+		left: 0,
+		right: 0,
+		bottom: 0
+	});
+	
+	sField.addEventListener("change", function(e){
+		if(e.value.length > 0){
+			btnLimpar.enabled = true;
+			btnLimpar.visible = true;
+		}
+		parans.view.fireEvent("buscarchange", {texto: e.value});
+	});
+	sField.addEventListener("return", function(e){
+		parans.view.fireEvent("buscar", {texto: e.value});
+		sField.blur();
+	});
+	
+	boxBuscar = Ti.UI.createView({
+		height: tamanhoBotao,
+		left: 50,
+		right: gapDireitaBotao + (($.boxBotoes.children.length - 1) * (tamanhoBotao + gapDireitaBotao))
+	});
+	boxBuscar.add(sField);
+	boxBuscar.add(btnLimpar);
+	boxBuscar.add(btnFechar);
+	boxBuscar.add(linha);
+}
 
 /**
  * @event click_boxListaServico

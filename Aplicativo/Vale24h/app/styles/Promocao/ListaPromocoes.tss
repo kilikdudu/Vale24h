@@ -4,7 +4,8 @@
 }
 "#listaPromocoes": {
 	width: Titanium.UI.FILL,
-	height: Titanium.UI.FILL,
+	top: 0,
+	bottom: 0,
 	scrollable: true
 }
 "#boxCabecalho": {
@@ -45,4 +46,10 @@
 }
 "#pegaTicket": {
 	width: 140
+}
+"#lblCategoria": {
+	height: 0,
+	width: "90%",
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	color: Alloy.Globals.MainColor
 }

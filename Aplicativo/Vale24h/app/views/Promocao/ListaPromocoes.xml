@@ -1,6 +1,7 @@
 <Alloy>
 	<Collection src="Promocao" id="promocoes" instance="true" />
-	<View id="vwListaPromocoes"> 
+	<View id="vwListaPromocoes">
+		<Label id="lblCategoria" class="titulo" /> 
 		<Widget src="nl.fokkezb.pullToRefresh" id="ptr" onRelease="myRefresher">
 			<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" id="listaPromocoes" onClick="verMais" dataCollection="$.promocoes" dataTransform="formatar">
 				<TableViewRow class="RowDetail" className="ListaPromocaoRow" >

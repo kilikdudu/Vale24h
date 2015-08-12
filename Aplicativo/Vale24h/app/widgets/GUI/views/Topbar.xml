@@ -2,6 +2,7 @@
 	<View id="boxTopBar"> 
 		<Label id="titulo" class="titulo" /> 
 		<View id="boxListaServico" />
-		<View id="sombra"></View>
+		<View id="boxBotoes" />
+		<View id="sombra" />
 	</View>
 </Alloy>

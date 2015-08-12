@@ -8,7 +8,11 @@ var args = arguments[0] || {};
 
 var limite = 10;
 
-
+args.pai.addEventListener("categoria", function(e){
+	$.lblCategoria.setText(e.descricao);
+	$.lblCategoria.setHeight(35);
+	$.listaPromocoes.setTop(35);
+});
 
 var listaInfinita = Alloy.createWidget("Util", "ListaInfinita", {colecao: $.promocoes, lista: $.listaPromocoes, 
 	refreshCallback: getPromocoes, limite: limite});
