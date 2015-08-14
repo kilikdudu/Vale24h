@@ -11,7 +11,7 @@ $.init = function(){
 		Alloy.Globals.configWindow($.winPrincipal, $);
 		$.minhaTopBar.iniciar("Vale24h");
 		btnFiltrar = $.minhaTopBar.addRightButtom("/images/categoria.png", filtro);
-		$.minhaTopBar.enableFilter($.minhaScrollable.getView());
+		$.minhaTopBar.enableFilter($);
 		listaCategorias.init("Categorias", categorias, ["id"], "descricao", setCategoria);
 	}
 	catch(e){
@@ -42,13 +42,13 @@ function failFiltro(e){
 	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao obter as categorias, tente novamente mais tarde.");
 }
 
-function setCategoria(e){
-	$.minhaScrollable.getView().fireEvent("categoria", {id: e.chave, descricao: e.texto});
+function setCategoria(texto, chave){
+	$.trigger("categoria", {id: chave, descricao: texto});
 }
 
 
 $.winPrincipal.addEventListener("open", function(e){
-	var Posts = Alloy.createController("Promocao/ListaPromocoes", {pai: $.minhaScrollable.getView()});
-	var MeusTickets = Alloy.createController("MeusTickets/ListaTickets", {pai: $.minhaScrollable.getView()});
+	var Posts = Alloy.createController("Promocao/ListaPromocoes", {pai: $});
+	var MeusTickets = Alloy.createController("MeusTickets/ListaTickets", {pai: $});
 	$.minhaScrollable.init([Posts.getView(), MeusTickets.getView()], ["Promoções", "Tickets"], {cacheSize: 3});
 });

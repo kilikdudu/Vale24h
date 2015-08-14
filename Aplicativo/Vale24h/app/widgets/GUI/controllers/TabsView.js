@@ -116,6 +116,7 @@ function preenchePaggingControl(titulos){
 	
 	ativaAba(pages[$.boxTabsView.getCurrentPage()]);
 	indiceAtual = $.boxTabsView.getCurrentPage();
+	$.boxTabsView.views[indiceAtual]._ativada = true;
 	$.boxTabsView.addEventListener("scroll", onScroll);
 	$.boxTabsView.addEventListener("postlayout", onPostLayout);
 }
@@ -157,10 +158,12 @@ function onScroll(event){
 	if(event.currentPage){
 		if(indiceAtual == event.currentPage){return;}
 		for (var i = 0; i < numberOfPages; i++) {
+			$.boxTabsView.views[i]._ativada = false;
 			desativaAba(pages[i]);
 		}
 		ativaAba(pages[event.currentPage]);
 		indiceAtual = event.currentPage;
+		$.boxTabsView.views[indiceAtual]._ativada = true;
 	}
 	else{
 		onPostLayout(null);
@@ -176,8 +179,10 @@ function onScroll(event){
 function onPostLayout(event) {
 	if(indiceAtual == $.boxTabsView.getCurrentPage()){return;}
  	for (var i = 0; i < numberOfPages; i++) {
+ 		$.boxTabsView.views[i]._ativada = false;
  		desativaAba(pages[i]);
 	}
 	ativaAba(pages[$.boxTabsView.getCurrentPage()]);
 	indiceAtual = $.boxTabsView.getCurrentPage();
+	$.boxTabsView.views[indiceAtual]._ativada = true;
 };

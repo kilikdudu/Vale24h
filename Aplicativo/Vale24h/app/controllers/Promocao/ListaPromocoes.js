@@ -8,10 +8,31 @@ var args = arguments[0] || {};
 
 var limite = 10;
 
-args.pai.addEventListener("categoria", function(e){
-	$.lblCategoria.setText(e.descricao);
-	$.lblCategoria.setHeight(35);
-	$.listaPromocoes.setTop(35);
+var idCategoria = null;
+
+var buscar = "";
+
+args.pai.on("categoria", function(e){
+	if($.getView()._ativada){
+		$.lblCategoria.text = e.descricao;
+		idCategoria = e.id;
+		$.categoria.height = 35;
+		$.vwListaPromocoes.setTop(35);	
+	}
+});
+
+function removeCategoria(e){
+	$.lblCategoria.text = "";
+	idCategoria = null;
+	$.categoria.height = 0;
+	$.vwListaPromocoes.setTop(0);
+}
+
+args.pai.on("buscar", function(e){
+	if($.getView()._ativada){
+		buscar = e.texto;
+		getPromocoes({semLoader: false, limite: limite, cursor: 0});	
+	}
 });
 
 var listaInfinita = Alloy.createWidget("Util", "ListaInfinita", {colecao: $.promocoes, lista: $.listaPromocoes, 
@@ -75,7 +96,7 @@ function getPromocoes(parans){
 			semLoader: semLoader
 		});
 		if(ws){
-			ws.adicionaParametro({limite: limit, cursor: cursor, clientId: Alloy.Globals.Cliente.at(0).get("id")});
+			ws.adicionaParametro({limite: limit, cursor: cursor, clientId: Alloy.Globals.Cliente.at(0).get("id"), categoria: idCategoria, buscar: buscar});
 			ws.NovoEnvia();
 		}
 	}

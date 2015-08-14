@@ -13,6 +13,7 @@ var semaforo = false;
 var tamanhoBotao = 32;
 var gapDireitaBotao = 10;
 var boxBuscar = {};
+var sField = null;
 
 /**
  * @method iniciar
@@ -81,14 +82,15 @@ $.addRightButtom = function(icon, callback){
  * @alteracao 05/03/2015 180419 Projeto Carlos Eduardo Santos Alves Domingos
  * Criação. 
  */
-$.enableFilter = function(tableView){
+$.enableFilter = function(controller){
 	
 	var btnBuscar = $.addRightButtom("/images/lupa_white.png", callback);
-	montarSearchBar({view: tableView});
+	montarSearchBar({controller: controller});
 	function callback(e){
 		$.boxBotoes.remove(btnBuscar);
 		$.titulo.visible = false;
 		$.boxTopBar.add(boxBuscar);
+		sField.focus();
 	}
 	boxBuscar.addEventListener("fechar", function(e){
 		$.boxTopBar.remove(boxBuscar);
@@ -98,7 +100,7 @@ $.enableFilter = function(tableView){
 };
 
 function montarSearchBar(parans){
-	var sField = Ti.UI.createTextField({
+	sField = Ti.UI.createTextField({
 		color: "white",
 		backgroundColor: "transparent",
 		enableReturnKey: true,
@@ -133,7 +135,8 @@ function montarSearchBar(parans){
 		backgroundSelectedColor: Alloy.Globals.MainColorLight
 	});
 	
-	btnFechar.addEventListener("click", function(e){
+	btnFechar.addEventListener("click", function(){
+		parans.controller.trigger("buscar", {texto: ""});
 		boxBuscar.fireEvent("fechar", {});
 	});
 	
@@ -150,10 +153,10 @@ function montarSearchBar(parans){
 			btnLimpar.enabled = true;
 			btnLimpar.visible = true;
 		}
-		parans.view.fireEvent("buscarchange", {texto: e.value});
+		parans.controller.trigger("buscarchange", {texto: e.value});
 	});
 	sField.addEventListener("return", function(e){
-		parans.view.fireEvent("buscar", {texto: e.value});
+		parans.controller.trigger("buscar", {texto: e.value});
 		sField.blur();
 	});
 	

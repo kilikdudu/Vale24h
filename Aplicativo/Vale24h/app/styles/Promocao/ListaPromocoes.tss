@@ -1,6 +1,7 @@
 "#vwListaPromocoes": {
 	width: Titanium.UI.FILL,
-	height: Titanium.UI.FILL
+	top: 0,
+	bottom: 0
 }
 "#listaPromocoes": {
 	width: Titanium.UI.FILL,
@@ -47,9 +48,21 @@
 "#pegaTicket": {
 	width: 140
 }
-"#lblCategoria": {
+"#categoria": {
+	top: 5,
 	height: 0,
-	width: "90%",
+	width: "90%"
+}
+"#xCategoria": {
+	width: 24,
+	height: 24,
+	left: 0,
+	image: "/images/x.png"
+}
+"#lblCategoria": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.SIZE,
+	left: 29,
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 	color: Alloy.Globals.MainColor
 }
