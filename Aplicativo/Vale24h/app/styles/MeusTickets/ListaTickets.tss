@@ -41,7 +41,7 @@
 	top: 5,
 	layout: 'vertical'
 }
-"#categoria": {
+/*"#categoria": {
 	top: 5,
 	height: 0,
 	width: "90%"
@@ -58,4 +58,4 @@
 	left: 29,
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 	color: Alloy.Globals.MainColor
-}
+}*/

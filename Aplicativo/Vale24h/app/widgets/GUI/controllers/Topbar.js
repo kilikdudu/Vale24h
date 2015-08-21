@@ -13,7 +13,36 @@ var semaforo = false;
 var tamanhoBotao = 32;
 var gapDireitaBotao = 10;
 var boxBuscar = {};
+var btnBuscar= null;
 var sField = null;
+
+var anAddBoxBuscar = Ti.UI.createAnimation({
+	width: Ti.UI.FILL,
+	duration: 200
+});
+
+anAddBoxBuscar.addEventListener("start", function(e){
+	$.trigger("abrirBuscar", {});
+});
+
+anAddBoxBuscar.addEventListener("complete", function(e){
+	boxBuscar.borderRadius = 0;
+	sField.focus();
+});
+
+var anRemBoxBuscar = Ti.UI.createAnimation({
+	width: 0,
+	duration: 200
+});
+
+anRemBoxBuscar.addEventListener("start", function(e){
+	$.trigger("fecharBuscar", {});
+});
+
+anRemBoxBuscar.addEventListener("complete", function(e){
+	$.boxTopBar.remove(boxBuscar);
+	$.boxBotoes.add(btnBuscar);
+});
 
 /**
  * @method iniciar
@@ -84,53 +113,57 @@ $.addRightButtom = function(icon, callback){
  */
 $.enableFilter = function(controller){
 	
-	var btnBuscar = $.addRightButtom("/images/lupa_white.png", callback);
+	btnBuscar = $.addRightButtom("/images/lupa_white.png", callback);
 	montarSearchBar({controller: controller});
 	function callback(e){
+		$.trigger("abrirBuscar", {});
 		$.boxBotoes.remove(btnBuscar);
-		$.titulo.visible = false;
 		$.boxTopBar.add(boxBuscar);
 		sField.focus();
+		//boxBuscar.animate(anAddBoxBuscar);
 	}
+	
 	boxBuscar.addEventListener("fechar", function(e){
+		//boxBuscar.animate(anRemBoxBuscar);
+		$.trigger("fecharBuscar", {});
 		$.boxTopBar.remove(boxBuscar);
 		$.boxBotoes.add(btnBuscar);
-		$.titulo.visible = true;
 	});
 };
 
 function montarSearchBar(parans){
 	sField = Ti.UI.createTextField({
-		color: "white",
 		backgroundColor: "transparent",
 		enableReturnKey: true,
 		returnKeyType: Titanium.UI.RETURNKEY_SEARCH,
-		font: {fontSize: 18},
+		font: {fontSize: 22},
 		hintText: "Buscar...",
-		left: 26,
-		right: 26,
+		left: 38,
+		right: 38,
 		top: 0,
-		height: 40
+		height: Ti.UI.FILL
 	});
 	var btnLimpar = Ti.UI.createButton({
 		backgroundColor: 'transparent',
-		backgroundImage: "/images/x_white.png",
+		backgroundImage: "/images/x.png",
 		visible: false,
 		enabled: false,
-		height: 20,
-		width: 20,
+		height: 32,
+		width: 32,
 		right: 4,
 		backgroundSelectedColor: Alloy.Globals.MainColorLight
 	});
 	btnLimpar.addEventListener("click", function(e){
 		sField.value = "";
+		btnLimpar.enabled = false;
+		btnLimpar.visible = false;
 	});
 	
 	var btnFechar = Ti.UI.createButton({
-		width: 20,
-		height: 20,
+		width: 32,
+		height: 32,
 		left: 4,
-		backgroundImage: "/images/lupa_white.png",
+		backgroundImage: "/images/voltar_main.png",
 		backgroundColor: "transparent",
 		backgroundSelectedColor: Alloy.Globals.MainColorLight
 	});
@@ -138,14 +171,6 @@ function montarSearchBar(parans){
 	btnFechar.addEventListener("click", function(){
 		parans.controller.trigger("buscar", {texto: ""});
 		boxBuscar.fireEvent("fechar", {});
-	});
-	
-	var linha = Ti.UI.createView({
-		backgroundColor: "white",
-		height: 1,
-		left: 0,
-		right: 0,
-		bottom: 0
 	});
 	
 	sField.addEventListener("change", function(e){
@@ -161,14 +186,14 @@ function montarSearchBar(parans){
 	});
 	
 	boxBuscar = Ti.UI.createView({
-		height: tamanhoBotao,
-		left: 50,
-		right: gapDireitaBotao + (($.boxBotoes.children.length - 1) * (tamanhoBotao + gapDireitaBotao))
+		height: Ti.UI.FILL,
+		width: Ti.UI.FILL,
+		//borderRadius: 12,
+		backgroundColor: "white"
 	});
 	boxBuscar.add(sField);
 	boxBuscar.add(btnLimpar);
 	boxBuscar.add(btnFechar);
-	boxBuscar.add(linha);
 }
 
 /**

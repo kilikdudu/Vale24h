@@ -46,6 +46,13 @@ function setCategoria(texto, chave){
 	$.trigger("categoria", {id: chave, descricao: texto});
 }
 
+$.minhaTopBar.on("abrirBuscar", function(e){
+	$.minhaScrollable.removePageControl();
+});
+
+$.minhaTopBar.on("fecharBuscar", function(e){
+	$.minhaScrollable.adicionaPageControl();
+});
 
 $.winPrincipal.addEventListener("open", function(e){
 	var Posts = Alloy.createController("Promocao/ListaPromocoes", {pai: $});

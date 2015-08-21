@@ -43,6 +43,17 @@ $.setViewIndex = function(index){
 	$.boxTabsView.scrollToView(index);
 };
 
+$.removePageControl = function(){
+	$.boxTabsView.scrollingEnabled = false;
+	$.boxTabsView.top = 0;
+	$.pagingControl.height = 0;
+};
+
+$.adicionaPageControl = function(){
+	$.boxTabsView.scrollingEnabled = true;
+	$.boxTabsView.top = 40;
+	$.pagingControl.height = 40;
+};
 
 /**
  * @method preenchePaggingControl

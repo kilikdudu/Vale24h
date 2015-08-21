@@ -8,7 +8,7 @@ var args = arguments[0] || {};
 
 var limite = 10;
 
-var idCategoria = null;
+/*var idCategoria = null;
 
 var buscar = "";
 
@@ -33,7 +33,7 @@ args.pai.on("buscar", function(e){
 		buscar = e.texto;
 		getTickets({semLoader: false, limite: limite, cursor: 0});	
 	}
-});
+});*/
 
 var listaInfinita = Alloy.createWidget("Util", "ListaInfinita", {colecao: $.tickets, lista: $.listaTickets, 
 	refreshCallback: getTickets, limite: limite});
@@ -96,7 +96,7 @@ function getTickets(parans){
 			semLoader: semLoader
 		});
 		if(ws){
-			ws.adicionaParametro({clienteId: Alloy.Globals.Cliente.at(0).get("id"), limite: limit, cursor: cursor, categoria: idCategoria, buscar: buscar});
+			ws.adicionaParametro({clienteId: Alloy.Globals.Cliente.at(0).get("id"), limite: limit, cursor: cursor});
 			ws.NovoEnvia();
 		}
 	}

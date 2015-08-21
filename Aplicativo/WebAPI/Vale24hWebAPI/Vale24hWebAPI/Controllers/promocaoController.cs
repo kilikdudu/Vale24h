@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -32,9 +34,34 @@ namespace Vale24hWebAPI.Controllers
         public List<InfoPromocao> getPromocoes(parans_getPromocoes parans)
         {
             var lstPro = new List<InfoPromocao>();
-            var rowsPro = db.promocao.Include(pro => pro.imagem).Include(pro => pro.cliente).
-                Where(pro => (pro.datafim_pro >= DateTime.Now) && 
-                             (db.promocaorequerida.Where(req => (req.Promocao_codigo_proreq == pro.codigo_pro) && (req.userCloudId_proreq == parans.clientId)).Count() == 0))
+            StringBuilder consultaSQL = new StringBuilder();
+
+            consultaSQL.AppendLine("SELECT ");
+            consultaSQL.AppendLine("    * ");
+            consultaSQL.AppendLine("FROM ");
+            consultaSQL.AppendLine("    promocao ");
+            consultaSQL.AppendLine("        INNER JOIN ");
+            consultaSQL.AppendLine("    imagem ON imagem.codigo_img = promocao.Imagem_codigo_pro ");
+            consultaSQL.AppendLine("        INNER JOIN ");
+            consultaSQL.AppendLine("    cliente ON promocao.cliente_pro = cliente.codigo_cli ");
+            if (parans.categoria != null)
+            {
+                consultaSQL.AppendLine("        INNER JOIN ");
+                consultaSQL.AppendLine("    promocaocategoria ON promocaocategoria.promocao_procat = promocao.codigo_pro ");
+                consultaSQL.AppendLine("        INNER JOIN ");
+                consultaSQL.AppendLine("    categoria ON categoria.codigo_cat = promocaocategoria.categoria_procat AND categoria.codigo_cat = @categoria ");
+            }
+            consultaSQL.AppendLine("    where promocao.datafim_pro > now() ");
+            consultaSQL.AppendLine("AND NOT EXISTS( SELECT ");
+            consultaSQL.AppendLine("            1 ");
+            consultaSQL.AppendLine("        FROM ");
+            consultaSQL.AppendLine("            promocaorequerida proreq ");
+            consultaSQL.AppendLine("        WHERE ");
+            consultaSQL.AppendLine("            proreq.Promocao_codigo_proreq = promocao.codigo_pro ");
+            consultaSQL.AppendLine("                AND proreq.userCloudId_proreq = @cliente)");
+            consultaSQL.AppendLine("and promocao.descricao_pro like @buscar");
+
+            List<promocao> rowsPro = db.promocao.SqlQuery(consultaSQL.ToString(), new MySqlParameter("@cliente", parans.clientId), new MySqlParameter("@categoria", parans.categoria), new MySqlParameter("@buscar", "%" + parans.buscar + "%"))
                 .OrderByDescending(pro => pro.datacad_pro).Skip(parans.cursor).Take(parans.limite).ToList();
             foreach (promocao  rowPro in rowsPro)
             {

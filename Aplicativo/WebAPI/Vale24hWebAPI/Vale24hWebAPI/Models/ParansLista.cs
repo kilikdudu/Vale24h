@@ -9,5 +9,7 @@ namespace Vale24hWebAPI.Models
     {
         public int cursor { get; set; }
         public int limite { get; set; }
+        public string buscar { get; set; }
+        public Nullable<int> categoria { get; set; }
     }
 }
