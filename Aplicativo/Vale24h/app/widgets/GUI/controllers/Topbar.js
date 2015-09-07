@@ -131,6 +131,24 @@ $.enableFilter = function(controller){
 	});
 };
 
+$.removeButton = function(index){
+	var ret = $.boxBotoes.children[index];
+	$.boxBotoes.remove($.boxBotoes.children[index]);
+};
+
+$.removeAll = function(){
+	var ret = [];
+	while($.boxBotoes.children.length > 0){
+		ret.push($.boxBotoes.children[0]);
+		$.boxBotoes.remove($.boxBotoes.children[0]);
+	}
+	return ret;
+};
+
+$.addOldButton = function(buton){
+	$.boxBotoes.add(buton);
+};
+
 function montarSearchBar(parans){
 	sField = Ti.UI.createTextField({
 		backgroundColor: "transparent",
@@ -169,6 +187,7 @@ function montarSearchBar(parans){
 	});
 	
 	btnFechar.addEventListener("click", function(){
+		sField.setValue("");
 		parans.controller.trigger("buscar", {texto: ""});
 		boxBuscar.fireEvent("fechar", {});
 	});

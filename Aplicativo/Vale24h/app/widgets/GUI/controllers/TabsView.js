@@ -128,6 +128,7 @@ function preenchePaggingControl(titulos){
 	ativaAba(pages[$.boxTabsView.getCurrentPage()]);
 	indiceAtual = $.boxTabsView.getCurrentPage();
 	$.boxTabsView.views[indiceAtual]._ativada = true;
+	$.trigger("changeView", {id: indiceAtual});
 	$.boxTabsView.addEventListener("scroll", onScroll);
 	$.boxTabsView.addEventListener("postlayout", onPostLayout);
 }
@@ -175,6 +176,7 @@ function onScroll(event){
 		ativaAba(pages[event.currentPage]);
 		indiceAtual = event.currentPage;
 		$.boxTabsView.views[indiceAtual]._ativada = true;
+		$.trigger("changeView", {id: indiceAtual});
 	}
 	else{
 		onPostLayout(null);
@@ -196,4 +198,5 @@ function onPostLayout(event) {
 	ativaAba(pages[$.boxTabsView.getCurrentPage()]);
 	indiceAtual = $.boxTabsView.getCurrentPage();
 	$.boxTabsView.views[indiceAtual]._ativada = true;
+	$.trigger("changeView", {id: indiceAtual});
 };

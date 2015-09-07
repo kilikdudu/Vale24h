@@ -119,6 +119,18 @@
 	onTintColor: Alloy.Globals.MainColor,
 	tintColor: "#E6E6E6",
 }
+".shadowView[platform=android]": {
+	//backgroundImage: "/images/dropShadow.png",
+	backgroundColor: "white",
+	borderWidth: 1,
+	borderColor: "#c3c3c3",
+	borderRadius: 2
+}
+".shadowView[platform=ios]": {
+	viewShadowColor:"#787878",
+	viewShadowOffset: 1,
+	backgroundColor: "white"
+}
 /*Fim classes gerais*/
 /*Config componentes gerais*/
 "ListView": {

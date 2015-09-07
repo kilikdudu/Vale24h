@@ -17,7 +17,8 @@ args.pai.on("categoria", function(e){
 		$.lblCategoria.text = e.descricao;
 		idCategoria = e.id;
 		$.categoria.height = 35;
-		$.vwListaPromocoes.setTop(35);	
+		$.vwListaPromocoes.setTop(35);
+		getPromocoes({semLoader: false, limite: limite, cursor: 0});
 	}
 });
 
@@ -96,7 +97,7 @@ function getPromocoes(parans){
 			semLoader: semLoader
 		});
 		if(ws){
-			ws.adicionaParametro({limite: limit, cursor: cursor, clientId: Alloy.Globals.Cliente.at(0).get("id"), categoria: idCategoria, buscar: buscar});
+			ws.adicionaParametro({limite: limit, cursor: cursor, clientId: Alloy.Globals.Cliente.at(0).get("id"), categoria: parseInt(idCategoria), buscar: buscar});
 			ws.NovoEnvia();
 		}
 	}
@@ -161,6 +162,17 @@ function pegaTicket(e){
 		}
 	}
 	if(e.source.dados.limitada){
+		var alertaCPF = Alloy.createWidget("GUI", "Mensagem");
+		alertaCPF.init("Atenção", "Para pegar um ticket é necessário que seu CPF esteja cadastrado no nosso sistema. Gostaria de cadstrar agora ?", true);
+		if(Alloy.Globals.InfoUser.custom_fields){
+			if(Alloy.Globals.InfoUser.custom_fields.cpf == undefined){
+				alertaCPF.show({callback: cadastraCPF});
+				return;
+			}	
+		}else{
+			alertaCPF.show({callback: cadastraCPF});
+			return;
+		}
 		var alerta = Alloy.createWidget("GUI", "Mensagem");
 		alerta.init("Atenção", "Gostaria de pegar este ticket ?\nApós pegar este ticket não será possível adquirir outro a menos que este seja liberado ou usado.", true);
 		alerta.show({callback: confirmaPegaTicket});
@@ -169,7 +181,12 @@ function pegaTicket(e){
 	}
 }
 
-
+function cadastraCPF(e){
+	if(e.value){
+		var novo = Alloy.createController("Perfil/Cadastro", {tipo: "atualizar"});
+		Alloy.Globals.Transicao.proximo(novo, novo.init, {});	
+	}
+}
 
 function failPegaTicket(e){
 	Alloy.Globals.Alerta("Erro", "Ocorreu um erro ao tentar obter as informações da promocao.");

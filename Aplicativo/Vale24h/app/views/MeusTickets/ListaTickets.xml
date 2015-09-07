@@ -1,15 +1,15 @@
 <Alloy>
 	<Collection src="TicketInfo" id="tickets" instance="true" />
-	<View id="mestre" width="Titanium.UI.FILL" height="Titanium.UI.FILL">
+	<View id="mestre" width="Titanium.UI.FILL" height="Titanium.UI.FILL"  backgroundColor="#f1f1f1">
 		<!--<View id="categoria">
 			<ImageView id="xCategoria" onClick="removeCategoria" />
 			<Label id="lblCategoria" class="titulo" />
 	</View>-->
-		<View id="vwListaTickets"> 
+		<View id="vwListaTickets"  backgroundColor="#f1f1f1"> 
 			<Widget src="nl.fokkezb.pullToRefresh" id="ptr" onRelease="myRefresher">
-				<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" onClick="verMais" id="listaTickets" dataCollection="$.tickets" dataTransform="formatar">
-					<TableViewRow class="RowDetail" className="ListaTicketsRow" >
-						<View width="100%" height="Ti.UI.SIZE" top="10" layout="vertical">
+				<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" onClick="verMais" id="listaTickets" dataCollection="$.tickets" dataTransform="formatar"  backgroundColor="#f1f1f1">
+					<TableViewRow class="RowDetail" className="ListaTicketsRow"  backgroundColor="#f1f1f1" >
+						<View class="shadowView" width="95%" height="Ti.UI.SIZE" top="10" layout="vertical">
 							<View id="boxConteudo">
 								<View id="boxCabecalho">
 									<ImageView id="imgLoja" image="{lblImagemEmpresa}" />
@@ -45,7 +45,6 @@
 								<View height="10" />
 							</View>	
 						</View>
-						<View class="divisoria" left="10" right="10" backgroundImage="/images/linhaBlack.png" bottom="0" />
 					</TableViewRow>
 				</TableView>
 			</Widget> 

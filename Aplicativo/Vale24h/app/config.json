@@ -12,6 +12,7 @@
         "WebService": "1.0",
         "DAL": "1.0",
         "Util": "1.0",
+        "CloudService": "1.0",
         "nl.fokkezb.html2as.widget": "*",
         "nl.fokkezb.pullToRefresh": "*"
     }

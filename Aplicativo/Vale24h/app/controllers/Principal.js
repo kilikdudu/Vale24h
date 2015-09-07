@@ -6,6 +6,8 @@ var categorias = Alloy.createCollection("Categoria");
 
 var listaCategorias= Alloy.createWidget("GUI", "PopUpList");
 
+var botoes = null;
+
 $.init = function(){
 	try{
 		Alloy.Globals.configWindow($.winPrincipal, $);
@@ -43,6 +45,7 @@ function failFiltro(e){
 }
 
 function setCategoria(texto, chave){
+	Ti.API.info("teste categoria: " + texto + "|" + chave);
 	$.trigger("categoria", {id: chave, descricao: texto});
 }
 
@@ -52,6 +55,16 @@ $.minhaTopBar.on("abrirBuscar", function(e){
 
 $.minhaTopBar.on("fecharBuscar", function(e){
 	$.minhaScrollable.adicionaPageControl();
+});
+
+$.minhaScrollable.on("changeView", function(e){
+	if(e.id == 1){
+		botoes = $.minhaTopBar.removeAll();
+	}else if((e.id == 0) && (botoes != null)){
+		for(var i = 0; i < botoes.length; i++){
+			$.minhaTopBar.addOldButton(botoes[i]);
+		}
+	}
 });
 
 $.winPrincipal.addEventListener("open", function(e){

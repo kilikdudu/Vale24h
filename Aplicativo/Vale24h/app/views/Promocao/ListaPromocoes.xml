@@ -1,15 +1,15 @@
 <Alloy>
 	<Collection src="Promocao" id="promocoes" instance="true" />
-	<View id="mestre" width="Titanium.UI.FILL" height="Titanium.UI.FILL">
+	<View id="mestre" width="Titanium.UI.FILL" height="Titanium.UI.FILL" backgroundColor="#f1f1f1">
 		<View id="categoria">
 			<ImageView id="xCategoria" onClick="removeCategoria" />
 			<Label id="lblCategoria" class="titulo" />
 		</View>
-		<View id="vwListaPromocoes">
+		<View id="vwListaPromocoes" backgroundColor="transparent">
 			<Widget src="nl.fokkezb.pullToRefresh" id="ptr" onRelease="myRefresher">
-				<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" id="listaPromocoes" onClick="verMais" dataCollection="$.promocoes" dataTransform="formatar">
-					<TableViewRow class="RowDetail" className="ListaPromocaoRow" >
-						<View width="100%" height="Ti.UI.SIZE" top="10" layout="vertical">
+				<TableView width="Titanium.UI.FILL" height="Titanium.UI.FILL" id="listaPromocoes" onClick="verMais" dataCollection="$.promocoes" dataTransform="formatar" backgroundColor="transparent">
+					<TableViewRow class="RowDetail" className="ListaPromocaoRow" backgroundColor="transparent" >
+						<View width="95%" class="shadowView" height="Ti.UI.SIZE" top="10" layout="vertical">
 							<View id="boxConteudo">
 								<View id="boxCabecalho">
 									<ImageView id="imgLoja" image="{imagemEmpresa}" />
@@ -41,7 +41,6 @@
 								<View height="10" />
 							</View>	
 						</View>
-						<View class="divisoria" left="10" right="10" backgroundImage="/images/linhaBlack.png" bottom="0" />
 					</TableViewRow>
 				</TableView>
 			</Widget> 

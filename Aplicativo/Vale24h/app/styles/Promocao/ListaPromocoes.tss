@@ -1,13 +1,15 @@
 "#vwListaPromocoes": {
 	width: Titanium.UI.FILL,
 	top: 0,
-	bottom: 0
+	bottom: 0,
+	backgroundColor: "transparent"
 }
 "#listaPromocoes": {
 	width: Titanium.UI.FILL,
 	top: 0,
 	bottom: 0,
-	scrollable: true
+	scrollable: true,
+	backgroundColor: "transparent"
 }
 "#boxCabecalho": {
 	width: Titanium.UI.FILL,
